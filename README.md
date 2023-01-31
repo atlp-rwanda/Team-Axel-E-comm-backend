@@ -71,12 +71,13 @@ This is an e-commerce backend app
     ├── app.ts                         # Configuration for required packages
     └── server.ts                      # Entry point
 
-### folder structure
+### Folder structure
 
 This is the structure for any folder. The same applies for next folders.
-./folder
-├── \_index.ts # Handles all exports of that folder
-└── file.ts # All its exports, but handled by its index.ts
+
+    ./folder
+    ├── index.ts                     # Handles all exports of that folder
+    └── file.ts                      # All its exports, but handled by its index.ts
 
 ### Tech Stack
 
