@@ -1,8 +1,13 @@
 import { Request, Response } from 'express';
 import app from './app';
+import sequelizeConnection from './db/config';
 
 const PORT = process.env.PORT || 3000;
 
+// Connect to the db
+(async () => {
+  await sequelizeConnection();
+})();
 const start = () => {
   try {
     app.listen(PORT, () => {
