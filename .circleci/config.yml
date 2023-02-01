@@ -7,13 +7,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install pnpm package manager
-          command: curl -L https://pnpm.js.org/pnpm.js | node - add --global pnpm@7
-      - run:
-          command: pnpm install
+          command: npm install
           name: install dependencies
       - run:
-          command: pnpm build
+          command: npm build
           name: Build app
       - persist_to_workspace:
           root: ~/project
