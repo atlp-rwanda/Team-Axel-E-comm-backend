@@ -7,7 +7,8 @@
     "start": "npm run build node build/index.js",
     "dev": "npx nodemon",
     "build": "rimraf build && tsc",
-    "test": "jest --coverage "
+    "test": "jest --coverage ",
+    "test:coveralls": "jest --coverage && coveralls < coverage/lcov.info"
   },
   "keywords": [],
   "author": "",
