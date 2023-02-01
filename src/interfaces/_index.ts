@@ -4,3 +4,4 @@
  * We could use a similar approach when exporting anything nested inside a folder in other places.
  */
 export * from './MessageResponse';
+export * from './userInterfaces';
