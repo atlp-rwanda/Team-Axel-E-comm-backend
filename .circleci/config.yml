@@ -18,14 +18,8 @@ jobs:
     steps:
       - run:
           name: Install ltree extension for Postgres
-          command: |
-            sudo apt-get update
-            sudo apt-get install postgresql-client
-            dockerize -wait tcp://localhost:5432 -timeout 1m
-            psql -U postgres -h localhost -p 5432 -c 'create extension ltree'
+          command: sudo apt-get update && sudo apt-get install postgresql-client && dockerize -wait tcp://localhost:5432 -timeout 1m && psql -U postgres -h localhost -p 5432 -c 'create extension ltree'
       - checkout
-      - run:
-          command:
       - run:
           command: npm install
           name: install dependencies
