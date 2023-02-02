@@ -4,17 +4,37 @@ jobs:
   build_and_test:
     docker:
       - image: cimg/node:19.5.0
+      - image: circleci/postgres:10
+        environment:
+          DB_USER: postgres
+          DB_NAME: users
+    environment:
+      DB_USER: postgres
+      DB_NAME: users
+      PORT: 9090
+      DB_PORT: 5432
+      DB_HOST: localhost
+      DB_PASSWORD: 123
     steps:
+      - run:
+          name: Install ltree extension for Postgres
+          command: |
+            sudo apt-get update
+            sudo apt-get install postgresql-client
+            dockerize -wait tcp://localhost:5432 -timeout 1m
+            psql -U postgres -h localhost -p 5432 -c 'create extension ltree'
       - checkout
+      - run:
+          command:
       - run:
           command: npm install
           name: install dependencies
       - run:
-          command: npm run build
-          name: Build app
-      - run:
           command: npm run test
           name: Test app
+      - run:
+          command: npm run build
+          name: Build app
       - persist_to_workspace:
           root: ~/project
           paths:
