@@ -6,7 +6,7 @@ jobs:
       - image: cimg/node:19.5.0
       - image: circleci/postgres:10
         environment:
-          DB_USER: postgres
+          DB_USER: postgresrcle
           DB_NAME: users
     environment:
       DB_USER: postgres
