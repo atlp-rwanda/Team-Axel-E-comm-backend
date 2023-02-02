@@ -10,8 +10,11 @@ jobs:
           command: npm install
           name: install dependencies
       - run:
-          command: npm build
+          command: npm run build
           name: Build app
+      - run:
+          command: npm run test
+          name: Test app
       - persist_to_workspace:
           root: ~/project
           paths:
