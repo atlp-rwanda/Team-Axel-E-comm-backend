@@ -8,6 +8,7 @@ jobs:
         environment:
           DB_USER: postgresrcle
           DB_NAME: users
+          POSTGRES_PASSWORD: 123
     environment:
       DB_USER: postgres
       DB_NAME: users
@@ -15,6 +16,7 @@ jobs:
       DB_PORT: 5432
       DB_HOST: localhost
       DB_PASSWORD: 123
+      POSTGRES_PASSWORD: 123
     steps:
       - run:
           name: Install ltree extension for Postgres
