@@ -10,8 +10,6 @@ describe("Simple test case", () => {
 describe("Route test", () => {
   it("get any specified route", async () => {
     const res = await request(app).get("/");
-    console.log(process.env);
-
     expect(res.status).toEqual(200);
     expect(res.body).toEqual({
       status: 200,
