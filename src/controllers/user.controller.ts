@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import {
-  findALlUsersService,
+  findAllUsersService,
   createUserService,
   findOneUserService,
 } from '../services/_index';
@@ -9,7 +9,7 @@ import { User } from '../db/schemas/_index';
 // Get all users
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const allUsers = await findALlUsersService();
+    const allUsers = await findAllUsersService();
     res.status(200).json({ status: 200, success: true, data: allUsers });
   } catch (error) {
     if (error instanceof Error) {

@@ -2,7 +2,7 @@ import { User } from '../db/schemas/_index';
 import { IUser } from '../interfaces/_index';
 
 // Find all users
-export const findALlUsersService = async () => {
+export const findAllUsersService = async () => {
   const findUsersRequest = await User.findAll();
   return findUsersRequest;
 };
