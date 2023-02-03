@@ -17,11 +17,11 @@ jobs:
       with:
         version: 18.x
 
-#     - name: npm install.
-#       run: npm install
+    - name: npm install.
+      run: npm install
       
-#     - name: check build.
-#       run: npm run build
+    - name: check build.
+      run: npm run build
       
     - name: Coveralls Finished
     
