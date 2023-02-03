@@ -6,24 +6,21 @@ jobs:
       - image: cimg/node:19.5.0
       - image: circleci/postgres:10
         environment:
-          DB_USER: postgresrcle
-          DB_NAME: users
-          POSTGRES_PASSWORD: 123
+          DB_USER: $DB_USER
+          DB_NAME: $DB_NAME
+          POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     environment:
-      DB_USER: postgres
-      DB_NAME: users
-      PORT: 9090
-      DB_PORT: 5432
-      DB_HOST: localhost
-      DB_PASSWORD: 123
-      POSTGRES_PASSWORD: 123
+      DB_USER: $DB_USER
+      DB_NAME: $DB_NAME
+      PORT: $PORT
+      DB_PORT: $DB_PORT
+      DB_HOST: $DB_HOST
+      DB_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     steps:
       - run:
           name: Install ltree extension for Postgres
-          command: sudo apt-get update && sudo apt-get install postgresql-client && dockerize -wait tcp://localhost:5432 -timeout 1m && psql -U postgres -h localhost -p 5432 -c 'create extension ltree'
-      - run:
-          name: create \"users\" database
-          command: create database users;
+          command: sudo apt-get update && sudo apt-get install postgresql-client && dockerize -wait tcp://localhost:5432 -timeout 1m && psql -U postgres -h localhost -p 5432 -c 'create database users'
       - checkout
       - run:
           command: npm install
