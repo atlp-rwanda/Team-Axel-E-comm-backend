@@ -3,7 +3,7 @@
 ![](https://img.shields.io/badge/Maintained-Yes-green)
 ![](https://img.shields.io/badge/Pull_Requests-Accepting-green)
 ![](https://img.shields.io/badge/Contributions-Accepting-cyan)
-[![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/e-comm-team-axel25-bn/badge.svg?branch=develop)](https://coveralls.io/github/atlp-rwanda/e-comm-team-axel25-bn?branch=develop)
+{<img src="https://coveralls.io/repos/github/atlp-rwanda/e-comm-team-axel25-bn/badge.svg" alt="Coverage Status" />}[https://coveralls.io/github/atlp-rwanda/e-comm-team-axel25-bn]
 
 <br>
 
