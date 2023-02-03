@@ -20,7 +20,8 @@ jobs:
         
     - name: Install pnpm
       run: npm install -g pnpm
-
+      
+    - run: pnpm ci
     - run: pnpm run build --if-present
     - run: pnpm test
     - name: Coverage Report
