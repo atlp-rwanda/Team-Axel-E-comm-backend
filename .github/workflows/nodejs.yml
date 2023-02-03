@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Test Coveralls
 
 on:
   push:
@@ -8,24 +8,18 @@ on:
 
 jobs:
   build:
-
+    name: Build
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
-  
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+    - uses: actions/checkout@master
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@master
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        version: 18.x
+
     - run: pnpm ci
     - run: pnpm run build --if-present
     - run: pnpm test
     - name: Coverage Report
-      run: pnpm run coverage --if-present
-      env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      run: env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} pnpm run coverage --if-present
