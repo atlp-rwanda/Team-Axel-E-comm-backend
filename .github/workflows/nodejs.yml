@@ -18,9 +18,10 @@ jobs:
       with:
         version: 18.x
         
-#     - name: Install npm
+    - name: Install npm
       
-#     - run: npm run build --if-present
-#     - run: npm test
+    - run: pnpm ci
+    - run: pnpm run build --if-present
+    - run: pnpm test
     - name: Coverage Report
-      run: env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} npm run coverage --if-present
+      run: env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} pnpm run coverage --if-present
