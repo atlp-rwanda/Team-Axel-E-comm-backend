@@ -1,0 +1,29 @@
+name: Code Coverage
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+    
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@master
+      with:
+        version: 18.x
+
+    - name: npm install.
+      run: npm install
+      
+    - name: check build.
+      run: npm run build
+      
+    - name: Coveralls Finished
+    
+      run: env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} npm run coverage --if-present
+
