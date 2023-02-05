@@ -5,14 +5,8 @@ jobs:
     docker:
       - image: cimg/node:19.5.0
       - image: circleci/postgres:10
-        environment:
-          POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     environment:
-      PORT: $PORT
-      DB_PORT: $DB_PORT
       DB_HOST: localhost
-      DB_PASSWORD: $POSTGRES_PASSWORD
-      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     steps:
       - run:
           name: Install ltree extension for Postgres
@@ -33,6 +27,6 @@ jobs:
             - .
 
 workflows:
-  test_my_app:
+  build_test_backend:
     jobs:
       - build_and_test
