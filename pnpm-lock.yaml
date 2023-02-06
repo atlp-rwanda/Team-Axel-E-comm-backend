@@ -15,6 +15,7 @@ specifiers:
   cors: ^2.8.5
   dotenv: ^16.0.3
   eslint: ^8.33.0
+  eslint-config-prettier: ^8.6.0
   express: ^4.18.2
   husky: ^8.0.3
   jest: ^29.4.1
@@ -22,6 +23,7 @@ specifiers:
   nodemon: ^2.0.20
   pg: ^8.9.0
   pg-hstore: ^2.3.4
+  prettier: ^2.8.3
   rimraf: ^4.1.2
   sequelize: ^6.28.0
   supertest: ^6.3.3
@@ -56,8 +58,10 @@ devDependencies:
   '@typescript-eslint/eslint-plugin': 5.50.0_go4drrxstycfikanvu45pi4vgq
   '@typescript-eslint/parser': 5.50.0_4vsywjlpuriuw3tl5oq6zy5a64
   eslint: 8.33.0
+  eslint-config-prettier: 8.6.0_eslint@8.33.0
   jest: 29.4.1_zfha7dvnw4nti6zkbsmhmn6xo4
   nodemon: 2.0.20
+  prettier: 2.8.3
   rimraf: 4.1.2
   supertest: 6.3.3
   ts-jest: 29.0.5_wrz2f4catxnbofknv5bs36jgqa
@@ -1769,6 +1773,15 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /eslint-config-prettier/8.6.0_eslint@8.33.0:
+    resolution: {integrity: sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+    dependencies:
+      eslint: 8.33.0
+    dev: true
+
   /eslint-scope/5.1.1:
     resolution: {integrity: sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw==}
     engines: {node: '>=8.0.0'}
@@ -3345,6 +3358,12 @@ packages:
   /prelude-ls/1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+    dev: true
+
+  /prettier/2.8.3:
+    resolution: {integrity: sha512-tJ/oJ4amDihPoufT5sM0Z1SKEuKay8LfVAMlbbhnnkvt6BUserZylqo2PN+p9KeljLr0OHa2rXHU1T8reeoTrw==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: true
 
   /pretty-format/29.4.1:

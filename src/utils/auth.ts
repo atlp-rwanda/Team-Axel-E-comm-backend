@@ -1,2 +1,3 @@
-export const generateToken = (user: any) => {
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export const generateToken = () => {
 }
