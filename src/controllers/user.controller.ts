@@ -86,3 +86,7 @@ export const getOneUser = async (req: Request, res: Response) => {
         }
     }
 };
+
+export const updateProfile = (req: Request, res: Response) => {
+    console.log('updating profile');
+};
