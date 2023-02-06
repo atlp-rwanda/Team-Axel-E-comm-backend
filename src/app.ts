@@ -15,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 app.get<{}, MessageResponse>('/', async (req: Request, res: Response) => {
   res.status(200).send({
     status: 200,
