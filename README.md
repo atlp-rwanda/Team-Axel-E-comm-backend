@@ -79,11 +79,11 @@ This is the structure for any folder. The same applies for next folders.
 
 ### Tech Stack
 
-- []() Node.js
-- []() Typescript
-- []() Express
-- []() Postgres DB
-- []() Sequelize ORM
+-   []() Node.js
+-   []() Typescript
+-   []() Express
+-   []() Postgres DB
+-   []() Sequelize ORM
 
 <!-- LIVE DEMO -->
 
@@ -99,26 +99,26 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-- []() Node.js
-- []() Package manager. We are using [pnpm](https://pnpm.io/)
-- []() Postgres DB
+-   []() Node.js
+-   []() Package manager. We are using [pnpm](https://pnpm.io/)
+-   []() Postgres DB
 
 If you are wondering why pnpm, take a look at [why](https://www.atatus.com/blog/npm-vs-yarn-vs-pnpm/)
 
 ### Installation
 
 1. Clone the repo 🌀
-   ```sh
-   git clone https://github.com/atlp-rwanda/Team-Axel-E-comm-backend.git
-   ```
+    ```sh
+    git clone https://github.com/atlp-rwanda/Team-Axel-E-comm-backend.git
+    ```
 2. Install packages 📦.
-   ```sh
-   pnpm install
-   ```
+    ```sh
+    pnpm install
+    ```
 3. Create a `.env` file and add the following keys ,or, just grab the content in `.env.example` :
-   ```sh
-    PORT=
-   ```
+    ```sh
+     PORT=
+    ```
 4. Start your local development server
 
 ```sh
@@ -153,4 +153,4 @@ You can reach out to the team lead, [Alex](mailto:mucyoalexaxel@gmail.com)
 
 ## Acknowledgements
 
-- []() The Andela Team
+-   []() The Andela Team

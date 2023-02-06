@@ -6,5 +6,5 @@
  * 😇 Easy peasy, 🍋 lemon-squeezey 👍
  */
 export interface MessageResponse {
-  message: string;
+    message: string;
 }

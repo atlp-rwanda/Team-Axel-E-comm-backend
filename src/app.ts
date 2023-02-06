@@ -15,12 +15,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 app.get<{}, MessageResponse>('/', async (req: Request, res: Response) => {
-  res.status(200).send({
-    status: 200,
-    success: true,
-    message: `Welcome to team Axel's API! Endpoints available at http://localhost:${PORT}/api/v1 + whatever endpoint you want to hit`,
-  });
+    res.status(200).send({
+        status: 200,
+        success: true,
+        message: `Welcome to team Axel's API! Endpoints available at http://localhost:${PORT}/api/v1 + whatever endpoint you want to hit`,
+    });
 });
 
 /*
