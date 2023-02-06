@@ -1,2 +1,2 @@
-export const generateToken = (user) => {
+export const generateToken = (user: any) => {
 }
