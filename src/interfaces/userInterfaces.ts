@@ -5,11 +5,7 @@ export interface IUser {
   givenName: string;
   email: string;
   password: string;
-  province: string;
-  district: string;
-  sector: string;
-  cell: string;
-  street: string;
+  role: String;
 }
 
 export interface IUpdateData {
