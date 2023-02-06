@@ -3,7 +3,7 @@
 ![](https://img.shields.io/badge/Maintained-Yes-green)
 ![](https://img.shields.io/badge/Pull_Requests-Accepting-green)
 ![](https://img.shields.io/badge/Contributions-Accepting-cyan)
-[![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/e-comm-team-emma25-bn/badge.svg?branch=develop)](https://coveralls.io/github/atlp-rwanda/e-comm-team-emma25-bn?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/e-comm-team-axel25-bn/badge.svg)](https://coveralls.io/github/atlp-rwanda/e-comm-team-axel25-bn)
 
 <br>
 
@@ -119,6 +119,11 @@ If you are wondering why pnpm, take a look at [why](https://www.atatus.com/blog/
 3. Create a `.env` file and add the following keys ,or, just grab the content in `.env.example` :
    ```sh
     PORT=
+    DB_USER=
+    DB_HOST=
+    DB_NAME=
+    DB_PASSWORD=
+    DB_PORT=
    ```
 4. Start your local development server
 
