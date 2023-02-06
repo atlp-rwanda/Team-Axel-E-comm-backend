@@ -3,6 +3,7 @@
 ![](https://img.shields.io/badge/Maintained-Yes-green)
 ![](https://img.shields.io/badge/Pull_Requests-Accepting-green)
 ![](https://img.shields.io/badge/Contributions-Accepting-cyan)
+[![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/e-comm-team-axel25-bn/badge.svg)](https://coveralls.io/github/atlp-rwanda/e-comm-team-axel25-bn)
 
 <br>
 
@@ -116,9 +117,20 @@ If you are wondering why pnpm, take a look at [why](https://www.atatus.com/blog/
     pnpm install
     ```
 3. Create a `.env` file and add the following keys ,or, just grab the content in `.env.example` :
+<<<<<<< HEAD
     ```sh
      PORT=
     ```
+=======
+   ```sh
+    PORT=
+    DB_USER=
+    DB_HOST=
+    DB_NAME=
+    DB_PASSWORD=
+    DB_PORT=
+   ```
+>>>>>>> 67e73c50d05d757e972f0b7022dd1f04397ac2a2
 4. Start your local development server
 
 ```sh
@@ -153,4 +165,8 @@ You can reach out to the team lead, [Alex](mailto:mucyoalexaxel@gmail.com)
 
 ## Acknowledgements
 
+<<<<<<< HEAD
 -   []() The Andela Team
+=======
+- []() The Andela Team
+>>>>>>> 67e73c50d05d757e972f0b7022dd1f04397ac2a2

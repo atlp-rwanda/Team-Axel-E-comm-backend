@@ -6,7 +6,7 @@ import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 
 //Configure dotenv
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') dotenv.config();
 
 const dbName = process.env.DB_NAME as string;
 const dbUser = process.env.DB_USER as string;

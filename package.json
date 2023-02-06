@@ -2,9 +2,9 @@
   "name": "Team-Axel-E-comm-backend",
   "version": "1.0.0",
   "description": "E-commerce backend API",
-  "main": "index.js",
+  "main": "build/server.js",
   "scripts": {
-    "start": "npm run build node build/index.js",
+    "start": "npm run build && node build/server.js",
     "dev": "npx nodemon",
     "build": "rimraf build && tsc",
     "test": "jest --coverage ",
