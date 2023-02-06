@@ -50,6 +50,14 @@ export const User = sequelize.define(
       type: Sequelize.STRING,
       allowNull: true,
     },
+    status: {
+      type: Sequelize.ENUM('Pending', 'Active'),
+      defaultValue: 'Pending',
+    },
+    confirmationCode: {
+      type: Sequelize.STRING,
+      unique: true,
+    },
   },
   {
     freezeTableName: true,
