@@ -26,7 +26,7 @@ export const User = sequelize.define(
       set(value: string) {
         this.setDataValue(
           'password',
-          bcrypt.hashSync(value, bcrypt.genSaltSync(10)),
+          bcrypt.hashSync(value, bcrypt.genSaltSync(10))
         );
       },
     },
@@ -54,5 +54,5 @@ export const User = sequelize.define(
   {
     freezeTableName: true,
     tableName: 'Users',
-  },
+  }
 );
