@@ -5,7 +5,12 @@ export interface IUser {
   givenName: string;
   email: string;
   password: string;
-  role: String;
+  province: string;
+  district: string;
+  sector: string;
+  cell: string;
+  street: string;
+  role: string;
 }
 
 export interface IUpdateData {
@@ -15,4 +20,5 @@ export interface IUpdateData {
   sector: string;
   cell: string;
   street: string;
+  status: string;
 }
