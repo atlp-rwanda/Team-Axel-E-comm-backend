@@ -35,7 +35,34 @@ export const User = sequelize.define(
       allowNull: true,
       defaultValue: 'user',
     },
-    
+    status: {
+      type: Sequelize.ENUM('Pending', 'Active'),
+      defaultValue: 'Pending',
+    },
+    confirmationCode: {
+      type: Sequelize.STRING,
+      unique: true,
+    },
+    province: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    district: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    sector: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    cell: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    street: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
   },
   {
     freezeTableName: true,
