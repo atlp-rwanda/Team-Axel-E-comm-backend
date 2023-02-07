@@ -3,8 +3,13 @@ import {
   findAllUsersService,
   createUserService,
   findOneUserService,
+  sendEmailConfirmationRequest,
+  findRegisteredUserService,
+  confirmUserService,
+  sendEmailConfirmationMessage,
 } from '../services/_index';
 import { User } from '../db/schemas/_index';
+import { JwtUtility } from '../utils/_index';
 
 // Get all users
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -23,9 +28,16 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
+// create user
 export const createUser = async (req: Request, res: Response) => {
   try {
-    const newUser = req.body;
+    let newUser = req.body;
+    // set unique token which will be the new user's confirmation code.
+    const payload = {
+      email: newUser.email,
+    };
+    const confirmationCode = JwtUtility.generateToken(payload);
+    // check if this user already exists.
     const thisUserExists = await User.findOne({
       where: { email: newUser.email },
     });
@@ -33,11 +45,25 @@ export const createUser = async (req: Request, res: Response) => {
       return res.status(400).json({
         status: 400,
         success: false,
-        message: 'This email is already in use',
+        message: 'This email is already registered',
       });
     } else {
+      // update the user object and add the confirmationCode unique to their individual email.
+      newUser = { ...newUser, confirmationCode };
+      // create this user with that code.
       const createdUser = await createUserService(newUser);
-      res.status(201).json({ status: 201, success: true, data: createdUser });
+      const userToken = JwtUtility.generateToken(newUser);
+      res.status(201).json({
+        status: 201,
+        success: true,
+        message: 'Successfully registered. Please check your email to confirm.',
+        data: [createdUser, { token: userToken }],
+      });
+      sendEmailConfirmationRequest(
+        newUser.email,
+        newUser.surName,
+        confirmationCode
+      );
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -66,6 +92,40 @@ export const getOneUser = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof Error) {
       console.log(`Error fetching user: ${error.message}`);
+      res
+        .status(500)
+        .json({ status: 500, success: false, message: `${error.message}` });
+    } else {
+      console.log('Unexpected error', error);
+    }
+  }
+};
+
+// confirm user
+export const confirmUser = async (req: Request, res: Response) => {
+  try {
+    const confirmationCode = req.params.confirmationCode;
+    const currentUser = await findRegisteredUserService(confirmationCode);
+    if (!currentUser) {
+      res
+        .status(404)
+        .json({ status: 404, success: false, message: 'User not found' });
+    } else {
+      const confirmedUser = await confirmUserService(confirmationCode);
+      sendEmailConfirmationMessage(
+        currentUser.dataValues.email,
+        currentUser.dataValues.surName
+      );
+      res.status(201).json({
+        status: 201,
+        success: true,
+        data: confirmedUser,
+        message: `User confirmed successfully.`,
+      });
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(`Error confirming user: ${error.message}`);
       res
         .status(500)
         .json({ status: 500, success: false, message: `${error.message}` });
