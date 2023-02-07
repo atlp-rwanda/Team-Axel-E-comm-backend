@@ -30,26 +30,12 @@ export const User = sequelize.define(
         );
       },
     },
-    province: {
+    role: {
       type: Sequelize.STRING,
       allowNull: true,
+      defaultValue: 'user',
     },
-    district: {
-      type: Sequelize.STRING,
-      allowNull: true,
-    },
-    sector: {
-      type: Sequelize.STRING,
-      allowNull: true,
-    },
-    cell: {
-      type: Sequelize.STRING,
-      allowNull: true,
-    },
-    street: {
-      type: Sequelize.STRING,
-      allowNull: true,
-    },
+    
   },
   {
     freezeTableName: true,

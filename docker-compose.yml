@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+    app:
+      container_name: app
+      build: .
+      ports:
+        - ${PORT}:${PORT}
+      env_file: .env 
+      depends_on:
+        - db
+      volumes:
+      - .:/usr/src/app
+
+    db:
+      container_name: postgres
+      image: postgres
+      environment:
+        - POSTGRES_USER=${DB_USER}
+        - POSTGRES_PASSWORD=${DB_PASSWORD}
+        - POSTGRES_DB=${DB_NAME}
+      ports:
+        - '5433:${DB_PORT}'
+      volumes:
+        - data:/data/db  
+
+volumes: 
+   data: {}

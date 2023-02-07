@@ -5,6 +5,7 @@ import {
   findOneUserService,
 } from '../services/_index';
 import { User } from '../db/schemas/_index';
+import { JwtUtility } from '../utils/index'
 
 // Get all users
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -33,11 +34,12 @@ export const createUser = async (req: Request, res: Response) => {
       return res.status(400).json({
         status: 400,
         success: false,
-        message: 'This email is already in use',
+        message: 'This email is already registered',
       });
     } else {
       const createdUser = await createUserService(newUser);
-      res.status(201).json({ status: 201, success: true, data: createdUser });
+      const userToken = JwtUtility.generateToken(newUser);
+      res.status(201).json({ status: 201, success: true, message:"successfully registered",token:userToken, data: createdUser, });
     }
   } catch (error) {
     if (error instanceof Error) {

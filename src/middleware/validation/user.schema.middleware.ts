@@ -16,11 +16,8 @@ export const UserSchema = {
           'string.empty': 'Password cannot be empty',
           'any.required': 'Password is required',
         }),
-      province: Joi.string(),
-      district: Joi.string(),
-      sector: Joi.string(),
-      cell: Joi.string(),
-      street: Joi.string(),
+      role: Joi.string(),  
+      
     }),
   },
 
