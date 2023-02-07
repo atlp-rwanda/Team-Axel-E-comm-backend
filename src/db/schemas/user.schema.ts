@@ -35,6 +35,18 @@ export const User = sequelize.define(
       allowNull: true,
       defaultValue: 'user',
     },
+    status: {
+      type: Sequelize.ENUM('Pending', 'Active'),
+      defaultValue: 'Pending',
+    },
+    confirmationCode: {
+      type: Sequelize.STRING,
+      unique: true,
+    },
+    province: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
     district: {
       type: Sequelize.STRING,
       allowNull: true,
@@ -50,14 +62,6 @@ export const User = sequelize.define(
     street: {
       type: Sequelize.STRING,
       allowNull: true,
-    },
-    status: {
-      type: Sequelize.ENUM('Pending', 'Active'),
-      defaultValue: 'Pending',
-    },
-    confirmationCode: {
-      type: Sequelize.STRING,
-      unique: true,
     },
   },
   {

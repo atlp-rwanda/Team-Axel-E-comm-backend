@@ -9,7 +9,7 @@ import {
   sendEmailConfirmationMessage,
 } from '../services/_index';
 import { User } from '../db/schemas/_index';
-import { JwtUtility } from '../utils/index';
+import { JwtUtility } from '../utils/_index';
 
 // Get all users
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -53,14 +53,17 @@ export const createUser = async (req: Request, res: Response) => {
       // create this user with that code.
       const createdUser = await createUserService(newUser);
       const userToken = JwtUtility.generateToken(newUser);
-      res
-        .status(201)
-        .json({
-          status: 201,
-          success: true,
-          message: 'Successfully registered',
-          data: [createdUser, { token: userToken }],
-        });
+      res.status(201).json({
+        status: 201,
+        success: true,
+        message: 'Successfully registered. Please check your email to confirm.',
+        data: [createdUser, { token: userToken }],
+      });
+      sendEmailConfirmationRequest(
+        newUser.email,
+        newUser.surName,
+        confirmationCode
+      );
     }
   } catch (error) {
     if (error instanceof Error) {
