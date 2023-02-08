@@ -268,3 +268,7 @@ export const resetPasswordController = async (req: Request, res: Response) => {
 
 //   return { message: 'Password reset was successful' };
 // };
+
+export const updateUser = (req: Request, res: Response) => {
+  console.log('just update');
+};
