@@ -12,8 +12,6 @@ import {
 } from '../services/_index';
 import { User } from '../db/schemas/_index';
 import { JwtUtility } from '../utils/_index';
-import { json } from 'sequelize';
-import { send } from 'process';
 
 // Get all users
 export const getAllUsers = async (req: Request, res: Response) => {
