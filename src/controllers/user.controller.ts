@@ -12,8 +12,6 @@ import {
 } from '../services/_index';
 import { User } from '../db/schemas/_index';
 import { JwtUtility } from '../utils/_index';
-import { json } from 'sequelize';
-import { send } from 'process';
 
 // Get all users
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -55,8 +53,8 @@ export const createUser = async (req: Request, res: Response) => {
       // update the user object and add the confirmationCode unique to their individual email.
       newUser = { ...newUser, confirmationCode };
       // create this user with that code.
-      const createdUser = await createUserService(newUser);
-      const userToken = JwtUtility.generateToken(newUser);
+      const createdUser = (await createUserService(newUser)) as any;
+      const userToken = JwtUtility.generateToken(createdUser.id);
       res.status(201).json({
         status: 201,
         success: true,
