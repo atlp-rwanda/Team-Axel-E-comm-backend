@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import app from './app';
 import sequelizeConnection from './db/config';
+import swaggerDocs from './utils/swagger';
 
 const PORT = process.env.PORT || 3000;
 
@@ -12,6 +13,7 @@ const start = () => {
   try {
     app.listen(PORT, () => {
       console.log(`Server 🏃 running on http://localhost:${PORT} ... 🚢`);
+      swaggerDocs(app, Number(PORT));
     });
     // catch all "not found" routes and send this message response
     app.use((req: Request, res: Response) => {

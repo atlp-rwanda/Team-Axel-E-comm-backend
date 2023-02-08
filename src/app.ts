@@ -2,7 +2,6 @@ import express, { Response, Request, Application } from 'express';
 import cors from 'cors';
 import routes from './routes/_index';
 import dotenv from 'dotenv';
-
 import { MessageResponse } from './interfaces/_index';
 
 dotenv.config();
@@ -33,5 +32,4 @@ app.get<{}, MessageResponse>('/', async (req: Request, res: Response) => {
  */
 
 app.use('/api/v1', routes);
-
 export default app;
