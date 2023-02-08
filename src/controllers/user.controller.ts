@@ -269,14 +269,21 @@ export const resetPasswordController = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
+    const userId = req.user;
     const id = req.params.id;
+    if (userId !== id) throw new Error('User ID is corrupt');
     const user = await User.findByPk(id, { raw: true });
     if (!user) {
       return res.status(400).json({ success: false, message: 'no user found' });
     }
 
-    const updates = await User.update(req.body, { where: { id } });
-    if (updates) return res.status(200).json({ status: true, user });
+    const updates = await User.update(req.body, {
+      where: { id },
+      returning: true,
+    });
+    if (updates) {
+      return res.status(200).json({ status: true, user: updates[1][0].get() });
+    }
   } catch (err: any) {
     console.log(err.message);
   }
