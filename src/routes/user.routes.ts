@@ -17,6 +17,6 @@ userRouter.get('/:id', getOneUser);
 // Create a user
 userRouter.post('/', ValidateJoi(UserSchema.user.create), createUser);
 //Update user
-userRouter.post('/', updateUser);
+userRouter.patch('/:id', updateUser);
 
 export default userRouter;

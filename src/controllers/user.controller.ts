@@ -269,6 +269,17 @@ export const resetPasswordController = async (req: Request, res: Response) => {
 //   return { message: 'Password reset was successful' };
 // };
 
-export const updateUser = (req: Request, res: Response) => {
-  console.log('just update');
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const user = await User.findByPk(id, { raw: true });
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'no user found' });
+    }
+
+    const updates = await User.update(req.body, { where: { id } });
+    if (updates) return res.status(200).json({ status: true, user });
+  } catch (err: any) {
+    console.log(err.message);
+  }
 };
