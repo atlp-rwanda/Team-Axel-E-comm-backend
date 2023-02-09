@@ -22,6 +22,10 @@ app.use(
     secret: process.env.SESSION_SECRET as string,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: false, // Set to true if using HTTPS
+      maxAge: 60 * 60 * 1000, // 1 hour
+    },
   })
 );
 app.use(passport.initialize());
