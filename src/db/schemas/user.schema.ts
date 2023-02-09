@@ -47,6 +47,10 @@ export const User = sequelize.define(
       type: Sequelize.STRING,
       allowNull: true,
     },
+    resetToken: {
+      type: Sequelize.STRING,
+      unique: true,
+    },
     province: {
       type: Sequelize.STRING,
       allowNull: true,
