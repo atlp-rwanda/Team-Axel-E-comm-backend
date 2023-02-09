@@ -16,6 +16,7 @@ passportRouter.get('/protected', isLoggedIn, (req: Request, res: Response) => {
   const currentUser = req.user;
   console.log(currentUser);
   if (currentUser) {
+    // Here I is for test only
     res.send(`Hello ${currentUser}`);
     // res.send(`Hello ${currentUser.surName} ${currentUser.givenName}`);
   }
