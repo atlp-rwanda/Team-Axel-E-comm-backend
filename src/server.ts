@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import app from './app';
 import sequelizeConnection from './db/config';
-import swaggerDocs from './utils/swagger.utils';
+import swaggerDocs from '../docs/swagger';
 
 const PORT = process.env.PORT || 3000;
 
