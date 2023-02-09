@@ -52,8 +52,8 @@ export const verify2FAToken = async (req: any, res: any) => {
     where: { user: req.user.id },
   });
   console.log(tokenData?.dataValues, req.body);
-//   tokenData?.destroy()
-// const issuerDate = tokenData?.dataValues.updatedAt
+  //   tokenData?.destroy()
+  // const issuerDate = tokenData?.dataValues.updatedAt
   if (tokenData && req.body.code) {
     bcrypt.compare(
       req.body.code,
@@ -91,3 +91,25 @@ async function sendEmailToken(email: string, code: string): Promise<void> {
     }
   }
 }
+
+/**
+ * @swagger
+ * /api/v1/auth/2fa:
+ *    get:
+ *      tags: [users routes]
+ *      summary: returns a one user should provide userId from our database
+ *      parameters:
+ *        - name: userId
+ *          in: path
+ *          description: provide userId
+ *          required: true
+ *      responses:
+ *        200:
+ *          description: success
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/user'
+ *        404:
+ *          description: not found
+ */

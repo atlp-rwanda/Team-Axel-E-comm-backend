@@ -12,8 +12,6 @@ import {
 } from '../services/_index';
 import { User } from '../db/schemas/_index';
 import { JwtUtility } from '../utils/_index';
-import { json } from 'sequelize';
-import { send } from 'process';
 
 // Get all users
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -36,6 +34,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const createUser = async (req: Request, res: Response) => {
   try {
     let newUser = req.body;
+    console.log(newUser);
     // set unique token which will be the new user's confirmation code.
     const payload = {
       email: newUser.email,
