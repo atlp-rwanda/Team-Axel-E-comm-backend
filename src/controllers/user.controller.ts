@@ -34,6 +34,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const createUser = async (req: Request, res: Response) => {
   try {
     let newUser = req.body;
+    console.log(newUser);
     // set unique token which will be the new user's confirmation code.
     const payload = {
       email: newUser.email,
