@@ -63,6 +63,7 @@ passport.use(
         console.log('Even error happens; The user profile: ', profile);
         if (error instanceof Error) {
           console.log(` 🔴 Error signing up user: 😟 ${error.message} 🔴`);
+          console.log(error);
         } else {
           console.log('Unexpected error', error);
         }
