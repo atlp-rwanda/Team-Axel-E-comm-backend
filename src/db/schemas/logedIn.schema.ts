@@ -3,7 +3,7 @@ import { sequelize } from '../config';
 import bcrypt from 'bcryptjs';
 
 export const LoggedIn = sequelize.define(
-  'user',
+  'LoggedInUsers',
   {
     surName: {
       type: Sequelize.STRING,
