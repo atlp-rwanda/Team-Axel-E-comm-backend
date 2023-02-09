@@ -18,7 +18,7 @@ export const confirmUserService = async (confirmationCode: string) => {
 /*
  * Nodemailer to handle sending the email.
  */
-const transporter = nodemailer.createTransport({
+export const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST as string,
   port: Number(process.env.EMAIL_PORT),
   secure: true,
