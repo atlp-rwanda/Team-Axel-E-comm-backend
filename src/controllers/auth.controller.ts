@@ -16,29 +16,38 @@ export const loginUser = async (req: Request, res: Response) => {
         .status(401)
         .send({ status: 401, success: false, message: 'Email not exist' });
     } else {
-      const passwordMatch = await bcrypt.compare(
-        password,
-        user.dataValues.password
-      );
-      if (!passwordMatch) {
+      if (user.dataValues.status === 'Pending') {
         res.status(401).send({
           status: 401,
           success: false,
-          message: 'Password does not match with email',
+          message:
+            'Please first head over to your email and confirm your registration',
         });
       } else {
-        const token = JwtUtility.generateToken({ userId: user.dataValues.id });
-        // Store the user's ID in the session
-        req.session.userId = user.dataValues.id;
+        const passwordMatch = await bcrypt.compare(
+          password,
+          user.dataValues.password
+        );
+        if (!passwordMatch) {
+          res.status(401).send({
+            status: 401,
+            success: false,
+            message: 'Password does not match with email',
+          });
+        } else {
+          const token = JwtUtility.generateToken({
+            userId: user.dataValues.id,
+          });
+          // Store the user's ID in the session
+          req.session.userId = user.dataValues.id;
 
-        res
-          .status(200)
-          .json({
-            messages: 'login successfull ',
+          res.status(200).json({
+            messages: 'Login successful ',
             status: 200,
             success: true,
             data: token,
           });
+        }
       }
     }
   } catch (error) {
