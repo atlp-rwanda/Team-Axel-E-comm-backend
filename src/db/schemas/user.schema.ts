@@ -43,6 +43,10 @@ export const User = sequelize.define(
       type: Sequelize.STRING,
       unique: true,
     },
+    googleId: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
     province: {
       type: Sequelize.STRING,
       allowNull: true,
