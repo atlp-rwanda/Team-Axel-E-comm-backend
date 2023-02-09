@@ -73,7 +73,7 @@ export const User = sequelize.define(
     },
   },
   {
-    freezeTableName: true,
+    freezeTableName: false,
     tableName: 'Users',
   }
 );

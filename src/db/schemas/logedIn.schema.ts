@@ -69,7 +69,7 @@ export const LoggedIn = sequelize.define(
     },
   },
   {
-    freezeTableName: true,
+    freezeTableName: false,
     tableName: 'LoggedInUsers',
   }
 );
