@@ -4,4 +4,5 @@
  * We are using a similar approach when exporting anything nested inside a folder in other places.
  */
 
-/* export * from './test.auth'; */
+// export * from './test.auth';
+export * from './auth.middleware';
