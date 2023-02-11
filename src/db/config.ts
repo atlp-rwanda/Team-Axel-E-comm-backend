@@ -1,12 +1,8 @@
-/*
- * This is where the db connection would be defined.
- */
-
-import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
+import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
 
 //Configure dotenv
-if (process.env.NODE_ENV !== "production") dotenv.config();
+if (process.env.NODE_ENV !== 'production') dotenv.config();
 
 const dbName = process.env.DB_NAME as string;
 const dbUser = process.env.DB_USER as string;
@@ -20,19 +16,21 @@ export const sequelize = new Sequelize(
   `${dbPassword}`,
   {
     host: dbHost,
-    dialect: "postgres",
+    dialect: 'postgres',
   }
 );
 
 const sequelizeConnection = async () => {
   try {
     await sequelize.authenticate();
-    console.log(`Successfully connected to the db`);
+    console.log(`🍏 Successfully connected to the db`);
   } catch (error) {
     if (error instanceof Error) {
-      console.log(`Error occurred when connecting to the db: ${error.message}`);
+      console.log(
+        `🍎 Error occurred when connecting to the db: ${error.message}`
+      );
     } else {
-      console.log("Unexpected error", error);
+      console.log('🍎 Unexpected error', error);
     }
   }
 };
@@ -41,13 +39,13 @@ const sequelizeConnection = async () => {
 sequelize
   .sync()
   .then(() => {
-    console.log("Tables migrated successfully");
+    console.log('🍏 Tables migrated successfully');
   })
   .catch((error) => {
     if (error instanceof Error) {
-      console.log(`Error occurred when migrating tables: ${error.message}`);
+      console.log(`🍎 Error occurred when migrating tables: ${error.message}`);
     } else {
-      console.log("Unexpected error", error);
+      console.log('🍎 Unexpected error', error);
     }
   });
 

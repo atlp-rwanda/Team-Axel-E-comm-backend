@@ -26,9 +26,26 @@ export const User = sequelize.define(
       set(value: string) {
         this.setDataValue(
           'password',
-          bcrypt.hashSync(value, bcrypt.genSaltSync(10)),
+          bcrypt.hashSync(value, bcrypt.genSaltSync(10))
         );
       },
+    },
+    role: {
+      type: Sequelize.STRING,
+      allowNull: true,
+      defaultValue: 'user',
+    },
+    status: {
+      type: Sequelize.ENUM('Pending', 'Active'),
+      defaultValue: 'Pending',
+    },
+    confirmationCode: {
+      type: Sequelize.STRING,
+      unique: true,
+    },
+    resetToken: {
+      type: Sequelize.STRING,
+      unique: true,
     },
     province: {
       type: Sequelize.STRING,
@@ -54,5 +71,5 @@ export const User = sequelize.define(
   {
     freezeTableName: true,
     tableName: 'Users',
-  },
+  }
 );

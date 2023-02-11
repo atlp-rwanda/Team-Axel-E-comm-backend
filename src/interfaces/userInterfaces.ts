@@ -10,6 +10,7 @@ export interface IUser {
   sector: string;
   cell: string;
   street: string;
+  role: string;
 }
 
 export interface IUpdateData {
@@ -19,4 +20,5 @@ export interface IUpdateData {
   sector: string;
   cell: string;
   street: string;
+  status: string;
 }
