@@ -1,5 +1,8 @@
 version: 2.1
-
+env: 
+  GOOGLE_CLIENT_ID: 980095536473-pu54ujvdvvr1h33118fq4jprsio9fipd.apps.googleusercontent.com
+  GOOGLE_CLIENT_SECRET: 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
+  
 jobs:
   build_and_test:
     docker:
