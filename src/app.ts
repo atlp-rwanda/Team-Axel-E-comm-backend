@@ -2,6 +2,7 @@ import express, { Response, Request, Application } from 'express';
 import cors from 'cors';
 import routes from './routes/_index';
 import dotenv from 'dotenv';
+import passport from 'passport';
 import session from 'express-session';
 
 import { MessageResponse } from './interfaces/_index';
@@ -24,15 +25,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: process.env.SESSION_SECRET as string,
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
       secure: false, // Set to true if using HTTPS
       maxAge: 60 * 60 * 1000, // 1 hour
     },
   })
 );
-
+app.use(passport.initialize());
+app.use(passport.session());
 // eslint-disable-next-line @typescript-eslint/ban-types
 app.get<{}, MessageResponse>('/', async (req: Request, res: Response) => {
   res.status(200).send({

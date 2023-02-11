@@ -2,8 +2,8 @@ import Sequelize from 'sequelize';
 import { sequelize } from '../config';
 import bcrypt from 'bcryptjs';
 
-export const User = sequelize.define(
-  'user',
+export const LoggedIn = sequelize.define(
+  'LoggedInUsers',
   {
     surName: {
       type: Sequelize.STRING,
@@ -47,10 +47,6 @@ export const User = sequelize.define(
       type: Sequelize.STRING,
       allowNull: true,
     },
-    resetToken: {
-      type: Sequelize.STRING,
-      unique: true,
-    },
     province: {
       type: Sequelize.STRING,
       allowNull: true,
@@ -74,6 +70,6 @@ export const User = sequelize.define(
   },
   {
     freezeTableName: false,
-    tableName: 'Users',
+    tableName: 'LoggedInUsers',
   }
 );
