@@ -8,7 +8,7 @@ on:
     
 env:
   GOOGLE_CLIENT_ID: 980095536473-pu54ujvdvvr1h33118fq4jprsio9fipd.apps.googleusercontent.com
-  GOOGLE_CLIENT_SECRET: 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
+  GOOGLE_CLIENT_SECRET: ${{ env.GOOGLE_CLIENT_SECRET }}
 
 jobs:
   test:
