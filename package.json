@@ -1,5 +1,5 @@
 {
-  "name": "Team-Axel-E-comm-backend",
+  "name": "team-axel-e-comm-backend",
   "version": "1.0.0",
   "description": "E-commerce backend API",
   "main": "build/server.js",
@@ -69,5 +69,17 @@
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
-  }
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atlp-rwanda/e-comm-team-axel25-bn.git"
+  },
+  "bugs": {
+    "url": "https://github.com/atlp-rwanda/e-comm-team-axel25-bn/issues"
+  },
+  "homepage": "https://github.com/atlp-rwanda/e-comm-team-axel25-bn#readme"
 }

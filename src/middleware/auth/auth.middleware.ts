@@ -36,12 +36,15 @@ passport.use(
             surName: profile.family_name,
             givenName: profile.given_name,
             email: profile.email,
-            password: process.env.USER_PASSWORD ,
+            password: profile.password || process.env.USER_PASSWORD,
             googleId: profile.id,
             avatar: profile.photos[0].value,
           };
           const googleUser = await User.create(newUser);
-          console.log('The user is saved in our db!!!!!!', done(null, googleUser));
+          console.log(
+            'The user is saved in our db!!!!!!',
+            done(null, googleUser)
+          );
         } else {
           console.log('The user already in our db!!!!!!', done(null, user));
         }
@@ -52,7 +55,7 @@ passport.use(
             surName: profile.family_name,
             givenName: profile.given_name,
             email: profile.email,
-            password: process.env.USER_PASSWORD,
+            password: profile.password || process.env.USER_PASSWORD,
             googleId: profile.id,
             avatar: profile.photos[0].value,
           };
