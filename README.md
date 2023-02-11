@@ -4,6 +4,9 @@
 ![](https://img.shields.io/badge/Pull_Requests-Accepting-green)
 ![](https://img.shields.io/badge/Contributions-Accepting-cyan)
 [![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/e-comm-team-axel25-bn/badge.svg)](https://coveralls.io/github/atlp-rwanda/e-comm-team-axel25-bn)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/atlp-rwanda/e-comm-team-axel25-bn/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/atlp-rwanda/e-comm-team-axel25-bn/tree/develop)
+<br>
+
 
 <br>
 
