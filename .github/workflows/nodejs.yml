@@ -7,7 +7,7 @@ on:
     branches: ['develop']
     
 env:
-  GOOGLE_CLIENT_ID: 980095536473-pu54ujvdvvr1h33118fq4jprsio9fipd.apps.googleusercontent.com
+  GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
   GOOGLE_CLIENT_SECRET: ${{ vars.GOOGLE_CLIENT_SECRET }}
 
 jobs:
