@@ -14,9 +14,9 @@ jobs:
 
     environment:
       DB_HOST: localhost
-      GOOGLE_CLIENT_ID: 980095536473-pu54ujvdvvr1h33118fq4jprsio9fipd.apps.googleusercontent.com
-      GOOGLE_CLIENT_SECRET: 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
-      SESSION_SECRET: isaifa
+      GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ vars.GOOGLE_CLIENT_SECRET }}
+      SESSION_SECRET: ${{ vars.SESSION_SECRET }}
     steps:
       - run:
           name: Install ltree extension for Postgres
