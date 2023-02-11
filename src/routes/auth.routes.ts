@@ -3,13 +3,10 @@ import {
   confirmUser,
   resetPasswordRequestController,
   resetPasswordController,
-<<<<<<< HEAD
   create2FAToken,
   verify2FAToken,
-=======
   loginUser,
   logoutUser,
->>>>>>> c14b36c662fb544ecc09941d3f35c92b2d3cda69
 } from '../controllers/_index';
 import { ValidateJoi } from '../middleware/validation/validation.middleware';
 import { UserSchema } from '../middleware/validation/user.schema.middleware';
