@@ -5,6 +5,14 @@ import bcrypt from 'bcryptjs';
 export const User = sequelize.define(
   'user',
   {
+    twoFAenabled: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
+    twoFAVerified: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
     surName: {
       type: Sequelize.STRING,
       allowNull: false,

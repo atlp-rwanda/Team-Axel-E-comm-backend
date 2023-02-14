@@ -37,3 +37,33 @@
  *        404:
  *          description: not found
  */
+
+/**
+ * @swagger
+ * /api/v1/auth/2fa:
+ *   post:
+ *     summary: enable two factor authentication on your account
+ *     tags: [two factor auth routes]
+ *     responses:
+ *       '200':
+ *         description: code was sent on your email
+ */
+
+
+/**
+ * @swagger
+ * /api/v1/auth/2fa/verify2FAToken:
+ *   post:
+ *     summary: verify your 2fa code
+ *     requestBody:
+ *       description: please fill the code sent on your email[it will expire in 5 minutes]
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/_2faInput'
+ *     tags: [two factor auth routes]
+ *     responses:
+ *       '200':
+ *         description: code verified successfuly
+ */

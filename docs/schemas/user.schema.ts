@@ -25,4 +25,12 @@
  *        confirm_password:
  *          type: string
  *          default: Password!23
+ *    _2faInput:
+ *      type: object
+ *      required:
+ *        - code
+ *      properties:
+ *        code:
+ *          type: string
+ *          default: 828923
  */

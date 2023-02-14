@@ -1,71 +1,64 @@
 import { Request, Response } from 'express';
 import { AuthToken } from '../db/schemas/token.schema';
 import bcrypt from 'bcryptjs';
-import nodemailer from 'nodemailer';
 import { transporter } from '../services/auth.service';
-
+import { User } from '../db/schemas/user.schema';
+export const TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 60 * 24 * 3;
 export const create2FAToken = async (req: any, res: Response) => {
   const code = Math.floor(
     Math.random() * (999999 - 100000) + 100000
   ).toString();
   try {
-    // await AuthToken.drop();
-    // >>>> the following line must be uncomented after fininsihing authentication middlewares
-
-    // if (!req.user) return res.redirect('/api/v1/login');
-
-    // >>>> the above line must be uncomented after fininsihing authentication middlewares
-
-    // >>>> the following lines must be removed after fininsihing authentication middlewares
-    req.user = {
-      id: '2',
-    };
-    // <<<< the above lines must be removed after fininsihing authentication middlewares
-    const previousToken = await AuthToken.destroy({
-      where: { user: req.user.id },
-    });
-    // console.log(previousToken);
-
-    const salt = bcrypt.genSaltSync(10);
-    const token = await bcrypt.hash(code, salt);
+    const user = await User.findByPk(req.user.id);
+    if (user) {
+      await user.update({ twoFAenabled: true, twoFAVerified: false });
+    }
+    const salt = bcrypt.genSaltSync(8);
+    const token = bcrypt.hashSync(code, salt);
     const tokenData = {
       code: token,
-      expire: (Date.now() + 1000 * 60 * 5).toString(),
+      expire: (Date.now() + TOKEN_EXPIRATION_TIME).toString(),
       user: req.user.id,
     };
-    const data = await AuthToken.create(tokenData);
+    await AuthToken.create(tokenData);
     tokenData.code = code;
     await sendEmailToken('muslimuwitondanishema@gmail.com', code);
     res.send({ tokenData });
   } catch (error: any) {
-    res.send({ error: error.message });
+    res.status(500).send({ error: error.message });
   }
 };
-
 export const verify2FAToken = async (req: any, res: any) => {
-  // >>>> the following lines must be removed after fininsihing authentication middlewares
-  req.user = {
-    id: '2',
-  };
-  // <<<< the above lines must be removed after fininsihing authentication middlewares
-  const tokenData = await AuthToken.findOne({
-    where: { user: req.user.id },
-  });
-  console.log(tokenData?.dataValues, req.body);
-  //   tokenData?.destroy()
-  // const issuerDate = tokenData?.dataValues.updatedAt
-  if (tokenData && req.body.code) {
-    bcrypt.compare(
-      req.body.code,
-      tokenData?.dataValues.code,
-      function (err, data) {
-        if (err) throw new Error(err.message);
-        res.user.verified = true;
-        res.send({ verified: data });
-      }
-    );
-  } else {
-    res.redirect('/api/v1/login');
+  try {
+    const tokenData = await AuthToken.findOne({
+      where: { user: req.user.id.toString() },
+    });
+    const user = await User.findByPk(req.user.id);
+
+    const issueDate = tokenData?.dataValues.updatedAt;
+
+    if (
+      user &&
+      tokenData &&
+      req.body.code &&
+      Date.now() - Date.parse(issueDate) < TOKEN_EXPIRATION_TIME
+    )
+      if (bcrypt.compareSync(req.body.code, tokenData.dataValues.code))
+        return await user.update({ twoFAVerified: true }).then(() => {
+          res.send({ verified: true });
+        });
+
+    res.status(401).send({
+      message: 'code not found',
+      statusCode: 401,
+      success: false,
+    });
+  } catch (error: any) {
+    res.status(500).send({
+      message: error.message,
+      statusCode: 500,
+      success: false,
+    });
   }
 };
 
@@ -91,25 +84,3 @@ async function sendEmailToken(email: string, code: string): Promise<void> {
     }
   }
 }
-
-/**
- * @swagger
- * /api/v1/auth/2fa:
- *    get:
- *      tags: [users routes]
- *      summary: returns a one user should provide userId from our database
- *      parameters:
- *        - name: userId
- *          in: path
- *          description: provide userId
- *          required: true
- *      responses:
- *        200:
- *          description: success
- *          content:
- *            application/json:
- *              schema:
- *                $ref: '#/components/schemas/user'
- *        404:
- *          description: not found
- */

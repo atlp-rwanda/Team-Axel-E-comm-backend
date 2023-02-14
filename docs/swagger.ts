@@ -26,11 +26,7 @@ const options = {
     ],
     swagger: '3.0',
   },
-  apis: [
-    // './docs/*.docs.ts',
-    // './docs/schemas/user.schema.ts',
-    // '../src/controllers/twoFactorAuth.controller.ts',
-  ],
+  apis: ['./docs/*.docs.ts', './docs/schemas/user.schema.ts'],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
