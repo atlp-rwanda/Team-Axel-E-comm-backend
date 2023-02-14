@@ -1,0 +1,94 @@
+paths:
+  # Get all users
+  /api/v1/user/all:
+    get:
+      tags: [User Routes]
+      summary: Returns a list of users.
+      description: Optional extended description in CommonMark or HTML.
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request. User ID must be an integer and larger than 0.
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: A user with the specified ID was not found.
+        '5XX':
+          description: Unexpected error.
+  # Get user by id
+  /api/v1/user/{userId}:
+    get:
+      tags: [User Routes]
+      summary: Returns a user by ID.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request. User ID must be an integer and larger than 0.
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: A user with the specified ID was not found.
+        '5XX':
+          description: Unexpected error.
+  # Create a user / sign up
+  /api/v1/user:
+    post:
+      tags: [User Routes]
+      summary: Creates a user.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request. User ID must be an integer and larger than 0.
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: A user with the specified ID was not found.
+        '5XX':
+          description: Unexpected error.
+
+# schemas
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        surName:
+          type: string
+          example: NETERO
+        givenName:
+          type: string
+          example: Isaac
+        email:
+          type: string
+          example: netero@huntersguild.com
+        password:
+          type: string
+          example: HunterxHunter@1
+      # all properties are required
+      required:
+        - surName
+        - givenName
+        - email
+        - password

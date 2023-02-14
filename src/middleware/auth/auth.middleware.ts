@@ -1,93 +1,102 @@
 import { NextFunction, Request, Response } from 'express';
-import passport from 'passport';
-import GoogleStrategy0, { VerifyCallback } from 'passport-google-oauth2';
-import { User } from '../../db/schemas/user.schema';
-import { LoggedIn } from '../../db/schemas/logedIn.schema';
+import { jwtUtility } from '../../utils';
+import { findOneUserByIdService } from '../../services';
 
-/*  */
-const GoogleStrategy = GoogleStrategy0.Strategy;
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
-const PORT = process.env.PORT || 3000;
-// google auth
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: `http://localhost:${PORT}/api/v1/google/callback`,
-      passReqToCallback: true,
-    },
-    async function (
-      request: Request,
-      accessToken: string,
-      refreshToken: string,
-      profile: any,
-      done: VerifyCallback
-    ) {
-      try {
-        const user = await User.findOne({ where: { googleId: profile.id } });
-        const loggedIn = await LoggedIn.findOne({
-          where: { googleId: profile.id },
+export const isAuth = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  // check if there is a user in the req
+  if (!req.headers.authorization) {
+    res
+      .status(401)
+      .send({ status: 401, success: false, message: 'You are not logged in' });
+  } else {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      const decodedData = jwtUtility.verifyToken(token);
+      const currentUser = await findOneUserByIdService(decodedData);
+      if (!currentUser) {
+        res.status(403);
+        return res.json({
+          statusCode: 403,
+          success: false,
+          message: 'Unauthorized access. User not found',
         });
-
-        if (!user) {
-          const newUser = {
-            surName: profile.family_name,
-            givenName: profile.given_name,
-            email: profile.email,
-            password: profile.password || process.env.USER_PASSWORD,
-            googleId: profile.id,
-            avatar: profile.photos[0].value,
-          };
-          const googleUser = await User.create(newUser);
-          console.log(
-            'The user is saved in our db!!!!!!',
-            done(null, googleUser)
-          );
-        } else {
-          console.log('The user already in our db!!!!!!', done(null, user));
-        }
-
-        /** To save logged in user in our db */
-        if (!loggedIn) {
-          const newActiveUser = {
-            surName: profile.family_name,
-            givenName: profile.given_name,
-            email: profile.email,
-            password: profile.password || process.env.USER_PASSWORD,
-            googleId: profile.id,
-            avatar: profile.photos[0].value,
-          };
-          await LoggedIn.create(newActiveUser);
-        }
-      } catch (error) {
-        console.log('Even error happens; The user profile: ', profile);
-        if (error instanceof Error) {
-          console.log(` 🔴 Error Log in user: 😟 ${error.message} 🔴`);
-          console.log(error);
-        } else {
-          console.log('Unexpected error', error);
-        }
+      }
+      req.user = currentUser.dataValues; // is this right koko?
+      next();
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(500).json({
+          status: 500,
+          success: false,
+          message: `${error.message}`,
+        });
+      } else {
+        console.log(`Something went wrong when verifying the token: `, error);
       }
     }
-  )
-);
-
-// middleware to check logged in users
-export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
-  req.user
-    ? next()
-    : res
-        .status(401)
-        .json({ status: 401, success: false, message: `You need to login` });
+  }
 };
 
-/*  */
-/*  */
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-passport.deserializeUser(function (user: any, done) {
-  done(null, user);
-});
+export const isSeller = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // check if the user is a seller
+    const currentUserStatus = req.user.role;
+    if (currentUserStatus !== 'Seller') {
+      res.status(403).json({
+        status: 403,
+        success: false,
+        message: 'Unauthorized access. You are not a seller',
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        status: 500,
+        success: false,
+        message: `${error.message}`,
+      });
+    } else {
+      console.log(`Something went wrong when verifying user status: `, error);
+    }
+  }
+};
+
+export const isAdmin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // check if the user is an admin
+    const currentUserStatus = req.user.role;
+    if (currentUserStatus !== 'Admin') {
+      res.status(403).json({
+        status: 403,
+        success: false,
+        message: 'Unauthorized access. You are not an admin',
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        status: 500,
+        success: false,
+        message: `${error.message}`,
+      });
+    } else {
+      console.log(`Something went wrong when verifying user status: `, error);
+    }
+  }
+};

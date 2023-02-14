@@ -1,11 +1,11 @@
 import express, { Response, Request, Application } from 'express';
 import cors from 'cors';
-import routes from './routes/_index';
+import routes from './routes';
 import dotenv from 'dotenv';
 import passport from 'passport';
 import session from 'express-session';
 
-import { MessageResponse } from './interfaces/_index';
+import { MessageResponse } from './interfaces';
 
 declare module 'express-session' {
   export interface SessionData {
@@ -28,7 +28,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     cookie: {
-      secure: false, // Set to true if using HTTPS
+      secure: true, // Set to true if using HTTPS
       maxAge: 60 * 60 * 1000, // 1 hour
     },
   })

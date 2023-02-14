@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { IUser } from '../../interfaces/_index';
+import { IUser } from '../../interfaces';
 
 export const UserSchema = {
   user: {
@@ -21,6 +21,7 @@ export const UserSchema = {
       sector: Joi.string(),
       cell: Joi.string(),
       street: Joi.string(),
+      role: Joi.string(),
     }),
   },
 
