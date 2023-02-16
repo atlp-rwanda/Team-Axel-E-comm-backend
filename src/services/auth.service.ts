@@ -1,6 +1,12 @@
 import nodemailer from 'nodemailer';
 import { User } from '../db/schemas/_index';
 
+// Find one User
+export const findOneUserByEmailService = async (email: string) => {
+  const findOneUserRequest = await User.findOne({ where: { email } });
+  return findOneUserRequest;
+};
+
 // find the user who has clicked the link.
 export const findRegisteredUserService = async (confirmationCode: string) => {
   const currentUser = await User.findOne({ where: { confirmationCode } });
@@ -18,7 +24,7 @@ export const confirmUserService = async (confirmationCode: string) => {
 /*
  * Nodemailer to handle sending the email.
  */
-const transporter = nodemailer.createTransport({
+export const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST as string,
   port: Number(process.env.EMAIL_PORT),
   secure: true,
