@@ -7,3 +7,4 @@
 export * from './test.schema'
  */
 export * from './user.schema';
+export * from './product.schema';

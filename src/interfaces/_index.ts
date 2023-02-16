@@ -5,3 +5,4 @@
  */
 export * from './MessageResponse';
 export * from './userInterfaces';
+export * from './product.interface';

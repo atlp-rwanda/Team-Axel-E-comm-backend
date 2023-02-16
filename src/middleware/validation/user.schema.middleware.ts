@@ -21,6 +21,7 @@ export const UserSchema = {
       sector: Joi.string(),
       cell: Joi.string(),
       street: Joi.string(),
+      role: Joi.string(),
     }),
   },
 

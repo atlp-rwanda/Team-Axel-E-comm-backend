@@ -32,7 +32,7 @@ export const User = sequelize.define(
     },
     role: {
       type: Sequelize.STRING,
-      allowNull: true,
+      allowNull: false,
       defaultValue: 'user',
     },
     status: {

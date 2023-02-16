@@ -9,6 +9,6 @@
     "skipLibCheck": true
   },
   "exclude": ["node_modules"],
-  "include": ["src/**/*", "docs/swagger.ts"],
+  "include": ["src/**/*", "src/docs/swagger.ts"],
   "files": ["types.d.ts"]
 }
