@@ -26,7 +26,7 @@ const options = {
     ],
     swagger: '3.0',
   },
-  apis: ['./docs/*.docs.ts', './docs/schemas/user.schema.ts'],
+  apis: ['./docs/*.docs.ts', './docs/*.docs.yaml'],
 };
 
 const swaggerSpec = swaggerJsdoc(options);

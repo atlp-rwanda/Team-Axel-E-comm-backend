@@ -1,11 +1,11 @@
 import * as JWT from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
+import { IPayload } from '../interfaces';
 dotenv.config();
 
-export class JwtUtility {
-  static generateToken(userData: any): string {
+export class jwtUtility {
+  static generateToken(userData: IPayload): string {
     if (!process.env.SECRET_TOKEN) {
-      console.log('SECRET_TOKEN');
       throw new Error('SECRET_TOKEN environment variable not set');
     }
     return JWT.sign(userData, process.env.SECRET_TOKEN);

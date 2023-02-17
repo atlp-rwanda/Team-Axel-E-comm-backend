@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import passport from 'passport';
-import { isLoggedIn } from '../middleware/auth/auth.middleware';
+import { isLoggedIn } from '../middleware/auth/passport.middleware';
 
 const passportRouter = Router();
 
