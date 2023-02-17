@@ -1,4 +1,4 @@
-export * from './auth.service';
+export * from './Auth.service';
 export * from './Cart.service';
-export * from './user.service';
+export * from './User.service';
 export * from './Product.service';
