@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { User } from '../db/schemas/_index';
+import { User } from '../db/models';
 
 // Find one User
 export const findOneUserByEmailService = async (email: string) => {
@@ -105,7 +105,7 @@ p {
          <p>Hi, ${name}</p>
     <p>Tap the button below to confirm your email address (<span style="font-weight: bold; color: #9DA4DB;">@${email}</span>).</p>
     <p>If you didn't create an account with Team Cypher, you can safely delete this email. </p>
-        <a href="${process.env.CLIENT_URL}:${process.env.PORT}/api/v1/confirm/${confirmationCode}" target="_blank" class= "button">Confirm</a>
+        <a href="${process.env.CLIENT_URL}:${process.env.PORT}/api/v1/auth/confirm/${confirmationCode}" target="_blank" class= "button">Confirm</a>
          <p>Best regards,</p><p>Team Cypher</p>
       </div>
       </div>
@@ -214,38 +214,6 @@ p {
     }
   }
 };
-
-/* export const requestPasswordResetService = async (email: string) => {
-  const user = await User.findOne({ where: {email} });
-  if (!user) throw new Error('Email does not exist');
-
-  // let resetToken = crypto.randomBytes(32).toString('hex');
-  // const hash = await bcrypt.hash(resetToken, Number(bcryptSalt));
-
-  const payload = {
-    email: user.dataValues.email,
-  };
-  const resetToken = JwtUtility.generateToken(payload);
-
-  // await new Token({
-  //   userId: user._id,
-  //   token: hash,
-  //   createdAt: Date.now(),
-  // }).save();
-
-  const link = `${process.env.clientURL as string}/${process.env.PORT}/passwordReset?token=${resetToken}&id=${user.dataValues.id}`;
-
-  sendEmail(
-    user.email,
-    'Password Reset Request',
-    {
-      name: user.name,
-      link: link,
-    },
-    './template/requestResetPassword.handlebars',
-  );
-  return { link };
-}; */
 
 //Send email for password reset request
 

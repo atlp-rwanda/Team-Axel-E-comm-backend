@@ -1,0 +1,29 @@
+paths:
+  # search for a product
+  /api/v1/product/search:
+    get:
+      tags: [Product Routes]
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: The name/title of the product
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: The items matching a certain category
+        - in: query
+          name: minPrice
+          schema:
+            type: string
+          description: The minimum price in a range
+        - in: query
+          name: maxPrice
+          schema:
+            type: string
+          description: The maximum price in a range
+      responses:
+        200:
+          description: A list of search results

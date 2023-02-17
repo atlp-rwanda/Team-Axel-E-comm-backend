@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
-import { AuthToken } from '../db/schemas/token.schema';
+import { AuthToken } from '../db/models';
 import bcrypt from 'bcryptjs';
-import nodemailer from 'nodemailer';
-import { transporter } from '../services/auth.service';
+import { transporter } from '../services';
 
-export const create2FAToken = async (req: any, res: Response) => {
+export const create2FAToken = async (req: Request, res: Response) => {
   const code = Math.floor(
     Math.random() * (999999 - 100000) + 100000
   ).toString();
@@ -21,9 +20,11 @@ export const create2FAToken = async (req: any, res: Response) => {
       id: '2',
     };
     // <<<< the above lines must be removed after fininsihing authentication middlewares
-    const previousToken = await AuthToken.destroy({
-      where: { user: req.user.id },
-    });
+    /*
+     *const previousToken = await AuthToken.destroy({
+     *where: { user: req.user.id },
+     *});
+     */
     // console.log(previousToken);
 
     const salt = bcrypt.genSaltSync(10);
@@ -33,16 +34,20 @@ export const create2FAToken = async (req: any, res: Response) => {
       expire: (Date.now() + 1000 * 60 * 5).toString(),
       user: req.user.id,
     };
-    const data = await AuthToken.create(tokenData);
+    /*
+     *const data = await AuthToken.create(tokenData);
+     */
     tokenData.code = code;
     await sendEmailToken('muslimuwitondanishema@gmail.com', code);
     res.send({ tokenData });
-  } catch (error: any) {
-    res.send({ error: error.message });
+  } catch (error) {
+    if (error instanceof Error) {
+      res.send({ error: error.message });
+    }
   }
 };
 
-export const verify2FAToken = async (req: any, res: any) => {
+export const verify2FAToken = async (req: Request, res: Response) => {
   // >>>> the following lines must be removed after fininsihing authentication middlewares
   req.user = {
     id: '2',
@@ -52,8 +57,8 @@ export const verify2FAToken = async (req: any, res: any) => {
     where: { user: req.user.id },
   });
   console.log(tokenData?.dataValues, req.body);
-//   tokenData?.destroy()
-// const issuerDate = tokenData?.dataValues.updatedAt
+  //   tokenData?.destroy()
+  // const issuerDate = tokenData?.dataValues.updatedAt
   if (tokenData && req.body.code) {
     bcrypt.compare(
       req.body.code,

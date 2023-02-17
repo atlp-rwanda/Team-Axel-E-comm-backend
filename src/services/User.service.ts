@@ -1,5 +1,5 @@
-import { User } from '../db/schemas/_index';
-import { IUser } from '../interfaces/_index';
+import { User } from '../db/models';
+import { IUser } from '../interfaces';
 
 // Find all users
 export const findAllUsersService = async () => {
@@ -16,5 +16,11 @@ export const createUserService = async (newUser: IUser) => {
 // Find one User
 export const findOneUserService = async (userId: string) => {
   const findOneUserRequest = await User.findOne({ where: { id: userId } });
+  return findOneUserRequest;
+};
+
+// Find one User by id
+export const findOneUserByIdService = async (userId: number) => {
+  const findOneUserRequest = await User.findByPk(userId);
   return findOneUserRequest;
 };

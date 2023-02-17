@@ -7,21 +7,25 @@ import {
   verify2FAToken,
   loginUser,
   logoutUser,
-} from '../controllers/_index';
+} from '../controllers';
 import { ValidateJoi } from '../middleware/validation/validation.middleware';
 import { UserSchema } from '../middleware/validation/user.schema.middleware';
+import { isAuth } from '../middleware/auth';
 
 const authRouter = Router();
 
-// login a User
-authRouter.post('/login', ValidateJoi(UserSchema.loginData.create), loginUser);
-//logout a user
-authRouter.get('/logout', logoutUser);
-// Confirm the user who registered
-authRouter.get('/confirm/:confirmationCode', confirmUser);
-authRouter.post('/auth/requestResetPassword', resetPasswordRequestController);
-authRouter.post('/auth/resetPassword/:token', resetPasswordController);
-authRouter.post('/auth/2fa', create2FAToken);
-authRouter.post('/auth/2fa/verify2FAToken', verify2FAToken);
+authRouter.post('/login', ValidateJoi(UserSchema.loginData.create), loginUser); // login a User
+
+authRouter.get('/logout', [isAuth], logoutUser); //logout a user
+
+authRouter.get('/confirm/:confirmationCode', confirmUser); // Confirm the user who registered
+
+authRouter.post('/auth/requestResetPassword', resetPasswordRequestController); // Request a reset password
+
+authRouter.post('/auth/resetPassword/:token', resetPasswordController); // Reset the password
+
+authRouter.post('/auth/2fa', create2FAToken); // Create a 2FA token
+
+authRouter.post('/auth/2fa/verify2FAToken', verify2FAToken); // Verify the 2FA token
 
 export default authRouter;

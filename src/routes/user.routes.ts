@@ -1,15 +1,14 @@
 import { Router } from 'express';
-import { createUser, getAllUsers, getOneUser } from '../controllers/_index';
-import { UserSchema, ValidateJoi } from '../middleware/validation/_index';
+import { createUser, getAllUsers, getOneUser } from '../controllers';
+import { UserSchema, ValidateJoi } from '../middleware/validation';
+import { isAdmin, isAuth } from '../middleware/auth';
 
 const userRouter = Router();
-// Get all users
-userRouter.get('/all', getAllUsers);
 
-// Get one user
-userRouter.get('/:id', getOneUser);
+userRouter.get('/all', [isAuth, isAdmin], getAllUsers); // Get all users
 
-// Create a user
-userRouter.post('/', ValidateJoi(UserSchema.user.create), createUser);
+userRouter.get('/:id', getOneUser); // Get one user
+
+userRouter.post('/', [ValidateJoi(UserSchema.user.create)], createUser); // Create a user
 
 export default userRouter;
