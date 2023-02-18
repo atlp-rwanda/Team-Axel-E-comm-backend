@@ -3,7 +3,7 @@ import app from './app';
 import sequelizeConnection from './db/config';
 import swaggerDocs from '../docs/swagger';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 // Connect to the db
 (async () => {
@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 3000;
 })();
 const start = () => {
   try {
+    console.log(`\n\n${process.env.NODE_ENV}\n\n`);
     app.listen(PORT, () => {
       console.log(`🍏 Server 🏃 running on http://localhost:${PORT} ... 🚢`);
       // swagger documentation

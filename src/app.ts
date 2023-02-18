@@ -15,7 +15,7 @@ declare module 'express-session' {
 
 dotenv.config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 const app: Application = express();
 
@@ -40,7 +40,7 @@ app.get<{}, MessageResponse>('/', async (req: Request, res: Response) => {
   res.status(200).send({
     status: 200,
     success: true,
-    message: `Welcome to team Axel's API! Endpoints available at http://localhost:${PORT}/api/v1 + whatever endpoint you want to hit`,
+    message: `Welcome to team Cypher's API! Endpoints available at http://localhost:${PORT}/api/v1 + whatever endpoint you want to hit`,
   });
 });
 
