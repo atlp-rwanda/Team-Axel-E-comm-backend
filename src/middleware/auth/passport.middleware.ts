@@ -8,14 +8,14 @@ import { LoggedIn } from '../../db/models';
 const GoogleStrategy = GoogleStrategy0.Strategy;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
-const PORT = process.env.PORT || 3000;
+const CLIENT_URL = process.env.CLIENT_URL as string;
 // google auth
 passport.use(
   new GoogleStrategy(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: `http://localhost:${PORT}/api/v1/google/callback`,
+      callbackURL: `${CLIENT_URL}/api/v1/auth/google/callback`,
       passReqToCallback: true,
     },
     async function (
@@ -33,8 +33,8 @@ passport.use(
 
         if (!user) {
           const newUser = {
-            surName: profile.family_name,
-            givenName: profile.given_name,
+            surname: profile.family_name,
+            given_name: profile.given_name,
             email: profile.email,
             password: profile.password || process.env.USER_PASSWORD,
             googleId: profile.id,
@@ -52,8 +52,8 @@ passport.use(
         /** To save logged in user in our db */
         if (!loggedIn) {
           const newActiveUser = {
-            surName: profile.family_name,
-            givenName: profile.given_name,
+            surname: profile.family_name,
+            given_name: profile.given_name,
             email: profile.email,
             password: profile.password || process.env.USER_PASSWORD,
             googleId: profile.id,
@@ -74,17 +74,6 @@ passport.use(
   )
 );
 
-// middleware to check logged in users
-export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
-  req.user
-    ? next()
-    : res
-        .status(401)
-        .json({ status: 401, success: false, message: `You need to login` });
-};
-
-/*  */
-/*  */
 passport.serializeUser(function (user, done) {
   done(null, user);
 });

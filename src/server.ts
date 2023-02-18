@@ -13,7 +13,9 @@ const start = () => {
   try {
     console.log(`\n\n${process.env.NODE_ENV}\n\n`);
     app.listen(PORT, () => {
-      console.log(`🍏 Server 🏃 running on http://localhost:${PORT} ... 🚢`);
+      console.log(
+        `🍏 Server 🏃 running on ${process.env.CLIENT_URL}:${PORT} ... 🚢`
+      );
       // swagger documentation
       swaggerDocs(app, Number(PORT));
       // catch all "not found" routes and send this message response
