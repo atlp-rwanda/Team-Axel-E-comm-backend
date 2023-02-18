@@ -2,7 +2,9 @@ import { Request, Response } from "express";
 import { ProductAttributes } from "../interfaces";
 import {
   findOrCreateProductService,
+  findProductService,
   getAvailableProductsService,
+  updateProductService,
 } from "../services";
 import { searchProductsUtility } from "../utils";
 
@@ -68,6 +70,41 @@ export const getAvailableProducts = async (req: Request, res: Response) => {
   try {
     const allProducts = await getAvailableProductsService();
     res.status(200).json({ status: 200, success: true, data: allProducts });
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        status: 500,
+        success: false,
+        message: "Something went wrong when getting the products",
+        error: error.message,
+      });
+    } else {
+      console.log(`Unexpected error: ${error}`);
+    }
+  }
+};
+
+// Seller update a product
+export const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const productId = req.params.id;
+    const productToUpdate = await findProductService(productId);
+
+    const parsedProductToUpdate = JSON.parse(JSON.stringify(productToUpdate));
+
+    for (const productCriteria in req.body) {
+      parsedProductToUpdate[productCriteria] = req.body[productCriteria];
+    }
+
+    const updatedProduct = await updateProductService(
+      productId,
+      parsedProductToUpdate,
+    );
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      data: JSON.parse(JSON.stringify(updatedProduct))[1][0],
+    });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({

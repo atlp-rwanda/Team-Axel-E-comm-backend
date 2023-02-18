@@ -59,6 +59,27 @@ paths:
         200:
           description: A list of search results
 
+  # update a product
+  /api/v1/product/update/{productId}:
+    patch:
+      security: [{ jwt: [] }]
+      summary: Update a product
+      tags: [Product Routes]
+      requestBody:
+        description: Please fill all required fields you want to update
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateProductInput'
+      responses:
+        '200':
+          description: Update done Successfully
+        '404':
+          description: This Product doesn't exists.
+        '401':
+          description: You are not allowed to access this route
+
 # schemas
 components:
   schemas:

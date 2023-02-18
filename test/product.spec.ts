@@ -133,4 +133,28 @@ describe("🛍️ Product UNIT", () => {
    * 🛑 end search products  *
    **********************************************
    */
+
+  /*
+   **********************************************
+   *  🟩 Update a product *
+   **********************************************
+   */
+  describe("PATCH /api/v1/product/update/{productId}", () => {
+    it("should return 200 if the user is not a seller", async () => {
+      const res = await request(app)
+        .patch(`/api/v1/product/update/4b35a4b0-53e8-48a4-97b0-9d3685d3197c`)
+        .set("Authorization", "Bearer " + token)
+        .send({
+          name: "Test product Failure",
+          quantity: 48,
+          price: 140,
+        });
+      expect(res.status).toEqual(200);
+    });
+  });
+  /*
+   **********************************************
+   * 🛑 End Of pruduct update *
+   **********************************************
+   */
 });

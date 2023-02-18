@@ -27,3 +27,15 @@ export const findProductService = async (productId: string) => {
   const getProductRequest = await Product.findByPk(productId);
   return getProductRequest;
 };
+
+// Update a product
+export const updateProductService = async (
+  productId: string,
+  parsedDataToUpdate: ProductAttributes,
+) => {
+  const updatedProduct = await Product.update(parsedDataToUpdate, {
+    where: { id: productId },
+    returning: true,
+  });
+  return updatedProduct;
+};
