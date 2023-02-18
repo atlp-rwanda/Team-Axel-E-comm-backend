@@ -2,13 +2,19 @@ name: Code Coverage
 
 on:
   push:
-    branches: ['develop']
+    branches:
+      - 'develop'
+      - 'main'
   pull_request:
-    branches: ['develop']
+    branches:
+      - 'develop'
+      - 'main'
     
 env:
   GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
   GOOGLE_CLIENT_SECRET: ${{ vars.GOOGLE_CLIENT_SECRET }}
+  TEST_DB_URL: ${{vars.TEST_DB_URL}}
+
 
 jobs:
   test:
@@ -16,10 +22,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
-      - name: Use Node.js 18.x
+      - name: Use Node.js 16.x
         uses: actions/setup-node@master
         with:
-          version: 18.x
+          version: 16.x
 
       - name: npm install.
         run: npm install
