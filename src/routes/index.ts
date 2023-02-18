@@ -5,10 +5,8 @@ import productRouter from './product.routes';
 import userRouter from './user.routes';
 import cartRouter from './cart.routes';
 import checkoutRouter from './checkout.routes';
-
 import wishRouter from './wishes.routes';
 
-import checkoutRouter from './checkout.routes';
 
 const router = Router();
 
