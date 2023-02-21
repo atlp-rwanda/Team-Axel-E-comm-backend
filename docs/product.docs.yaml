@@ -1,4 +1,80 @@
 paths:
+  # get all available products
+  /api/v1/product/available:
+    get:
+      summary: Get Only Available products from our API
+      tags: [Product Routes]
+      description: Returns all available products from our database
+      responses:
+        200:
+          description: Products fetched successfully
+
+  # create a new product
+  /api/v1/product/:
+    post:
+      security: [{ jwt: [] }]
+      summary: Create a new product
+      tags: [Product Routes]
+      requestBody:
+        description: please fill all required fields
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateProductInput'
+      responses:
+        '201':
+          description: Post Created Successfully
+        '400':
+          description: This Product already exists, You can update the stock levels
+        '401':
+          description: You are not allowed to access this route
+
+  # Seller getting all items
+  /api/v1/product/items:
+    get:
+      security: [{ jwt: [] }]
+      summary: Seller getting all items
+      tags: [Product Routes]
+      description: Returns all items from our database
+      responses:
+        '200':
+          description: Items fetched successfully
+        '500':
+          description: Internal Server Error
+        '401':
+          description: You are not logged in
+        '403':
+          description: You are not allowed to access this route
+
+# Seller update a product
+  /api/v1/product/update/{productId}:
+    patch:
+      security: [{ jwt: [] }]
+      summary: Seller update a product
+      tags: [Product Routes]
+      parameters:
+        - name: productId
+          in: path
+          description: Provide productId
+          required: true
+      requestBody:
+        description: Please fill all required field(s) you want to update 
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateProductInput'
+      responses:
+        '200':
+          description: Update a product Successfully
+        '500':
+          description: Internal Server Error
+        '401':
+          description: You are not logged in
+        '403':
+          description: You are not allowed to access this route
+
   # search for a product
   /api/v1/product/search:
     get:
@@ -27,3 +103,58 @@ paths:
       responses:
         200:
           description: A list of search results
+
+# schemas
+components:
+  schemas:
+    CreateProductInput:
+      type: object
+      required:
+        - name
+        - category
+        - description
+        - stock
+        - price
+        - images
+      properties:
+        name:
+          type: string
+          default: Meat
+        category:
+          type: string
+          default: Food
+        description:
+          type: string
+          default: Quality meat for your whole family
+        stock:
+          type: string
+          default: Available
+        price:
+          type: number
+          default: 3
+        images:
+          type: string
+          default:
+    CreatePostResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          type: object
+        properties:
+          name:
+            type: string
+          category:
+            type: string
+          description:
+            type: string
+          stock:
+            type: string
+          price:
+            type: number
+          images:
+            type: string
+    Parameters:
+      type: object
+      properties:

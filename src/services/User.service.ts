@@ -1,5 +1,6 @@
-import { User } from '../db/models';
-import { IUser } from '../interfaces';
+import User from '../database/models/User.model';
+import Product from '../database/models/Product.model';
+import { UserAttributes } from '../interfaces';
 
 // Find all users
 export const findAllUsersService = async () => {
@@ -8,7 +9,7 @@ export const findAllUsersService = async () => {
 };
 
 // Create one user
-export const createUserService = async (newUser: IUser) => {
+export const createUserService = async (newUser: UserAttributes) => {
   const createUserRequest = await User.create(newUser);
   return createUserRequest;
 };
@@ -23,4 +24,11 @@ export const findOneUserService = async (userId: string) => {
 export const findOneUserByIdService = async (userId: number) => {
   const findOneUserRequest = await User.findByPk(userId);
   return findOneUserRequest;
+};
+
+// Get all items
+
+export const getAllItemsServices = async () => {
+  const allItems = await Product.findAll();
+  return allItems;
 };

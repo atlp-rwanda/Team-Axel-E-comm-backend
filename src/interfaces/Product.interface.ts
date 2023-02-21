@@ -1,25 +1,24 @@
-export interface IQueryParams {
-  [key: string]: string;
-}
-
-// Product Interface
-export interface IProduct {
-  [key: number]: number;
-  [key: symbol]: number;
+/* eslint-disable no-shadow */
+export interface ProductAttributes {
+  id: string;
+  sellerId: string;
   name: string;
   category: string;
   description: string;
-  stock: string;
-  quantity: number;
   price: number;
+  quantity: number;
+  stock: Stock;
   images: string;
-  sellerId: string;
 }
 
-export interface ICart {
-  [key: number]: number;
-  [key: symbol]: number;
-  userId: string;
-  productId: number;
-  quantity: number;
+export enum Stock {
+  Available = 'Available',
+  OutOfStock = 'Out of Stock',
+}
+
+export interface IQueryParams {
+  name?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  category?: string;
 }
