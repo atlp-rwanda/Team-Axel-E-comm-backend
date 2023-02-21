@@ -100,3 +100,32 @@ export const isAdmin = async (
     }
   }
 };
+
+// adding a middleware similar to isAuth but this time working with req.session
+export const isCurrentUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.session.userId) {
+      res.status(401).json({
+        status: 401,
+        success: false,
+        message: 'You are not logged in 🤡',
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        status: 500,
+        success: false,
+        message: `${error.message}`,
+      });
+    } else {
+      console.log(`Something went wrong when verifying user status: `, error);
+    }
+  }
+};

@@ -19,22 +19,25 @@ const PORT = process.env.PORT;
 
 const app: Application = express();
 
+//-memory unleaked---------
+app.set('trust proxy', 1);
+app.use(
+  session({
+    cookie: {
+      secure: true,
+      maxAge: 60000,
+    },
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: false,
+  })
+);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET as string,
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-      secure: true, // Set to true if using HTTPS
-      maxAge: 60 * 60 * 1000, // 1 hour
-    },
-  })
-);
 app.use(passport.initialize());
 app.use(passport.session());
+
 // eslint-disable-next-line @typescript-eslint/ban-types
 app.get<{}, MessageResponse>('/', async (req: Request, res: Response) => {
   res.status(200).send({
