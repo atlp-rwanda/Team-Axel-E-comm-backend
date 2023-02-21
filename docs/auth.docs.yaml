@@ -21,6 +21,19 @@ paths:
           description: A user with the specified ID was not found.
         '5XX':
           description: Unexpected error.
+
+  # google authantication 
+  /api/v1/auth/google:
+    get:
+      tags: [Auth Routes]
+      summary: Logs in a user with google account
+
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request.
+    
   # confirm user registration / sign up using the confirmation code
   /api/v1/auth/confirm/{confirmationCode}:
     get:

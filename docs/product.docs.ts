@@ -38,6 +38,24 @@
 
 /**
  * @swagger
+ * /api/v1/product/all:
+ *    get:
+ *      tags: [Product endpoints]
+ *      summary: Seller get all items
+ *      description: Returns all items from our db
+ *      responses:
+ *        200:
+ *          description: Get all items succefully
+ *        401:
+ *          description: You are not logged in
+ *        403:
+ *          description: Unauthorized access. User not found or You are not a seller
+ *        500:
+ *          description: Something went wrong when verifying user status
+ */
+
+/**
+ * @swagger
  * components:
  *  schemas:
  *    CreateProductInput:

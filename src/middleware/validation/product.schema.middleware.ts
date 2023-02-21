@@ -1,9 +1,9 @@
 import Joi from 'joi';
-import { ICart, IProduct } from '../../interfaces';
+import { CartAttributes, ProductAttributes } from '../../interfaces';
 
 export const ProductSchema = {
   product: {
-    create: Joi.object<IProduct>({
+    create: Joi.object<ProductAttributes>({
       name: Joi.string().required(),
       category: Joi.string().required(),
       description: Joi.string().required(),
@@ -12,7 +12,7 @@ export const ProductSchema = {
       price: Joi.number().required(),
       images: Joi.string(),
     }),
-    addToCart: Joi.object<ICart>({
+    addToCart: Joi.object<CartAttributes>({
       productId: Joi.number().required(),
       quantity: Joi.number().required(),
     }),

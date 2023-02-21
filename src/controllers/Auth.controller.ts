@@ -9,7 +9,7 @@ import {
   sendPasswordResetConfirmation,
   sendResetRequestEmail,
 } from '../services';
-import { User } from '../db/models';
+import User from '../database/models/User.model';
 
 //User Login
 export const loginUser = async (req: Request, res: Response) => {
@@ -106,7 +106,7 @@ export const confirmUser = async (req: Request, res: Response) => {
       const confirmedUser = await confirmUserService(confirmationCode);
       sendEmailConfirmationMessage(
         currentUser.dataValues.email,
-        currentUser.dataValues.surName
+        currentUser.dataValues.surname
       );
       res.status(201).json({
         status: 201,
@@ -154,7 +154,7 @@ export const resetPasswordRequestController = async (
       });
       sendResetRequestEmail(
         user.dataValues.email,
-        user.dataValues.surName,
+        user.dataValues.surname,
         resetToken
       );
     } else {
@@ -191,7 +191,7 @@ export const resetPasswordController = async (req: Request, res: Response) => {
         });
         sendPasswordResetConfirmation(
           decodedToken.email,
-          currentUser.dataValues.surName
+          currentUser.dataValues.surname
         );
       } else {
         res.status(505).json({
