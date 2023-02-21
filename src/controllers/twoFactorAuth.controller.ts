@@ -22,7 +22,7 @@ export const create2FAToken = async (req: any, res: Response) => {
     };
     await AuthToken.create(tokenData);
     tokenData.code = code;
-    await sendEmailToken('muslimuwitondanishema@gmail.com', code);
+    await sendEmailToken(req.user.email, code);
     res.send({ tokenData });
   } catch (error: any) {
     res.status(500).send({ error: error.message });
@@ -42,11 +42,13 @@ export const verify2FAToken = async (req: any, res: any) => {
       tokenData &&
       req.body.code &&
       Date.now() - Date.parse(issueDate) < TOKEN_EXPIRATION_TIME
-    )
-      {if (bcrypt.compareSync(req.body.code, tokenData.dataValues.code))
-        {return await user.update({ twoFAVerified: true }).then(() => {
+    ) {
+      if (bcrypt.compareSync(req.body.code, tokenData.dataValues.code)) {
+        return await user.update({ twoFAVerified: true }).then(() => {
           res.send({ verified: true });
-        });}}
+        });
+      }
+    }
 
     res.status(401).send({
       message: 'code not found',
