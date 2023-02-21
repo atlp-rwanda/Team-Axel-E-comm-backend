@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Product } from '../db/models';
+import { Product } from '../models';
 import { Op, WhereOptions, fn } from 'sequelize';
 import { IQueryParams } from '../interfaces';
 import { createProductService, getAvailableProductsService } from '../services';

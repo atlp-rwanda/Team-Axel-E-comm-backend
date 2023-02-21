@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
 import GoogleStrategy0, { VerifyCallback } from 'passport-google-oauth2';
-import { User } from '../../db/models';
-import { LoggedIn } from '../../db/models';
+import { User } from '../../models';
+import { LoggedIn } from '../../models';
 
 /*  */
 const GoogleStrategy = GoogleStrategy0.Strategy;
