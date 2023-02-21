@@ -1,4 +1,4 @@
-import { User } from '../db/models';
+import { Product, User } from '../db/models';
 import { IUser } from '../interfaces';
 
 // Find all users
@@ -23,4 +23,11 @@ export const findOneUserService = async (userId: string) => {
 export const findOneUserByIdService = async (userId: number) => {
   const findOneUserRequest = await User.findByPk(userId);
   return findOneUserRequest;
+};
+
+// Get all items
+
+export const getAllItemsServices = async () => {
+  const allItems = await Product.findAll();
+  return allItems;
 };

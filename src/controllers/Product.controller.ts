@@ -2,7 +2,11 @@ import { Request, Response } from 'express';
 import { Product } from '../db/models';
 import { Op, WhereOptions, fn } from 'sequelize';
 import { IQueryParams } from '../interfaces';
-import { createProductService, getAvailableProductsService } from '../services';
+import {
+  createProductService,
+  getAllItemsServices,
+  getAvailableProductsService,
+} from '../services';
 
 export const searchProducts = async (req: Request, res: Response) => {
   const queryParams = req.query as IQueryParams;
@@ -110,6 +114,23 @@ export const getAvailableProducts = async (req: Request, res: Response) => {
         .json({ status: 500, success: false, message: `${error.message}` });
     } else {
       console.log(`Unexpected error: ${error}`);
+    }
+  }
+};
+
+// Seller Get all items
+export const getAllItems = async (req: Request, res: Response) => {
+  try {
+    const allItems = await getAllItemsServices();
+    return res.status(200).json({ status: 200, success: true, data: allItems });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(`Error fetching all items: ${error.message}`);
+      res
+        .status(500)
+        .json({ status: 500, success: false, message: `${error.message}` });
+    } else {
+      console.log('Unexpected error', error);
     }
   }
 };
