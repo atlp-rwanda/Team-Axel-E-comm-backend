@@ -1,4 +1,4 @@
-import { Cart, Product } from '../db/models';
+import { Cart, Product } from '../models';
 import { ICart } from '../interfaces';
 
 // add to cart service
