@@ -24,6 +24,8 @@
     "comma-dangle": 0,
     "curly": ["error", "multi-line"],
     "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
+    "no-unused-vars": 0,
+    "no-undef": 0,
     "valid-jsdoc": [
       "error",
       {

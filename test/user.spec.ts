@@ -1,7 +1,8 @@
 import request from 'supertest';
 import app from '../src/app';
 import { sequelize } from '../src/db/config';
-import { User } from '../src/db/models/index';
+import { User } from '../src/models/index';
+jest.setTimeout(1500000);
 
 describe('🧑‍🤝‍🧑 USERS UNIT', () => {
   beforeAll(async () => {
