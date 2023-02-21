@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import { sequelize } from '../config';
+import { sequelize } from '../db/config';
 import bcrypt from 'bcryptjs';
 
 export const LoggedIn = sequelize.define(

@@ -38,7 +38,11 @@ const swaggerDocs = (app: Application, port: number) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpec);
   });
-  console.log(`🍏 Read docs 📚 at http://localhost:${port}/docs`);
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`🍏 Read docs 📚 at http://localhost:${port}/docs`);
+  } else {
+    console.log(`🍏 Read docs 📚 at ${process.env.CLIENT_URL as string}/docs`);
+  }
 };
 
 export default swaggerDocs;

@@ -4,15 +4,19 @@
   "description": "E-commerce backend API",
   "main": "build/src/server.js",
   "scripts": {
-    "start": "node build/src/server.js",
+    "start": "cross-env NODE_ENV=production node build/src/server.js",
     "dev": "cross-env NODE_ENV=development npx nodemon",
     "build": "node_modules/.bin/rimraf ./build && npx tsc",
-    "test": "cross-env NODE_ENV=test jest --coverage --detectOpenHandles",
+    "test": "cross-env NODE_ENV=test && yarn migration && yarn jest --coverage --detectOpenHandles",
     "test:watch": "yarn test -- --watch",
     "coverage": "jest --coverage --detectOpenHandles --coverageReporters=text-lcov | coveralls",
     "prettier": "prettier --write .",
     "prepare": "husky install",
-    "watch": "tsc -w"
+    "watch": "tsc -w",
+    "undoMigrations": "cross-env NODE_ENV=test npx sequelize-cli db:migrate:undo:all",
+    "migrate": "cross-env NODE_ENV=test npx sequelize-cli db:migrate",
+    "migration": "yarn undoMigrations && yarn migrate",
+    "migrateDev": "cross-env NODE_ENV=development npx sequelize-cli db:migrate"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
@@ -69,6 +73,7 @@
     "lint-staged": "^13.1.1",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.4",
+    "sequelize-cli": "^6.6.0",
     "supertest": "^6.3.3",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",

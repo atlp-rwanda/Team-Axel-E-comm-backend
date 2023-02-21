@@ -9,7 +9,7 @@ import {
   sendPasswordResetConfirmation,
   sendResetRequestEmail,
 } from '../services';
-import { User } from '../db/models';
+import { User } from '../models';
 
 //User Login
 export const loginUser = async (req: Request, res: Response) => {
