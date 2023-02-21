@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { AuthToken } from '../db/models';
+import { AuthToken } from '../models';
 import bcrypt from 'bcryptjs';
 import { transporter } from '../services';
 
