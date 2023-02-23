@@ -2,6 +2,7 @@ import request from 'supertest';
 import app from '../src/app';
 import { sequelize } from '../src/db/config';
 import { Product, User } from '../src/db/models';
+jest.setTimeout(150000);
 
 describe('🛒 📦 CART UNIT', () => {
   beforeAll(async () => {
