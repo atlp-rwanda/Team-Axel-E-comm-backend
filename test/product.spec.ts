@@ -173,6 +173,59 @@ describe('🛍️ Product UNIT', () => {
 
   /*
    **********************************************
+   * 🟩 Get only one product products or items *
+   **********************************************
+   */
+  describe('PATCH /api/v1/product/update/:id', () => {
+    it('should return 200', async () => {
+      const adminCredentials = {
+        email: 'admin@gmail.com',
+        password: 'Password!23',
+      };
+
+      const loginResponse = await request(app)
+        .post('/api/v1/auth/login')
+        .send(adminCredentials);
+
+      const token = loginResponse.body.data;
+
+      // firstly, get all products for distructing a product id
+      const res = await request(app)
+        .get('/api/v1/product/all')
+        .set('Authorization', 'Bearer ' + token);
+
+      // In order to get id from db data.
+      const parsedData = JSON.parse(JSON.parse(JSON.stringify(res)).text).data;
+      const productId = parsedData[0].id;
+
+      const productToUpdate = await request(app)
+        .patch(`/api/v1/product/update/${productId}`)
+        .set('Authorization', 'Bearer ' + token)
+        .send({
+          name: '',
+          category: '',
+          description: '',
+          stock: '',
+          quantity: '',
+          price: 100,
+          images: '',
+        });
+
+      // whenever I need to make advanced check on response I will use this
+      const parsedProduct = await JSON.parse(
+        JSON.parse(JSON.stringify(productToUpdate)).text
+      ).data;
+      expect(productToUpdate.status).toEqual(200);
+    });
+  });
+  /*
+   **********************************************
+   * 🛑 end get only one products or item *
+   **********************************************
+   */
+
+  /*
+   **********************************************
    * 🟩 Search product *
    **********************************************
    */

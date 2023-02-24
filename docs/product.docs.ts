@@ -56,6 +56,29 @@
 
 /**
  * @swagger
+ * /api/v1/product/update/{productId}:
+ *   patch:
+ *     summary: Update a product
+ *     tags: [Product endpoints]
+ *     parameters:
+ *      - name: productId
+ *        in: path
+ *        description: Provide productId
+ *        required: true
+ *     requestBody:
+ *       description: Please fill the field(s) you want to update only
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *              $ref: '#/components/schemas/CreateProductInput'
+ *     responses:
+ *       '201':
+ *         description: Created successfuly
+ */
+
+/**
+ * @swagger
  * components:
  *  schemas:
  *    CreateProductInput:

@@ -3,6 +3,7 @@ import {
   createProduct,
   getAllItems,
   getAvailableProducts,
+  updateProduct,
 } from '../controllers';
 import { ValidateJoi, ProductSchema } from '../middleware/validation';
 import { searchProducts } from '../controllers';
@@ -25,4 +26,8 @@ productRouter.get('/search', searchProducts); // search for products
 
 // seller get all items
 productRouter.get('/all', [isAuth, isSeller], getAllItems);
+
+// Only seller should update a product
+productRouter.patch('/update/:id', [isAuth, isSeller], updateProduct);
+
 export default productRouter;

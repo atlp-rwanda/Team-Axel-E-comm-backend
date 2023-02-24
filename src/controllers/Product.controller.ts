@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import { Product } from '../db/models';
 import { Op, WhereOptions, fn } from 'sequelize';
-import { IQueryParams } from '../interfaces';
+import { IProduct, IQueryParams } from '../interfaces';
 import {
   createProductService,
   getAllItemsServices,
   getAvailableProductsService,
+  updateProductService,
 } from '../services';
 
 export const searchProducts = async (req: Request, res: Response) => {
@@ -126,7 +127,75 @@ export const getAllItems = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof Error) {
       console.log(`Error fetching all items: ${error.message}`);
-      res
+      return res
+        .status(500)
+        .json({ status: 500, success: false, message: `${error.message}` });
+    } else {
+      console.log('Unexpected error', error);
+    }
+  }
+};
+
+// Seller update a product
+export const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const productId = req.params.id;
+
+    const productToUpdate = await updateProductService(productId);
+    const parsedData: IProduct = await JSON.parse(
+      JSON.stringify(productToUpdate)
+    );
+
+    console.log('The product to update:', parsedData);
+
+    if (parsedData) {
+      if (req.body.name) {
+        parsedData.name = req.body.name;
+      }
+      if (req.body.category) {
+        parsedData.category = req.body.category;
+      }
+      if (req.body.description) {
+        parsedData.description = req.body.description;
+      }
+      if (req.body.stock) {
+        parsedData.stock = req.body.stock;
+      }
+      if (req.body.quantity) {
+        parsedData.quantity = req.body.quantity;
+      }
+      if (req.body.price) {
+        parsedData.price = req.body.price;
+      }
+      if (req.body.images) {
+        parsedData.images = req.body.images;
+      }
+      if (req.body.sellerId) {
+        parsedData.sellerId = req.body.sellerId;
+      }
+
+      // console.log("The product after an updates:", parsedData)
+      const updatedProduct = await Product.update(parsedData, {
+        where: { id: productId },
+        returning: true,
+      });
+
+      // console.log("The updated data row is: ?????!!????", JSON.stringify(updatedProduct[1]));
+
+      return res
+        .status(200)
+        .json({ status: 200, success: true, data: updatedProduct[1] }); // remember to make JSON format to read data
+    } else {
+      return res.status(404).json({
+        status: 404,
+        success: false,
+        message: 'The Product Not Found',
+      });
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(`Error for updating a product: ${error.message}`);
+      return res
         .status(500)
         .json({ status: 500, success: false, message: `${error.message}` });
     } else {

@@ -14,3 +14,11 @@ export const getAvailableProductsService = async () => {
   });
   return getProductsRequest;
 };
+
+// Seller should update a product
+export const updateProductService = async (productId: string) => {
+  const productToUpdate = await Product.findOne({
+    where: { id: productId },
+  });
+  return productToUpdate;
+};
