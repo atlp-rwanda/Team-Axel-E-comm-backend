@@ -24,7 +24,7 @@ paths:
 
   # get order starts
   /api/v1/order/status/{orderId}:
-    delete:
+    get:
       tags: [ORDERS]
       summary: get order status .
       parameters:

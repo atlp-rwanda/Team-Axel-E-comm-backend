@@ -11,6 +11,8 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      twoFAVerified: { type: Sequelize.BOOLEAN, unique: false },
+      twoFAenabled: { type: Sequelize.BOOLEAN, unique: false },
       surName: {
         type: Sequelize.STRING,
         allowNull: false,

@@ -154,30 +154,30 @@ describe('🛒 📦 CART UNIT', () => {
    *  🟩 admin should update order status /api/v1/order/status/:orderId *
    **********************************************
    */
-  //     describe('PUT /api/v1/order/status/:orderId', () => {
-  //         let orderId = 1;
-  //     // Admin updates order status
-  //     it('should return 200', async () => {
-  //       // login the admin
-  //       const currentUser = {
-  //         email: 'admin@gmail.com',
-  //         password: 'Password!23',
-  //       };
-  //       const loginResponse = await request(app)
-  //         .post('/api/v1/auth/login')
-  //         .send(currentUser);
-  //       const token = loginResponse.body.data;
+  describe('PUT /api/v1/order/status/:orderId', () => {
+    const orderId = 1;
+    // Admin updates order status
+    it('should return 200', async () => {
+      // login the admin
+      const currentUser = {
+        email: 'admin@gmail.com',
+        password: 'Password!23',
+      };
+      const loginResponse = await request(app)
+        .post('/api/v1/auth/login')
+        .send(currentUser);
+      const token = loginResponse.body.data;
 
-  //       // update order status
-  //       const updatedStatus = 'shipped';
-  //       const res = await request(app)
-  //         .put(`/api/v1/order/status/${orderId}`)
-  //         .set('Authorization', 'Bearer ' + token)
-  //         .send({ status: updatedStatus });
-
-  //       expect(res.body.message).toEqual('Order status updated');
-  //     });
-  //   });
+      // update order status
+      const updatedStatus = 'shipped';
+      const res = await request(app)
+        .put(`/api/v1/order/status/${orderId}`)
+        .set('Authorization', 'Bearer ' + token)
+        .send({ status: updatedStatus });
+      expect(res.status).toEqual(200);
+      expect(res.body.message).toEqual('status updated');
+    });
+  });
 
   describe('delete /api/v1/order/alll', () => {
     it('should delete all orders', async () => {
