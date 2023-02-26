@@ -1,16 +1,15 @@
 import { Request, Response } from 'express';
 import app from './app';
 import swaggerDocs from '../docs/swagger';
-// import db from './db/models/db';
-import db from './db/models';
+import { sequelize } from './database/models';
 const PORT = process.env.PORT;
 
 // Connect to the db
 (async () => {
   try {
     // connect to the db
-    await db.sequelize.sync().then(() => {
-      const database = db.sequelize.getDatabaseName();
+    await sequelize.sync().then(() => {
+      const database = sequelize.getDatabaseName();
       console.log(`🍏 Successfully connected to the db 🔥${database}🔥`);
     });
   } catch (error) {

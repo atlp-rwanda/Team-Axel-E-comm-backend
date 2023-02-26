@@ -1,5 +1,4 @@
-import { User } from '../models';
-import { IUser } from '../interfaces';
+import User, { UserAttributes } from '../database/models/User.model';
 
 // Find all users
 export const findAllUsersService = async () => {
@@ -8,19 +7,13 @@ export const findAllUsersService = async () => {
 };
 
 // Create one user
-export const createUserService = async (newUser: IUser) => {
+export const createUserService = async (newUser: UserAttributes) => {
   const createUserRequest = await User.create(newUser);
   return createUserRequest;
 };
 
-// Find one User
-export const findOneUserService = async (userId: string) => {
-  const findOneUserRequest = await User.findOne({ where: { id: userId } });
-  return findOneUserRequest;
-};
-
 // Find one User by id
-export const findOneUserByIdService = async (userId: number) => {
-  const findOneUserRequest = await User.findByPk(userId);
+export const findOneUserByIdService = async (userId: string) => {
+  const findOneUserRequest = await User.findByPk(userId); // ? does findByPk return only take an integer as an argument? If not, then is working as intended.
   return findOneUserRequest;
 };

@@ -1,10 +1,43 @@
-import { Cart, Product } from '../models';
-import { ICart } from '../interfaces';
+import Cart, { CartAttributes } from '../database/models/Cart.model';
+import Product from '../database/models/Product.model';
 
 // add to cart service
-export const addToCartService = async (cartItem: ICart) => {
+export const addToCartService = async (cartItem: CartAttributes) => {
   const addToCartRequest = await Cart.create(cartItem);
   return addToCartRequest;
+};
+
+// is item already in cart
+export const isItemInCartService = async (
+  userId: string,
+  productId: string
+) => {
+  const isItemInCartRequest = await Cart.findOne({
+    where: {
+      userId,
+      productId,
+    },
+  });
+  return !!isItemInCartRequest;
+};
+
+// update cart item quantity
+export const updateCartItemQuantityService = async (
+  userId: string,
+  productId: string,
+  quantity: number
+) => {
+  const updateCartItemQuantityRequest = await Cart.update(
+    { quantity },
+    {
+      where: {
+        userId,
+        productId,
+      },
+    }
+  );
+
+  return updateCartItemQuantityRequest;
 };
 
 // view cart service
@@ -13,20 +46,19 @@ export const viewCartService = async (userId: string) => {
     where: {
       userId,
     },
-    // ! This failed because product is not associated to cart!
-    // ? If you know a way to do this, please let me know!
-    // * I tried to do this with a through table, but it didn't work
-    // include: [
-    //   {
-    //     model: Product,
-    //     as: 'name',
-    //     through: {
-    //       attributes: ['name', 'price', 'quantity'],
-    //     },
-    //   },
-    // ],
+    include: Product,
   });
   return viewCartRequest;
+};
+
+// delete cart item
+export const deleteCartItemService = async (cartItemId: string) => {
+  const deleteCartItemRequest = await Cart.destroy({
+    where: {
+      id: cartItemId,
+    },
+  });
+  return deleteCartItemRequest;
 };
 
 // clear cart

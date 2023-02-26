@@ -9,7 +9,7 @@ import {
   sendPasswordResetConfirmation,
   sendResetRequestEmail,
 } from '../services';
-import { User } from '../models';
+import User, { Status } from '../database/models/User.model';
 
 //User Login
 export const loginUser = async (req: Request, res: Response) => {
@@ -25,7 +25,7 @@ export const loginUser = async (req: Request, res: Response) => {
         message: 'User with this email does not exist',
       });
     } else {
-      if (user.dataValues.status === 'Pending') {
+      if (user.dataValues.status === Status.Pending) {
         res.status(401).send({
           status: 401,
           success: false,
@@ -62,7 +62,8 @@ export const loginUser = async (req: Request, res: Response) => {
       res.status(500).send({
         status: 500,
         success: false,
-        message: `Internal server error: ${error.message}`,
+        message: 'Error logging in',
+        error: error.message,
       });
     } else {
       console.log(`Something went  wrong when logging in: `, error);
@@ -79,7 +80,8 @@ export const logoutUser = async (req: Request, res: Response) => {
       return res.status(500).send({
         status: 500,
         success: false,
-        message: `Internal server error: ${error}`,
+        message: 'Error logging out',
+        error: error.message,
       });
     } else {
       return res.status(200).send({
@@ -106,21 +108,24 @@ export const confirmUser = async (req: Request, res: Response) => {
       const confirmedUser = await confirmUserService(confirmationCode);
       sendEmailConfirmationMessage(
         currentUser.dataValues.email,
-        currentUser.dataValues.surName
+        currentUser.dataValues.surname
       );
-      res.status(201).json({
-        status: 201,
+      res.status(200).json({
+        status: 200,
         success: true,
         data: confirmedUser,
         message: `User confirmed successfully.`,
       });
     }
   } catch (error) {
+    // console.log(error);
     if (error instanceof Error) {
-      console.log(`Error confirming user: ${error.message}`);
-      res
-        .status(500)
-        .json({ status: 500, success: false, message: `${error.message}` });
+      res.status(500).json({
+        status: 500,
+        success: false,
+        message: 'Error confirming user',
+        error: error.message,
+      });
     } else {
       console.log('Unexpected error', error);
     }
@@ -131,38 +136,47 @@ export const resetPasswordRequestController = async (
   req: Request,
   res: Response
 ) => {
-  // const requestPasswordResetService = await requestPasswordResetService(
-  //   req.body.email
-  // );
-  // return res.json(requestPasswordResetService);
-  const user = await User.findOne({ where: { email: req.body.email } });
-  if (!user) {
-    res
-      .status(404)
-      .json({ status: 404, success: false, message: 'Email does not exist' });
-  } else {
-    const resetToken = jwtUtility.generateToken(user.dataValues.email);
-    const updateResetToken = await User.update(
-      { resetToken: resetToken },
-      { where: { email: req.body.email } }
-    );
-    if (updateResetToken[0] === 1) {
-      res.status(200).json({
-        status: 200,
-        success: true,
-        message: `Please check your email for the link to reset your password `,
-      });
-      sendResetRequestEmail(
-        user.dataValues.email,
-        user.dataValues.surName,
-        resetToken
-      );
+  try {
+    const user = await User.findOne({ where: { email: req.body.email } });
+    if (!user) {
+      res
+        .status(404)
+        .json({ status: 404, success: false, message: 'Email does not exist' });
     } else {
-      res.status(505).json({
-        status: 505,
+      const resetToken = jwtUtility.generateToken(user.dataValues.email);
+      const updateResetToken = await User.update(
+        { resetToken: resetToken },
+        { where: { email: req.body.email } }
+      );
+      if (updateResetToken[0] === 1) {
+        res.status(200).json({
+          status: 200,
+          success: true,
+          message: `Please check your email for the link to reset your password `,
+        });
+        sendResetRequestEmail(
+          user.dataValues.email,
+          user.dataValues.surname,
+          resetToken
+        );
+      } else {
+        res.status(505).json({
+          status: 505,
+          success: false,
+          message: `Failed to update Reset token`,
+        });
+      }
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        status: 500,
         success: false,
-        message: `Failed to update Reset token`,
+        message: 'Error requesting password reset',
+        error: error.message,
       });
+    } else {
+      console.log('Unexpected error', error);
     }
   }
 };
@@ -191,7 +205,7 @@ export const resetPasswordController = async (req: Request, res: Response) => {
         });
         sendPasswordResetConfirmation(
           decodedToken.email,
-          currentUser.dataValues.surName
+          currentUser.dataValues.surname
         );
       } else {
         res.status(505).json({
@@ -203,8 +217,10 @@ export const resetPasswordController = async (req: Request, res: Response) => {
     } catch (error) {
       if (error instanceof Error) {
         res.json({
+          status: 500,
           success: false,
-          message: `${error.message}`,
+          message: 'Error resetting password',
+          error: error.message,
         });
       } else {
         console.log('Something went wrong', error);

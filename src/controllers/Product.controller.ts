@@ -1,8 +1,11 @@
 import { Request, Response } from 'express';
-import { Product } from '../models';
+import Product, { ProductAttributes } from '../database/models/Product.model';
 import { Op, WhereOptions, fn } from 'sequelize';
 import { IQueryParams } from '../interfaces';
-import { createProductService, getAvailableProductsService } from '../services';
+import {
+  findOrCreateProductService,
+  getAvailableProductsService,
+} from '../services';
 
 export const searchProducts = async (req: Request, res: Response) => {
   const queryParams = req.query as IQueryParams;
@@ -32,10 +35,23 @@ export const searchProducts = async (req: Request, res: Response) => {
       whereClause.name = { [Op.like]: `%${name}%` };
     }
 
+    // if only minPrice is provided or only maxPrice is provided
+    if (minPrice || maxPrice) {
+      if (minPrice) {
+        whereClause.price = { [Op.gte]: minPrice };
+      }
+
+      if (maxPrice) {
+        whereClause.price = { [Op.lte]: maxPrice };
+      }
+    }
+
+    // if both minPrice and maxPrice are provided
     if (minPrice && maxPrice) {
       whereClause.price = { [Op.between]: [minPrice, maxPrice] };
     }
 
+    // if category is provided
     if (category) {
       whereClause.category = category;
     }
@@ -50,8 +66,10 @@ export const searchProducts = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof Error) {
       res.json({
+        status: 500,
         success: false,
-        message: `🍎 Something went wrong when searching for the product: ${error.message}`,
+        message: `🍎 Something went wrong when searching for the product`,
+        error: error.message,
       });
     } else console.log(`🍎 Something went wrong: `, error);
   }
@@ -60,13 +78,14 @@ export const searchProducts = async (req: Request, res: Response) => {
 // Create Product
 export const createProduct = async (req: Request, res: Response) => {
   try {
-    const newProduct = req.body;
-
+    const newProduct = req.body as ProductAttributes;
+    const sellerId = req.user.id;
     // Check if Product already exist to avoid duplication
-    const thisProductExists = await Product.findOne({
-      where: { name: newProduct.name },
+    const thisProductExists = await findOrCreateProductService({
+      ...newProduct,
+      sellerId,
     });
-    if (thisProductExists) {
+    if (thisProductExists[1] === false) {
       return res.status(400).json({
         status: 400,
         success: false,
@@ -74,23 +93,18 @@ export const createProduct = async (req: Request, res: Response) => {
         data: thisProductExists,
       });
     } else {
-      // Create the product and signing the user to the product
-      const sellerId = req.user.id;
-      const createdProduct = await createProductService({
-        ...newProduct,
-        sellerId,
-      });
-      res
+      return res
         .status(201)
-        .json({ status: 201, success: true, data: createdProduct });
+        .json({ status: 201, success: true, data: thisProductExists });
     }
-    // }
   } catch (error) {
     if (error instanceof Error) {
-      console.log(`Error creating product: ${error.message}`);
-      res
-        .status(500)
-        .json({ status: 500, success: false, message: `${error.message}` });
+      res.status(500).json({
+        status: 500,
+        success: false,
+        message: 'Something went wrong when creating the product',
+        error: error.message,
+      });
     } else {
       console.log('Unexpected error', error);
     }
@@ -104,10 +118,12 @@ export const getAvailableProducts = async (req: Request, res: Response) => {
     res.status(200).json({ status: 200, success: true, data: allProducts });
   } catch (error) {
     if (error instanceof Error) {
-      console.log(`Error fetching products from the db: ${error.message}`);
-      res
-        .status(500)
-        .json({ status: 500, success: false, message: `${error.message}` });
+      res.status(500).json({
+        status: 500,
+        success: false,
+        message: 'Something went wrong when getting the products',
+        error: error.message,
+      });
     } else {
       console.log(`Unexpected error: ${error}`);
     }

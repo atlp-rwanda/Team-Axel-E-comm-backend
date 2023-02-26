@@ -1,0 +1,76 @@
+paths:
+  # get all items in cart
+  /api/v1/cart:
+    get:
+      security: [{ jwt: [] }]
+      tags: [Cart Routes]
+      summary: Displays the cart, its items, and total.
+      responses:
+        200:
+          description: Current user's cart
+  # add item to cart
+  /api/v1/cart/add:
+    post:
+      security: [{ jwt: [] }]
+      tags: [Cart Routes]
+      summary: Adds the logged-in-user's item item to cart.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cart'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request. User ID must be an integer and larger than 0.
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: A user with the specified ID was not found.
+        '5XX':
+          description: Unexpected error.
+  # remove cart item
+  /api/v1/cart/remove/{cartItemId}:
+    delete:
+      security: [{ jwt: [] }]
+      tags: [Cart Routes]
+      summary: Removes an item from the cart
+      parameters:
+        - name: cartItemId
+          in: path
+          required: true
+          description: The Id of the cart item you want to delete
+          schema:
+            type: string
+            minimum: 15
+      responses:
+        200:
+          description: Success
+  # clear  cart
+  /api/v1/cart/clear:
+    delete:
+      security: [{ jwt: [] }]
+      tags: [Cart Routes]
+      summary: Clears the cart, its items, and total.
+      responses:
+        200:
+          description: Success
+
+# schemas
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        productId:
+          type: string
+          example: 4b35a4b0-53e8-48a4-97b0-9d3685d3197c
+        quantity:
+          type: integer
+          example: 1
+      # all properties are required
+      required:
+        - productId
+        - quantity

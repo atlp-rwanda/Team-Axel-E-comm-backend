@@ -1,22 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-undef */
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('loggedInUsers', {
+    // create users table
+    await queryInterface.createTable('users', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
-        type: Sequelize.INTEGER,
       },
-      surName: {
+      surname: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: false,
       },
-      givenName: {
+      given_name: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: false,
@@ -29,17 +27,10 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
         allowNull: false,
-        set(value) {
-          this.setDataValue(
-            'password',
-            bcrypt.hashSync(value, bcrypt.genSaltSync(10))
-          );
-        },
       },
       role: {
-        type: Sequelize.STRING,
-        allowNull: true,
-        defaultValue: 'user',
+        type: Sequelize.ENUM('Admin', 'Buyer', 'Seller'),
+        defaultValue: 'Buyer',
       },
       status: {
         type: Sequelize.ENUM('Pending', 'Active'),
@@ -52,6 +43,10 @@ module.exports = {
       googleId: {
         type: Sequelize.STRING,
         allowNull: true,
+      },
+      resetToken: {
+        type: Sequelize.STRING,
+        unique: true,
       },
       province: {
         type: Sequelize.STRING,
@@ -73,17 +68,23 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      avatar: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('NOW()'),
       },
       updatedAt: {
-        allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
     });
   },
+
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('loggedInUsers');
+    // drop users table
+    await queryInterface.dropTable('users');
   },
 };

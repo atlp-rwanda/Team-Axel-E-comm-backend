@@ -1,11 +1,11 @@
 import Joi from 'joi';
-import { IUser } from '../../interfaces';
+import { UserAttributes } from '../../database/models/User.model';
 
 export const UserSchema = {
   user: {
-    create: Joi.object<IUser>({
-      surName: Joi.string().required(),
-      givenName: Joi.string().required(),
+    create: Joi.object<UserAttributes>({
+      surname: Joi.string().required(),
+      given_name: Joi.string().required(),
       email: Joi.string().email().required(),
       password: Joi.string()
         .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)
@@ -26,7 +26,7 @@ export const UserSchema = {
   },
 
   loginData: {
-    create: Joi.object<IUser>({
+    create: Joi.object<UserAttributes>({
       email: Joi.string().email().required(),
       password: Joi.string().required(),
     }),

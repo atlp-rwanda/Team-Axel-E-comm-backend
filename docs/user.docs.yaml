@@ -2,6 +2,7 @@ paths:
   # Get all users
   /api/v1/user/all:
     get:
+      security: [{ jwt: [] }]
       tags: [User Routes]
       summary: Returns a list of users.
       description: Optional extended description in CommonMark or HTML.
@@ -25,11 +26,10 @@ paths:
         - name: userId
           in: path
           required: true
-          description: Parameter description in CommonMark or HTML.
+          description: The Id of the user you want returned
           schema:
-            type: integer
-            format: int64
-            minimum: 1
+            type: string
+            minimum: 15
       responses:
         '200':
           description: OK
@@ -74,10 +74,10 @@ components:
     User:
       type: object
       properties:
-        surName:
+        surname:
           type: string
           example: NETERO
-        givenName:
+        given_name:
           type: string
           example: Isaac
         email:
@@ -88,7 +88,7 @@ components:
           example: HunterxHunter@1
       # all properties are required
       required:
-        - surName
-        - givenName
+        - surname
+        - given_name
         - email
         - password

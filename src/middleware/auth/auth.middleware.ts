@@ -18,21 +18,22 @@ export const isAuth = async (
       const decodedData = jwtUtility.verifyToken(token);
       const currentUser = await findOneUserByIdService(decodedData);
       if (!currentUser) {
-        res.status(403);
-        return res.json({
+        res.status(403).json({
           statusCode: 403,
           success: false,
           message: 'Unauthorized access. User not found',
         });
+      } else {
+        req.user = currentUser?.dataValues; // is this right koko?
+        next();
       }
-      req.user = currentUser.dataValues; // is this right koko?
-      next();
     } catch (error) {
       if (error instanceof Error) {
         res.status(500).json({
           status: 500,
           success: false,
-          message: `${error.message}`,
+          message: `Error verifying token`,
+          error: error.message,
         });
       } else {
         console.log(`Something went wrong when verifying the token: `, error);
@@ -63,7 +64,8 @@ export const isSeller = async (
       res.status(500).json({
         status: 500,
         success: false,
-        message: `${error.message}`,
+        message: `Error verifying user status`,
+        error: error.message,
       });
     } else {
       console.log(`Something went wrong when verifying user status: `, error);
@@ -93,7 +95,8 @@ export const isAdmin = async (
       res.status(500).json({
         status: 500,
         success: false,
-        message: `${error.message}`,
+        message: `Error verifying user status`,
+        error: error.message,
       });
     } else {
       console.log(`Something went wrong when verifying user status: `, error);

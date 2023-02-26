@@ -6,7 +6,6 @@ jobs:
       - image: cimg/node:19.5.0
 
     environment:
-      DB_HOST: localhost
       GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
       GOOGLE_CLIENT_SECRET: ${{ vars.GOOGLE_CLIENT_SECRET }}
       SESSION_SECRET: ${{ vars.SESSION_SECRET }}
