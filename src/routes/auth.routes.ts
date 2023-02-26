@@ -11,6 +11,8 @@ import {
 import { ValidateJoi } from '../middleware/validation/validation.middleware';
 import { UserSchema } from '../middleware/validation/user.schema.middleware';
 import { isAuth } from '../middleware/auth';
+import { protectRoute } from '../services/protectRoutes.service';
+import { updatePassword } from '../controllers/updatePassword.controller';
 
 const authRouter = Router();
 
@@ -22,10 +24,11 @@ authRouter.get('/confirm/:confirmationCode', confirmUser); // Confirm the user w
 
 authRouter.post('/auth/requestResetPassword', resetPasswordRequestController); // Request a reset password
 
-authRouter.post('/auth/resetPassword/:token', resetPasswordController); // Reset the password
+authRouter.post('/resetPassword/:token', resetPasswordController); // Reset the password
 
-authRouter.post('/auth/2fa', create2FAToken); // Create a 2FA token
+authRouter.post('/2fa', protectRoute, create2FAToken); // Create a 2FA token
 
-authRouter.post('/auth/2fa/verify2FAToken', verify2FAToken); // Verify the 2FA token
+authRouter.post('/2fa/verify2FAToken', protectRoute, verify2FAToken); // Verify the 2FA token
+authRouter.post('/updatepassword', protectRoute, updatePassword);
 
 export default authRouter;
