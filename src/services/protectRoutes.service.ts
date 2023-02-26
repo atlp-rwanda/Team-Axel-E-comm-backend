@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from 'express';
-import { AuthToken, User } from '../db/models';
 
 import * as JWT from 'jsonwebtoken';
 import { TOKEN_EXPIRATION_TIME } from '../controllers';
+import { AuthToken, User } from '../models';
 
 export const protectRoute = async (
   req: Request,

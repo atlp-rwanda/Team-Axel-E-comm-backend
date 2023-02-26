@@ -1,4 +1,4 @@
-import { Product } from '../db/models';
+import { Product } from '../models';
 import { IProduct } from '../interfaces';
 
 // Create or Add a product

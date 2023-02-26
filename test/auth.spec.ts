@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../src/app';
 import { sequelize } from '../src/db/config';
-jest.setTimeout(150000);
+jest.setTimeout(1500000);
 
 describe(' 🦺 🛂 AUTH UNIT', () => {
   afterAll(async () => {

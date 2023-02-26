@@ -1,12 +1,10 @@
 import Sequelize from 'sequelize';
-import { sequelize } from '../config';
+import { sequelize } from '../db/config';
 import bcrypt from 'bcryptjs';
 
-export const User = sequelize.define(
-  'user',
+export const LoggedIn = sequelize.define(
+  'loggedInUser',
   {
-    twoFAVerified: { type: Sequelize.BOOLEAN, unique: false },
-    twoFAenabled: { type: Sequelize.BOOLEAN, unique: false },
     surName: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -33,8 +31,9 @@ export const User = sequelize.define(
       },
     },
     role: {
-      type: Sequelize.ENUM('Admin', 'Buyer', 'Seller'),
-      defaultValue: 'Buyer',
+      type: Sequelize.STRING,
+      allowNull: true,
+      defaultValue: 'user',
     },
     status: {
       type: Sequelize.ENUM('Pending', 'Active'),
@@ -47,10 +46,6 @@ export const User = sequelize.define(
     googleId: {
       type: Sequelize.STRING,
       allowNull: true,
-    },
-    resetToken: {
-      type: Sequelize.STRING,
-      unique: true,
     },
     province: {
       type: Sequelize.STRING,
@@ -75,6 +70,6 @@ export const User = sequelize.define(
   },
   {
     freezeTableName: false,
-    tableName: 'users',
+    tableName: 'loggedInUsers',
   }
 );

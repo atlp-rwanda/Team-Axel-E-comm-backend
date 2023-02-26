@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import { User } from '../db/models';
+import { User } from '../models';
 export const updatePassword = async (req: Request, res: Response) => {
   try {
     const { currentPassword, newPassword, newPasswordConfirmation } = req.body;

@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import { AuthToken, User } from '../db/models';
+// import { AuthToken, User } from '../db/models';
 import { transporter } from '../services';
+import { AuthToken, User } from '../models';
 export const TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 60 * 24 * 3;
 export const create2FAToken = async (req: Request, res: Response) => {
   const code = Math.floor(
