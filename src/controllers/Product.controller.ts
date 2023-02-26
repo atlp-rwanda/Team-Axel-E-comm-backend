@@ -113,3 +113,44 @@ export const getAvailableProducts = async (req: Request, res: Response) => {
     }
   }
 };
+
+/// here is for delete one Item from collection
+
+export const deleteOneItemFromproduct = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const available = await Product.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!available) {
+      res.status(400).send({
+        status: 400,
+        message: 'this product not availble',
+      });
+    } else {
+      const clearProduct = await Product.destroy({
+        where: {
+          id,
+        },
+      });
+      res.status(201).send({
+        status: 201,
+        message: `product of Id :${id} deleted succesfull`,
+        data: clearProduct,
+      });
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        status: 500,
+        message: 'Error clearing while clearing product',
+        error: error.message,
+      });
+    } else {
+      console.log(`Something went wrong: `, error);
+    }
+  }
+};

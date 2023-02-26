@@ -5,6 +5,8 @@ import { Product, User } from '../src/models';
 jest.setTimeout(1500000);
 
 describe('🛍️ Product UNIT', () => {
+  let productId: any;
+
   beforeAll(async () => {
     await User.create({
       surName: 'KANYOMBYA',
@@ -66,6 +68,8 @@ describe('🛍️ Product UNIT', () => {
           price: 10,
           images: 'image',
         });
+      productId = res.body.data.id;
+
       expect(res.status).toEqual(201);
     });
 
@@ -168,4 +172,29 @@ describe('🛍️ Product UNIT', () => {
    * 🛑 end search products  *
    **********************************************
    */
+  /*
+   **********************************************
+   * 🛑 delete one product  *
+   **********************************************
+   */
+  describe('Delete /api/v1/product/delete/:id', () => {
+    it('should delete a product', async () => {
+      const adminCredentials = {
+        email: 'admin@gmail.com',
+        password: 'Password!23',
+      };
+      const loginResponse = await request(app)
+        .post('/api/v1/auth/login')
+        .send(adminCredentials);
+      const token = loginResponse.body.data;
+      const res = await request(app)
+        .delete(`/api/v1/product/delete/${productId}`)
+        .set('Authorization', 'Bearer ' + token)
+        .send();
+      expect(res.body.status).toEqual(201);
+      expect(res.body.message).toBe(
+        `product of Id :${productId} deleted succesfull`
+      );
+    });
+  });
 });

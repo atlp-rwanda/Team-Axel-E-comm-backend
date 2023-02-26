@@ -1,0 +1,82 @@
+paths:
+  # post order
+  /api/v1/order/:
+    post:
+      tags: [ORDERS]
+      summary: make order.
+      responses:
+        '200':
+          description: order created
+        '400':
+          description: Bad request. Product ID must be an integer and larger than 0.
+
+  #get all order
+  /api/v1/order/all:
+    get:
+      tags: [ORDERS]
+      summary: get all your orders
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request. User ID must be an integer and larger than 0.
+
+
+  # get order starts
+  /api/v1/order/status/{orderId}:
+    delete:
+      tags: [ORDERS]
+      summary: get order status .
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+
+  # update order status starts
+/api/v1/order/status/{orderId}:
+  put:
+    tags: [ORDERS]
+    summary: Update the status of an order.
+    parameters:
+      - name: orderId
+        in: path
+        required: true
+        description: The ID of the order to update.
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+      - name: status
+        in: body
+        required: true
+        description: The new status of the order.
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              enum: [pending, shipped, delivered]
+              example: shipped
+    responses:
+      '200':
+        description: OK
+
+
+  #delete all order
+  /api/v1/order/alll:
+    delete:
+      tags: [ORDERS]
+      summary: delete all your ORDERS
+      description: Optional extended description in CommonMark or HTML.
+      responses:
+        '200':
+          description: OK
+        '400':
