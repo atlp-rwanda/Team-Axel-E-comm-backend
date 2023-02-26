@@ -5,6 +5,7 @@ import productRouter from './product.routes';
 import userRouter from './user.routes';
 import cartRouter from './cart.routes';
 import wishRouter from './wishes.routes';
+import orderRouter from './order.routes';
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use('/product', productRouter);
 router.use('/cart', cartRouter);
 router.use('/user', userRouter);
 router.use('/wishes', wishRouter);
+router.use('/order', orderRouter);
 
 export default router;
