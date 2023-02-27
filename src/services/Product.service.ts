@@ -1,8 +1,8 @@
-import { Product } from '../db/models';
-import { IProduct } from '../interfaces';
+import Product from '../database/models/Product.model';
+import { ProductAttributes } from '../interfaces';
 
 // Create or Add a product
-export const createProductService = async (newProduct: IProduct) => {
+export const createProductService = async (newProduct: ProductAttributes) => {
   const createProductRequest = await Product.create(newProduct);
   return createProductRequest;
 };

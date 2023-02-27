@@ -1,24 +1,33 @@
-export interface IUser {
-  [key: number]: number;
-  [key: symbol]: number;
-  surName: string;
-  givenName: string;
+/* eslint-disable no-shadow */
+
+export interface UserAttributes {
+  id: string;
+  surname: string;
+  given_name: string;
   email: string;
   password: string;
-  province: string;
-  district: string;
-  sector: string;
-  cell: string;
-  street: string;
-  role: string;
+
+  role?: Role;
+  status?: Status;
+
+  avatar?: string;
+  province?: string;
+  district?: string;
+  sector?: string;
+  cell?: string;
+  street?: string;
+  confirmationCode?: string;
+  googleId?: string;
+  resetToken?: string;
 }
 
-export interface IUpdateData {
-  email: string;
-  province: string;
-  district: string;
-  sector: string;
-  cell: string;
-  street: string;
-  status: string;
+export enum Status {
+  Pending = 'Pending',
+  Active = 'Active',
+}
+
+export enum Role {
+  Admin = 'Admin',
+  Buyer = 'Buyer',
+  Seller = 'Seller',
 }

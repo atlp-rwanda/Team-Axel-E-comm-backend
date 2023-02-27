@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
 import GoogleStrategy0, { VerifyCallback } from 'passport-google-oauth2';
-import { User } from '../../db/models';
-import { LoggedIn } from '../../db/models';
+import User from '../../database/models/User.model';
+import LoggedInUser from '../../database/models/LoggedInUsers.model';
 
 /*  */
 const GoogleStrategy = GoogleStrategy0.Strategy;
@@ -27,14 +27,14 @@ passport.use(
     ) {
       try {
         const user = await User.findOne({ where: { googleId: profile.id } });
-        const loggedIn = await LoggedIn.findOne({
+        const loggedIn = await LoggedInUser.findOne({
           where: { googleId: profile.id },
         });
 
         if (!user) {
           const newUser = {
-            surName: profile.family_name,
-            givenName: profile.given_name,
+            surname: profile.family_name,
+            given_name: profile.given_name,
             email: profile.email,
             password: profile.password || process.env.USER_PASSWORD,
             googleId: profile.id,
@@ -52,14 +52,14 @@ passport.use(
         /** To save logged in user in our db */
         if (!loggedIn) {
           const newActiveUser = {
-            surName: profile.family_name,
-            givenName: profile.given_name,
+            surname: profile.family_name,
+            given_name: profile.given_name,
             email: profile.email,
             password: profile.password || process.env.USER_PASSWORD,
             googleId: profile.id,
             avatar: profile.photos[0].value,
           };
-          await LoggedIn.create(newActiveUser);
+          await LoggedInUser.create(newActiveUser);
         }
       } catch (error) {
         console.log('Even error happens; The user profile: ', profile);
