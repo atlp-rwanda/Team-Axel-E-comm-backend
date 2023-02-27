@@ -1,4 +1,4 @@
-import { Product } from '../db/models';
+import { Product } from '../models';
 import { IProduct } from '../interfaces';
 
 // Create or Add a product
@@ -13,6 +13,13 @@ export const getAvailableProductsService = async () => {
     where: { stock: 'Available' },
   });
   return getProductsRequest;
+};
+
+// Get all items
+
+export const getAllItemsServices = async () => {
+  const allItems = await Product.findAll();
+  return allItems;
 };
 
 // Seller should update a product

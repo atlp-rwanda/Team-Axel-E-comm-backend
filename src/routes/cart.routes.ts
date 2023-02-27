@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { addToCart, clearCart, viewCart } from '../controllers';
+import { addToCart, clearCart, updateCart, viewCart } from '../controllers';
 import { isAuth } from '../middleware/auth';
 import { ProductSchema, ValidateJoi } from '../middleware/validation';
 
@@ -15,4 +15,5 @@ cartRouter.get('/', [isAuth], viewCart); // view cart
 
 cartRouter.delete('/', [isAuth], clearCart); // clear cart
 
+cartRouter.delete('/update/:id', [isAuth], updateCart); // cart update.
 export default cartRouter;

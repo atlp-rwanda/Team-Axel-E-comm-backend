@@ -25,7 +25,7 @@ export const isAuth = async (
           message: 'Unauthorized access. User not found',
         });
       }
-      req.user = currentUser.dataValues; // is this right koko?
+      req.user = currentUser.dataValues; // is this right koko? !!
       next();
     } catch (error) {
       if (error instanceof Error) {

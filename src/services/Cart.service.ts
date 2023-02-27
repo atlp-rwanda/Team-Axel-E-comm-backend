@@ -1,5 +1,4 @@
-import { SecurityRequirement } from 'swagger-jsdoc';
-import { Cart, Product } from '../db/models';
+import { Cart, Product } from '../models';
 import { ICart } from '../interfaces';
 
 // add to cart service
@@ -41,10 +40,11 @@ export const clearCartService = async (userId: string) => {
 };
 
 // Buyer update cart
-export const updateCartService = async (productId: string) => {
+export const updateCartService = async (productId: string, userId: string) => {
   const cartProduct = await Cart.destroy({
     where: {
-      id: productId,
+      userId: userId,
+      productId,
     },
   });
   return cartProduct;

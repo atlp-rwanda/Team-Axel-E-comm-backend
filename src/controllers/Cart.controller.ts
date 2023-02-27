@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
+import { ICart, IProduct } from '../interfaces';
 import {
   addToCartService,
   clearCartService,
+  getAllItemsServices,
+  getAvailableProductsService,
+  updateCartService,
   viewCartService,
 } from '../services';
 
@@ -35,6 +39,7 @@ export const viewCart = async (req: Request, res: Response) => {
     // const userId = req.session.userId;
 
     const userId = req.user.id;
+    console.log('The user ID is as follow: ', req.user);
     const itemsInCart = await viewCartService(userId as string);
 
     res.status(200).send({
@@ -49,6 +54,95 @@ export const viewCart = async (req: Request, res: Response) => {
         message: 'Error viewing items in cart',
         error: error.message,
       });
+    } else {
+      console.log(`Something went wrong: `, error);
+    }
+  }
+};
+
+// Update a cart product
+export const updateCart = async (req: Request, res: Response) => {
+  try {
+    const productId: string = req.params.id;
+    console.log('The user ID is as follow in cart updateee: ', req.user.id);
+    const userId: string = req.user.id;
+    console.log('The viewCard is Entered');
+    const userCart = await viewCartService(userId as string);
+    console.log('The viewCard is Exited');
+    if (userCart) {
+      console.log('User cart is available.', userCart);
+      const parsedUserCart = await JSON.parse(JSON.stringify(userCart));
+      console.log('The user cart is parsed :', parsedUserCart);
+      console.log(
+        'The ids are: ',
+        parsedUserCart[0].productId,
+        parseInt(productId)
+      );
+
+      console.log(typeof parsedUserCart.productId, typeof parseInt(productId));
+
+      for (let index = 0; index < parsedUserCart.length; index++) {
+        if (parsedUserCart[index].productId == parseInt(productId)) {
+          console.log('The productIds are equal!!!!');
+          const deleteCartProduct = await updateCartService(productId, userId);
+          console.log('The updateCartService is exited!!!');
+          console.log(
+            'The deleted product count is this ::::::::::::::',
+            deleteCartProduct
+          );
+
+          // Total price calculations
+          let totalPrice = 0;
+
+          const updatedUserCart = await viewCartService(userId as string);
+          const parsedUpdatedUserCart = await JSON.parse(
+            JSON.stringify(updatedUserCart)
+          );
+
+          const allProducts = await getAllItemsServices();
+          const parsedAllProducts = await JSON.parse(
+            JSON.stringify(allProducts)
+          );
+
+          for (let i = 0; i < parsedUpdatedUserCart.length; i++) {
+            let cartProduct: any;
+            for (cartProduct in parsedUpdatedUserCart[i]) {
+              for (let j = 0; j < parsedAllProducts.length; j++) {
+                let product: any;
+                for (product in parsedAllProducts[j]) {
+                  if (cartProduct.productId === product.id) {
+                    totalPrice += product.price;
+                  }
+                }
+              }
+            }
+          }
+
+          // return cart total price
+          return res.status(200).json({
+            statuscode: 200,
+            success: true,
+            data: [
+              parsedUpdatedUserCart,
+              'Now your cart total price is ' + totalPrice,
+            ],
+          });
+        }
+      }
+    } else {
+      return res.status(500).json({
+        statuscode: 500,
+        success: false,
+        data: 'Internal Server Error',
+      });
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        message: 'Error occur while updating your cart',
+        error: error.message,
+      });
+      console.log('The error description is :', error);
     } else {
       console.log(`Something went wrong: `, error);
     }

@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import { sequelize } from '../config';
+import { sequelize } from '../db/config';
 
 export const AuthToken = sequelize.define(
   'token',

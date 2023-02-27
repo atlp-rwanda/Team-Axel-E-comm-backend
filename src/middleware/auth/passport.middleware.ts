@@ -1,13 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
 import GoogleStrategy0, { VerifyCallback } from 'passport-google-oauth2';
-import { User } from '../../db/models';
-import { LoggedIn } from '../../db/models';
+import { User } from '../../models';
+import { LoggedIn } from '../../models';
 
 /*  */
 const GoogleStrategy = GoogleStrategy0.Strategy;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
+const CLIENT_URL = process.env.CLIENT_URL as string;
 const PORT = process.env.PORT || 3000;
 // google auth
 passport.use(
@@ -15,7 +16,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: `http://localhost:${PORT}/api/v1/google/callback`,
+      callbackURL: CLIENT_URL,
       passReqToCallback: true,
     },
     async function (

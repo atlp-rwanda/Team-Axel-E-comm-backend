@@ -1,7 +1,8 @@
 import request from 'supertest';
 import app from '../src/app';
 import { sequelize } from '../src/db/config';
-import { Product, User } from '../src/db/models';
+import { Product, User } from '../src/models';
+jest.setTimeout(1500000);
 
 describe('🛒 📦 CART UNIT', () => {
   beforeAll(async () => {
@@ -94,11 +95,60 @@ describe('🛒 📦 CART UNIT', () => {
         .get('/api/v1/cart/')
         .set('Authorization', 'Bearer ' + token);
       expect(res.status).toEqual(200);
+      console.log('The cart product is: ', JSON.parse(JSON.stringify(res)));
     });
   });
   /*
    **********************************************
    * 🛑 end view cart *
+   **********************************************
+   */
+
+  /*
+   **********************************************
+   *  🟩 Update a cart *
+   **********************************************
+   */
+
+  describe('DELETE /api/v1/cart/update/{productId}', () => {
+    it('should update the cart', async () => {
+      // login the buyer
+      const currentUser = {
+        email: 'buyer@gmail.com',
+        password: 'Password!23',
+      };
+      const loginResponse = await request(app)
+        .post('/api/v1/auth/login')
+        .send(currentUser);
+      const token = loginResponse.body.data;
+
+      //   view the current user's cart
+      const res = await request(app)
+        .get('/api/v1/cart/')
+        .set('Authorization', 'Bearer ' + token);
+      expect(res.status).toEqual(200);
+
+      // cart update start here
+      const parsedCartProduct = await JSON.parse(
+        JSON.parse(JSON.stringify(res)).text
+      ).data;
+
+      console.log('The product id is : ', parsedCartProduct[0].productId);
+
+      const updateRes = await request(app)
+        .delete(`/api/v1/cart/update/${parsedCartProduct[0].id}`)
+        .set('Authorization', 'Bearer ' + token);
+
+      console.log(
+        'The result of updates are:::::::::::',
+        JSON.parse(JSON.stringify(updateRes))
+      );
+    });
+  });
+
+  /*
+   **********************************************
+   *  🛑 End Update a cart *
    **********************************************
    */
 
