@@ -5,16 +5,6 @@ import User from '../src/database/models/User.model';
 import { Role, Status } from '../src/interfaces';
 
 describe('🧑‍🤝‍🧑 USERS UNIT', () => {
-  beforeAll(async () => {
-    await User.create({
-      surname: 'KANYOMBYA',
-      given_name: 'Admin',
-      email: 'admin@gmail.com',
-      password: 'Password!23',
-      status: Status.Active,
-      role: Role.Admin,
-    });
-  });
   afterAll(async () => {
     await sequelize.truncate({ cascade: true }); // deletes all data from all tables
     await sequelize.close(); // closes the connection to the database
@@ -29,7 +19,7 @@ describe('🧑‍🤝‍🧑 USERS UNIT', () => {
     it('should return 200 OK', async () => {
       const adminCredentials = {
         email: 'admin@gmail.com',
-        password: 'Password!23',
+        password: 'Password@123',
       };
       const loginResponse = await request(app)
         .post('/api/v1/auth/login')
