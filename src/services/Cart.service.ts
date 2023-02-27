@@ -1,8 +1,8 @@
-import { Cart, Product } from '../db/models';
-import { ICart } from '../interfaces';
+import Cart from '../database/models/Cart.model';
+import { CartAttributes } from '../interfaces';
 
 // add to cart service
-export const addToCartService = async (cartItem: ICart) => {
+export const addToCartService = async (cartItem: CartAttributes) => {
   const addToCartRequest = await Cart.create(cartItem);
   return addToCartRequest;
 };

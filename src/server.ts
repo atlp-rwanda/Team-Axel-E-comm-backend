@@ -1,21 +1,38 @@
 import { Request, Response } from 'express';
 import app from './app';
-import sequelizeConnection from './db/config';
 import swaggerDocs from '../docs/swagger';
-
+import { sequelize } from './database/models';
 const PORT = process.env.PORT;
 
 // Connect to the db
 (async () => {
-  await sequelizeConnection();
+  try {
+    await sequelize.sync().then(() => {
+      // let sequelize tell us the name of the database we are connected to
+      const database = sequelize.getDatabaseName();
+      console.log(`🍏 Successfully connected to the db 🔥${database}🔥`);
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(
+        `🍎 Error occurred when connecting to the db: ${error.message}`
+      );
+    } else {
+      console.log('🍎 Unexpected error', error);
+    }
+  }
 })();
+
 const start = () => {
   try {
-    console.log(`\n\n${process.env.NODE_ENV}\n\n`);
     app.listen(PORT, () => {
-      console.log(
-        `🍏 Server 🏃 running on ${process.env.CLIENT_URL}:${PORT} ... 🚢`
-      );
+      // if we are in development mode, we want the server to run on localhost
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`🍏 Server 🏃 running on: http://localhost:${PORT} ... 🚢`);
+      } else {
+        console.log(`🍏 Server 🏃 running on ${process.env.CLIENT_URL} ... 🚢`);
+      }
+
       // swagger documentation
       swaggerDocs(app, Number(PORT));
       // catch all "not found" routes and send this message response

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { AuthToken } from '../db/models';
+import Token from '../database/models/Token.model';
 import bcrypt from 'bcryptjs';
 import { transporter } from '../services';
 
@@ -53,8 +53,8 @@ export const verify2FAToken = async (req: Request, res: Response) => {
     id: '2',
   };
   // <<<< the above lines must be removed after fininsihing authentication middlewares
-  const tokenData = await AuthToken.findOne({
-    where: { user: req.user.id },
+  const tokenData = await Token.findOne({
+    where: { userId: req.user.id },
   });
   console.log(tokenData?.dataValues, req.body);
   //   tokenData?.destroy()

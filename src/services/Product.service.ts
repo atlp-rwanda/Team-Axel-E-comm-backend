@@ -1,8 +1,8 @@
-import { Product } from '../db/models';
-import { IProduct } from '../interfaces';
+import Product from '../database/models/Product.model';
+import { ProductAttributes } from '../interfaces';
 
 // Create or Add a product
-export const createProductService = async (newProduct: IProduct) => {
+export const createProductService = async (newProduct: ProductAttributes) => {
   const createProductRequest = await Product.create(newProduct);
   return createProductRequest;
 };
@@ -13,4 +13,15 @@ export const getAvailableProductsService = async () => {
     where: { stock: 'Available' },
   });
   return getProductsRequest;
+};
+
+// implement a find or create product service
+export const findOrCreateProductService = async (
+  newProduct: ProductAttributes
+) => {
+  const findOrCreateProductRequest = await Product.findOrCreate({
+    where: { name: newProduct.name },
+    defaults: newProduct,
+  });
+  return findOrCreateProductRequest;
 };
