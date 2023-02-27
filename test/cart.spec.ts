@@ -6,29 +6,20 @@ import User from '../src/database/models/User.model';
 import { Role, Status, Stock } from '../src/interfaces';
 
 describe('🛒 📦 CART UNIT', () => {
+  let token: string;
+  // login the seeded buyer before all the tests
   beforeAll(async () => {
-    // create a dummy user
-    await User.create({
-      id: '0e700b45-efe3-4851-acfd-8152ad90b0ef',
-      surname: 'KANYOMBYA',
-      given_name: 'Buyer',
+    // login the seeded buyer
+    const buyerCredentials = {
       email: 'buyer@gmail.com',
-      password: 'Password!23',
-      status: Status.Active,
-      role: Role.Seller,
-    });
-    // create a dummy product
-    await Product.create({
-      name: 'Test product',
-      category: 'Tests',
-      description: 'Testing jest testing',
-      stock: Stock.Available,
-      quantity: 10,
-      price: 10,
-      images: 'image',
-      sellerId: '0e700b45-efe3-4851-acfd-8152ad90b0ef',
-    });
+      password: 'Password@123',
+    };
+    const loginResponse = await request(app)
+      .post('/api/v1/auth/login')
+      .send(buyerCredentials);
+    token = loginResponse.body.data;
   });
+
   afterAll(async () => {
     await sequelize.truncate({ cascade: true }); // deletes all data from all tables
     await sequelize.close(); // closes the connection to the database
@@ -84,15 +75,6 @@ describe('🛒 📦 CART UNIT', () => {
 
   describe('GET /api/v1/cart/', () => {
     it('should return 200 OK', async () => {
-      // login the buyer
-      const currentUser = {
-        email: 'buyer@gmail.com',
-        password: 'Password!23',
-      };
-      const loginResponse = await request(app)
-        .post('/api/v1/auth/login')
-        .send(currentUser);
-      const token = loginResponse.body.data;
       //   view the current user's cart
       const res = await request(app)
         .get('/api/v1/cart/')
@@ -114,15 +96,6 @@ describe('🛒 📦 CART UNIT', () => {
 
   describe('DELETE /api/v1/cart/', () => {
     it('should return 200 OK', async () => {
-      // login the buyer
-      const currentUser = {
-        email: 'buyer@gmail.com',
-        password: 'Password!23',
-      };
-      const loginResponse = await request(app)
-        .post('/api/v1/auth/login')
-        .send(currentUser);
-      const token = loginResponse.body.data;
       //   clear the current user's cart
       const res = await request(app)
         .delete('/api/v1/cart/')
