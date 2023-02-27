@@ -1,5 +1,5 @@
-import { User } from '../models';
-import { IUser } from '../interfaces';
+import User from '../database/models/User.model';
+import { UserAttributes } from '../interfaces';
 
 // Find all users
 export const findAllUsersService = async () => {
@@ -8,7 +8,7 @@ export const findAllUsersService = async () => {
 };
 
 // Create one user
-export const createUserService = async (newUser: IUser) => {
+export const createUserService = async (newUser: UserAttributes) => {
   const createUserRequest = await User.create(newUser);
   return createUserRequest;
 };

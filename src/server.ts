@@ -1,16 +1,15 @@
 import { Request, Response } from 'express';
 import app from './app';
 import swaggerDocs from '../docs/swagger';
-// import db from './db/models/db';
-import db from './db/models';
+import { sequelize } from './database/models';
 const PORT = process.env.PORT;
 
 // Connect to the db
 (async () => {
   try {
-    // connect to the db
-    await db.sequelize.sync().then(() => {
-      const database = db.sequelize.getDatabaseName();
+    await sequelize.sync().then(() => {
+      // let sequelize tell us the name of the database we are connected to
+      const database = sequelize.getDatabaseName();
       console.log(`🍏 Successfully connected to the db 🔥${database}🔥`);
     });
   } catch (error) {
@@ -24,9 +23,11 @@ const PORT = process.env.PORT;
   }
 })();
 
+
 const start = () => {
   try {
     app.listen(PORT, () => {
+      // if we are in development mode, we want the server to run on localhost
       if (process.env.NODE_ENV === 'development') {
         console.log(`🍏 Server 🏃 running on: http://localhost:${PORT} ... 🚢`);
       } else {

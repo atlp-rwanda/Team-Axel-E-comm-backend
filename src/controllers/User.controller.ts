@@ -5,7 +5,7 @@ import {
   findOneUserService,
   sendEmailConfirmationRequest,
 } from '../services';
-import { User } from '../models';
+import User from '../database/models/User.model';
 import { jwtUtility } from '../utils';
 
 // Get all users
