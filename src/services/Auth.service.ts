@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
-import { User } from '../db/models';
+import User from '../database/models/User.model';
+import { Status } from '../interfaces';
 
 // Find one User
 export const findOneUserByEmailService = async (email: string) => {
@@ -16,7 +17,7 @@ export const findRegisteredUserService = async (confirmationCode: string) => {
 // confirm the user who clicked and update status
 export const confirmUserService = async (confirmationCode: string) => {
   const confirmedUser = await User.update(
-    { status: 'Active' },
+    { status: Status.Active },
     { where: { confirmationCode } }
   );
   return confirmedUser;

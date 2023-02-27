@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { Product } from '../db/models';
 import { Op, WhereOptions, fn } from 'sequelize';
 import { IQueryParams } from '../interfaces';
 import { createProductService, getAvailableProductsService } from '../services';
+import Product from '../database/models/Product.model';
 
 export const searchProducts = async (req: Request, res: Response) => {
   const queryParams = req.query as IQueryParams;

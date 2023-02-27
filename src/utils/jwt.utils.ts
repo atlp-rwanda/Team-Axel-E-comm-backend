@@ -4,7 +4,7 @@ import { IPayload } from '../interfaces';
 dotenv.config();
 
 export class jwtUtility {
-  static generateToken(userData: IPayload): string {
+  static generateToken(userData: string): string {
     if (!process.env.SECRET_TOKEN) {
       throw new Error('SECRET_TOKEN environment variable not set');
     }
