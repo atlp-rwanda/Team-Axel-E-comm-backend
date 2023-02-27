@@ -3,10 +3,10 @@ import {
   findAllUsersService,
   createUserService,
   findOneUserService,
-  sendEmailConfirmationRequest,
 } from '../services';
 import User from '../database/models/User.model';
 import { jwtUtility } from '../utils';
+import sendEmailConfirmationRequest from '../services/mails/sendEmailConfirmationRequest';
 
 // Get all users
 export const getAllUsers = async (req: Request, res: Response) => {

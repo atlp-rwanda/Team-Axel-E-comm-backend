@@ -5,12 +5,11 @@ import {
   confirmUserService,
   findOneUserByEmailService,
   findRegisteredUserService,
-  sendEmailConfirmationMessage,
-  sendPasswordResetConfirmation,
-  sendResetRequestEmail,
 } from '../services';
 import User from '../database/models/User.model';
-
+import sendPasswordResetConfirmation from '../services/mails/sendPasswordResetConfirmation';
+import sendEmailConfirmationMessage from '../services/mails/sendEmailConfirmationMessage';
+import sendResetRequestEmail from '../services/mails/sendResetRequestEmail';
 //User Login
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -47,7 +46,9 @@ export const loginUser = async (req: Request, res: Response) => {
           const token = jwtUtility.generateToken(user.dataValues.id);
           // Store the user's ID in the session
           req.session.userId = user.dataValues.id;
-
+          if (user.twoFAenabled) {
+            await user.update({ twoFAverified: false });
+          }
           res.status(200).json({
             status: 200,
             success: true,

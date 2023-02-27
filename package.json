@@ -46,6 +46,7 @@
     "express-session": "^1.17.3",
     "joi": "^17.7.0",
     "jsonwebtoken": "^9.0.0",
+    "node-2fa": "^2.0.3",
     "nodemailer": "^6.9.1",
     "openapi-types": "^12.1.0",
     "passport": "^0.6.0",
