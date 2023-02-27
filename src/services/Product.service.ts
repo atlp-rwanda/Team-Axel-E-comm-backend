@@ -14,3 +14,14 @@ export const getAvailableProductsService = async () => {
   });
   return getProductsRequest;
 };
+
+// implement a find or create product service
+export const findOrCreateProductService = async (
+  newProduct: ProductAttributes
+) => {
+  const findOrCreateProductRequest = await Product.findOrCreate({
+    where: { name: newProduct.name },
+    defaults: newProduct,
+  });
+  return findOrCreateProductRequest;
+};
