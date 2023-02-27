@@ -21,9 +21,12 @@
     "migrate:dev": "yarn migrate:dev:undo && yarn migrate:dev:all",
     "migrate:dev:all": "cross-env NODE_ENV=development npx sequelize-cli db:migrate",
     "migrate:dev:undo": "cross-env NODE_ENV=development npx sequelize-cli db:migrate:undo:all",
-    "seed": "yarn seed:dev:undo && yarn seed:dev",
-    "seed:dev": "cross-env NODE_ENV=development npx sequelize-cli db:seed:all",
-    "seed:dev:undo": "cross-env NODE_ENV=development npx sequelize-cli db:seed:undo:all"
+    "seed:dev": "yarn seed:dev:undo && yarn seed:dev:do",
+    "seed:dev:do": "cross-env NODE_ENV=development npx sequelize-cli db:seed:all",
+    "seed:dev:undo": "cross-env NODE_ENV=development npx sequelize-cli db:seed:undo:all",
+    "seed:test": "yarn seed:test:undo && yarn seed:test:do",
+    "seed:test:do": "cross-env NODE_ENV=test npx sequelize-cli db:seed:all",
+    "seed:test:undo": "cross-env NODE_ENV=test npx sequelize-cli db:seed:undo:all"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [

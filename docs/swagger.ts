@@ -6,7 +6,7 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Team-Axel E-commerce API',
+      title: '🌀 Team Cypher 🛍️ 🛒 E-commerce API 🪁 🧑‍🍳 🍽️ 🥬',
       version: '1.0.0',
     },
     components: {
@@ -19,14 +19,9 @@ const options = {
         },
       },
     },
-    security: [
-      {
-        jwt: [],
-      },
-    ],
     swagger: '3.0',
   },
-  apis: ['./docs/*.docs.ts', './docs/*.docs.yaml'],
+  apis: ['./docs/*.docs.yaml'],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
