@@ -25,3 +25,9 @@ export const findOrCreateProductService = async (
   });
   return findOrCreateProductRequest;
 };
+
+// implement a find product service
+export const findProductService = async (productId: string) => {
+  const getProductRequest = await Product.findByPk(productId);
+  return getProductRequest;
+};
