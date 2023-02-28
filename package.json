@@ -4,7 +4,7 @@
   "description": "E-commerce backend API",
   "main": "build/src/server.js",
   "scripts": {
-    "start": "node build/src/server.js",
+    "start": "yarn run build && node build/src/server.js",
     "dev": "cross-env NODE_ENV=development npx nodemon",
     "build": "node_modules/.bin/rimraf ./build && npx tsc",
     "test": "cross-env NODE_ENV=test && yarn migration && yarn seed:test && yarn jest --coverage --detectOpenHandles",
@@ -25,6 +25,7 @@
     "seed:test": "yarn seed:test:undo && yarn seed:test:do",
     "seed:test:do": "cross-env NODE_ENV=test npx sequelize-cli db:seed:all",
     "seed:test:undo": "cross-env NODE_ENV=test npx sequelize-cli db:seed:undo:all"
+
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
