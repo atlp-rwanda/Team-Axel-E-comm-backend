@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ProductAttributes } from "../interfaces";
 import {
   findOrCreateProductService,
+  getAllItemsService,
   getAvailableProductsService,
 } from "../services";
 import { searchProductsUtility } from "../utils";
@@ -74,6 +75,29 @@ export const getAvailableProducts = async (req: Request, res: Response) => {
         status: 500,
         success: false,
         message: "Something went wrong when getting the products",
+        error: error.message,
+      });
+    } else {
+      console.log(`Unexpected error: ${error}`);
+    }
+  }
+};
+
+// Seller getting all items
+export const getAllSellerItems = async (req: Request, res: Response) => {
+  try {
+    const allItems = await getAllItemsService();
+    return res.status(200).json({
+      status: 200,
+      success: true,
+      data: allItems,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        status: 500,
+        success: false,
+        message: 'Something went wrong when getting the products',
         error: error.message,
       });
     } else {

@@ -27,3 +27,8 @@ export const findProductService = async (productId: string) => {
   const getProductRequest = await Product.findByPk(productId);
   return getProductRequest;
 };
+
+export const getAllItemsService = async () => {
+  const allItems = await Product.findAll();
+  return allItems;
+};

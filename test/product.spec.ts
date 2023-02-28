@@ -133,4 +133,23 @@ describe("🛍️ Product UNIT", () => {
    * 🛑 end search products  *
    **********************************************
    */
+  
+  /*
+   **********************************************
+   *  🟩 Seller get all items *
+   **********************************************
+   */
+  describe("GET  /api/v1/product/items", () => {
+    it("should return 200 if user is seller and there no error", async () => {
+      const res = await request(app)
+        .get("/api/v1/product/items")
+        .set("Authorization", "Bearer " + token);
+      expect(res.status).toEqual(200);
+    });
+  });
+  /*
+   **********************************************
+   * 🛑 end of Seller get all items  *
+   **********************************************
+   */
 });
