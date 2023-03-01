@@ -129,4 +129,67 @@ describe('🛍️ Product UNIT', () => {
    * 🛑 end search products  *
    **********************************************
    */
+
+  describe('Delete /api/v1/product/delete/:id', () => {
+    it('it delete one product with its id', async () => {
+      const adminCredentials = {
+        email: 'seller@gmail.com',
+        password: 'Password@123',
+      };
+      const loginResponse = await request(app)
+        .post('/api/v1/auth/login')
+        .send(adminCredentials);
+      const token = loginResponse.body.data;
+      const res = await request(app)
+        .delete(`/api/v1/product/delete/4b35a4b0-53e8-48a4-97b0-9d3685d3197c`)
+        .set('Authorization', 'Bearer ' + token)
+        .send();
+      expect(res.status).toEqual(201);
+      expect(res.body.message).toBe(`Product deleted successfully`);
+    });
+    it('when product is not available it should return 400', async () => {
+      const adminCredentials = {
+        email: 'seller@gmail.com',
+        password: 'Password@123',
+      };
+      const loginResponse = await request(app)
+        .post('/api/v1/auth/login')
+        .send(adminCredentials);
+      const token = loginResponse.body.data;
+      const res = await request(app)
+        .delete(`/api/v1/product/delete/4b35a4b0-53e8-48a4-97b0-9d3685d3197d`)
+        .set('Authorization', 'Bearer ' + token)
+        .send();
+      expect(res.status).toEqual(400);
+      expect(res.body.message).toBe(`Unavailable product`);
+    });
+    it('when product ID is not in UUID format it should return 400', async () => {
+      const adminCredentials = {
+        email: 'seller@gmail.com',
+        password: 'Password@123',
+      };
+      const loginResponse = await request(app)
+        .post('/api/v1/auth/login')
+        .send(adminCredentials);
+      const token = loginResponse.body.data;
+      const res = await request(app)
+        .delete(`/api/v1/product/delete/4b35a4b0`)
+        .set('Authorization', 'Bearer ' + token)
+        .send();
+      expect(res.status).toEqual(400);
+      expect(res.body.message).toBe(`Invalid UUID format`);
+    });
+    it('it shouldnot delete and return error status 401, when you are not logen in', async () => {
+      const res = await request(app)
+        .delete(`/api/v1/product/delete/4b35a4b0-53e8-48a4-97b0-9d3685d3197c`)
+        .send();
+      expect(res.status).toEqual(401);
+      expect(res.body.message).toBe(`You are not logged in`);
+    });
+  });
+  //   /*
+  //    **********************************************
+  //    * 🛑 delete one product  *
+  //    **********************************************
+  //    */
 });

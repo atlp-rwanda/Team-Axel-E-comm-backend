@@ -1,5 +1,8 @@
+import { v4 as uuidv4, validate as uuidValidate } from 'uuid';
 import { Request, Response } from 'express';
 import { ProductAttributes } from '../interfaces';
+import Product from '../database/models/Product.model';
+
 import {
   findOrCreateProductService,
   getAvailableProductsService,
@@ -78,6 +81,56 @@ export const getAvailableProducts = async (req: Request, res: Response) => {
       });
     } else {
       console.log(`Unexpected error: ${error}`);
+    }
+  }
+};
+
+/// here is for delete one Item from collection
+
+export const deleteOneItemFromproduct = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const isValidUUID = uuidValidate(id);
+    if (!isValidUUID) {
+      res.status(400).send({
+        status: 400,
+        message: 'Invalid UUID format',
+      });
+    } else {
+      const available = await Product.findOne({
+        where: {
+          id,
+        },
+      });
+
+      if (!available) {
+        res.status(400).send({
+          status: 400,
+          message: 'Unavailable product',
+        });
+      } else {
+        const clearProduct = await Product.destroy({
+          where: {
+            id,
+          },
+        });
+
+        res.status(201).send({
+          status: 201,
+          message: `Product deleted successfully`,
+          data: clearProduct,
+        });
+      }
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        status: 500,
+        message: 'Error while clearing product',
+        error: error.message,
+      });
+    } else {
+      console.log(`Unexpected error: `, error);
     }
   }
 };
