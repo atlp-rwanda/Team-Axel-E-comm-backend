@@ -23,7 +23,6 @@ const PORT = process.env.PORT;
   }
 })();
 
-
 const start = () => {
   try {
     app.listen(PORT, () => {

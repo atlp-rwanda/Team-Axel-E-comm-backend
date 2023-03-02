@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { Product } from '../models';
-import { Wishlist } from '../models';
+import Product from '../database/models/Product.model';
+import Wishlist from '../database/models/Wishes.model';
 
 // here I want to add product to the buyer wish list
 export const addToWishlist = async (req: Request, res: Response) => {

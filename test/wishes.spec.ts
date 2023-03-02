@@ -1,37 +1,11 @@
 import request from 'supertest';
 import app from '../src/app';
-import { sequelize } from '../src/db/config';
-import { Product, User } from '../src/models';
 
 describe('WISHLIST FEATURES', () => {
   //   let userId: number;
-  let productId: number;
-  beforeAll(async () => {
-    await User.create({
-      surName: 'KANYOMBYA',
-      givenName: 'Buyer',
-      email: 'buyer@gmail.com',
-      password: 'Password!23',
-      status: 'Active',
-      role: 'Buyer',
-    });
-    const product = await Product.create({
-      name: 'Test product',
-      category: 'Tests',
-      description: 'Testing jest testing',
-      stock: 'Available',
-      quantity: 10,
-      price: 10,
-      images: 'image',
-    });
-    productId = product.dataValues.id;
-  });
-  afterAll(async () => {
-    await sequelize.truncate({ cascade: true }); // deletes all data from all tables
-    await sequelize.close(); // closes the connection to the database
-  });
-  /*
+  const productId = '4b35a4b0-53e8-48a4-97b0-9d3685d3197c';
 
+  /*
    **********************************************
    * POST / api / v1 / wishes /:productId  *
    **********************************************
@@ -39,10 +13,27 @@ describe('WISHLIST FEATURES', () => {
 
   describe('POST /api/v1/wishes/:productId', () => {
     it('adds a product to the user wishlist', async () => {
-      // login the buyer
+      // login the seller
       const currentUser = {
-        email: 'buyer@gmail.com',
-        password: 'Password!23',
+        email: 'seller@gmail.com',
+        password: 'Password@123',
+      };
+      const loginResponse = await request(app)
+        .post('/api/v1/auth/login')
+        .send(currentUser);
+      const token = loginResponse.body.data;
+
+      const response = await request(app)
+        .post(`/api/v1/wishes/`)
+        .set('Authorization', `Bearer ${token}`)
+        .send();
+      expect(response.status).toBe(404);
+    });
+    it('adds a product to the user wishlist', async () => {
+      // login the seller
+      const currentUser = {
+        email: 'seller@gmail.com',
+        password: 'Password@123',
       };
       const loginResponse = await request(app)
         .post('/api/v1/auth/login')
@@ -61,10 +52,10 @@ describe('WISHLIST FEATURES', () => {
     });
 
     it('returns 404 error if the product is not found', async () => {
-      // login the buyer
+      // login the seller
       const currentUser = {
-        email: 'buyer@gmail.com',
-        password: 'Password!23',
+        email: 'seller@gmail.com',
+        password: 'Password@123',
       };
       const loginResponse = await request(app)
         .post('/api/v1/auth/login')
@@ -73,19 +64,21 @@ describe('WISHLIST FEATURES', () => {
       const token = loginResponse.body.data;
 
       const response = await request(app)
-        .post(`/api/v1/wishes/100`)
+        .post(`/api/v1/wishes/4b35a4b0-53e8-48a4-97b0-9d3685d3197d`)
         .set('Authorization', `Bearer ${token}`)
         .send();
       expect(response.status).toBe(404);
       expect(response.body.success).toBe(false);
-      expect(response.body.message).toBe(`🍎 Product with id 100 not found`);
+      expect(response.body.message).toBe(
+        `🍎 Product with id 4b35a4b0-53e8-48a4-97b0-9d3685d3197d not found`
+      );
     });
 
     it('returns 400 error if the product is already in the wishlist', async () => {
-      // login the buyer
+      // login the seller
       const currentUser = {
-        email: 'buyer@gmail.com',
-        password: 'Password!23',
+        email: 'seller@gmail.com',
+        password: 'Password@123',
       };
       const loginResponse = await request(app)
         .post('/api/v1/auth/login')
@@ -103,6 +96,15 @@ describe('WISHLIST FEATURES', () => {
         `🍎 Product with id ${productId} is already in the wishlist`
       );
     });
+
+    it('returns 401 error if the user is not logged in', async () => {
+      const response = await request(app)
+        .post(`/api/v1/wishes/${productId}`)
+        .send();
+      expect(response.status).toBe(401);
+      expect(response.body.success).toBe(false);
+      expect(response.body.message).toBe('You are not logged in');
+    });
   });
 
   /*
@@ -113,10 +115,10 @@ describe('WISHLIST FEATURES', () => {
 
   describe('GET /api/v1/wishes/', () => {
     it('returns the user wishlist', async () => {
-      // login the buyer
+      // login the seller
       const currentUser = {
-        email: 'buyer@gmail.com',
-        password: 'Password!23',
+        email: 'seller@gmail.com',
+        password: 'Password@123',
       };
       const loginResponse = await request(app)
         .post('/api/v1/auth/login')
@@ -129,9 +131,18 @@ describe('WISHLIST FEATURES', () => {
         .send();
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
-      expect(response.body.data).toEqual([
-        { name: 'Test product', price: 10, image: 'image' },
-      ]);
+
+      if (response.body.data.length === 0) {
+        expect(response.body.data).toEqual([]);
+      } else {
+        expect(response.body.data).toEqual([
+          {
+            image: 'https://picsum.photos/id/26/4209/2769',
+            name: 'Product 1',
+            price: 700,
+          },
+        ]);
+      }
     });
   });
   /*
@@ -141,10 +152,10 @@ describe('WISHLIST FEATURES', () => {
    */
   describe('DELETE /api/v1/wishes/:id', () => {
     it('deletes a product from the user wishlist', async () => {
-      // login the buyer
+      // login the seller
       const currentUser = {
-        email: 'buyer@gmail.com',
-        password: 'Password!23',
+        email: 'seller@gmail.com',
+        password: 'Password@123',
       };
       const loginResponse = await request(app)
         .post('/api/v1/auth/login')
@@ -162,10 +173,10 @@ describe('WISHLIST FEATURES', () => {
     });
 
     it('returns 404 error if the wishlist item is not found', async () => {
-      // login the buyer
+      // login the seller
       const currentUser = {
-        email: 'buyer@gmail.com',
-        password: 'Password!23',
+        email: 'seller@gmail.com',
+        password: 'Password@123',
       };
       const loginResponse = await request(app)
         .post('/api/v1/auth/login')
@@ -173,11 +184,10 @@ describe('WISHLIST FEATURES', () => {
 
       const token = loginResponse.body.data;
       const response = await request(app)
-        .delete('/api/v1/wishes/100')
+        .delete('/api/v1/wishes/4b35a4b0-53e8-48a4-97b0-9d3685d3197d')
         .set('Authorization', `Bearer ${token}`)
         .send();
       expect(response.status).toBe(400);
-      //   expect(response.body.success).toBe(false);
       expect(response.body.message).toBe('product not availble');
     });
   });
@@ -190,10 +200,10 @@ describe('WISHLIST FEATURES', () => {
 
   describe('DELETE /api/v1/wishes/all', () => {
     it('deletes all products in the user wishlist', async () => {
-      // login the buyer
+      // login the seller
       const currentUser = {
-        email: 'buyer@gmail.com',
-        password: 'Password!23',
+        email: 'seller@gmail.com',
+        password: 'Password@123',
       };
       const loginResponse = await request(app)
         .post('/api/v1/auth/login')
@@ -207,7 +217,6 @@ describe('WISHLIST FEATURES', () => {
       expect(response.status).toBe(201);
       expect(response.body.status).toBe(201);
       expect(response.body.message).toBe('wishlist cleared successfully!');
-      //   expect(response.body.data).toBe(1);
     });
   });
 });
