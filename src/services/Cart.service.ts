@@ -1,35 +1,62 @@
-import Cart from '../database/models/Cart.model';
-import { CartAttributes } from '../interfaces';
+import Cart from "../database/models/Cart.model";
+import Product from "../database/models/Product.model";
+import { CartAttributes } from "../interfaces";
 
-// add to cart service
 export const addToCartService = async (cartItem: CartAttributes) => {
   const addToCartRequest = await Cart.create(cartItem);
   return addToCartRequest;
 };
 
-// view cart service
+export const isItemInCartService = async (
+  userId: string,
+  productId: string,
+) => {
+  const isItemInCartRequest = await Cart.findOne({
+    where: {
+      productId,
+      userId,
+    },
+  });
+  return !!isItemInCartRequest;
+};
+
+export const updateCartItemQuantityService = async (
+  userId: string,
+  productId: string,
+  quantity: number,
+) => {
+  const updateCartItemQuantityRequest = await Cart.update(
+    { quantity },
+    {
+      where: {
+        productId,
+        userId,
+      },
+    },
+  );
+
+  return updateCartItemQuantityRequest;
+};
+
 export const viewCartService = async (userId: string) => {
   const viewCartRequest = await Cart.findAll({
+    include: Product,
     where: {
       userId,
     },
-    // ! This failed because product is not associated to cart!
-    // ? If you know a way to do this, please let me know!
-    // * I tried to do this with a through table, but it didn't work
-    // include: [
-    //   {
-    //     model: Product,
-    //     as: 'name',
-    //     through: {
-    //       attributes: ['name', 'price', 'quantity'],
-    //     },
-    //   },
-    // ],
   });
   return viewCartRequest;
 };
 
-// clear cart
+export const deleteCartItemService = async (cartItemId: string) => {
+  const deleteCartItemRequest = await Cart.destroy({
+    where: {
+      id: cartItemId,
+    },
+  });
+  return deleteCartItemRequest;
+};
+
 export const clearCartService = async (userId: string) => {
   const clearCartRequest = await Cart.destroy({
     where: {
