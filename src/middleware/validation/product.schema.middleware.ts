@@ -1,5 +1,5 @@
-import Joi from 'joi';
-import { CartAttributes, ProductAttributes } from '../../interfaces';
+import Joi from "joi";
+import { CartAttributes, ProductAttributes } from "../../interfaces";
 
 export const ProductSchema = {
   product: {
@@ -13,7 +13,10 @@ export const ProductSchema = {
       images: Joi.string(),
     }),
     addToCart: Joi.object<CartAttributes>({
-      productId: Joi.number().required(),
+      productId: Joi.string().required(),
+      quantity: Joi.number().required(),
+    }),
+    updareCart: Joi.object<CartAttributes>({
       quantity: Joi.number().required(),
     }),
   },
