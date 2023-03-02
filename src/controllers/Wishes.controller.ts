@@ -56,7 +56,6 @@ export const getAllWishes = async (req: Request, res: Response) => {
         userId,
       },
     });
-    // console.log(Allwishes)
 
     // Get all the productIds in the wishlist
     const productIds = Allwishes.map((wish) => wish.dataValues.productId);
