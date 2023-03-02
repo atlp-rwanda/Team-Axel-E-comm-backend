@@ -25,7 +25,6 @@ export const addToWishlist = async (req: Request, res: Response) => {
       });
     } else {
       // Add the product to the wishlist
-
       const wishes = await Wishlist.create({ userId, productId });
       res.status(200).json({
         success: true,
