@@ -25,10 +25,3 @@ export const findOneUserByIdService = async (userId: number) => {
   const findOneUserRequest = await User.findByPk(userId);
   return findOneUserRequest;
 };
-
-// Get all items
-
-export const getAllItemsServices = async () => {
-  const allItems = await Product.findAll();
-  return allItems;
-};

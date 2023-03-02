@@ -176,6 +176,36 @@ describe('🛍️ Product UNIT', () => {
 
   /*
    **********************************************
+   * 🟩 Get all products or items *
+   **********************************************
+   */
+  // describe('GET /api/v1/product/all', () => {
+  //   it('should return 200', async () => {
+  //     const adminCredentials = {
+  //       email: 'admin@gmail.com',
+  //       password: 'Password!23',
+  //     };
+
+  //     const loginResponse = await request(app)
+  //       .post('/api/v1/auth/login')
+  //       .send(adminCredentials);
+
+  //     token = loginResponse.body.data;
+
+  //     const res = await request(app)
+  //       .get('/api/v1/product/all')
+  //       .set('Authorization', 'Bearer ' + token);
+  //     expect(res.status).toEqual(200);
+  //   });
+  // });
+  /*
+   **********************************************
+   * 🛑 end get only available products  *
+   **********************************************
+   */
+
+  /*
+   **********************************************
    * 🟩 Search product *
    **********************************************
    */

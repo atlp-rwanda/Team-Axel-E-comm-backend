@@ -139,7 +139,7 @@ export const updateProduct = async (req: Request, res: Response) => {
         error: error.message,
       });
     } else {
-      console.log(`Unexpected error: ${error}`);
+      console.log('Unexpected error', error);
     }
   }
 };
