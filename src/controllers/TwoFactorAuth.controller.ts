@@ -1,11 +1,11 @@
-import { Request, Response } from 'express';
-import Token from '../database/models/Token.model';
-import bcrypt from 'bcryptjs';
-import { transporter } from '../services';
+import { Request, Response } from "express";
+import Token from "../database/models/Token.model";
+import bcrypt from "bcryptjs";
+import { transporter } from "../services";
 
 export const create2FAToken = async (req: Request, res: Response) => {
   const code = Math.floor(
-    Math.random() * (999999 - 100000) + 100000
+    Math.random() * (999999 - 100000) + 100000,
   ).toString();
   try {
     // await AuthToken.drop();
@@ -17,7 +17,7 @@ export const create2FAToken = async (req: Request, res: Response) => {
 
     // >>>> the following lines must be removed after fininsihing authentication middlewares
     req.user = {
-      id: '2',
+      id: "2",
     };
     // <<<< the above lines must be removed after fininsihing authentication middlewares
     /*
@@ -38,7 +38,7 @@ export const create2FAToken = async (req: Request, res: Response) => {
      *const data = await AuthToken.create(tokenData);
      */
     tokenData.code = code;
-    await sendEmailToken('muslimuwitondanishema@gmail.com', code);
+    await sendEmailToken("muslimuwitondanishema@gmail.com", code);
     res.send({ tokenData });
   } catch (error) {
     if (error instanceof Error) {
@@ -50,7 +50,7 @@ export const create2FAToken = async (req: Request, res: Response) => {
 export const verify2FAToken = async (req: Request, res: Response) => {
   // >>>> the following lines must be removed after fininsihing authentication middlewares
   req.user = {
-    id: '2',
+    id: "2",
   };
   // <<<< the above lines must be removed after fininsihing authentication middlewares
   const tokenData = await Token.findOne({
@@ -67,10 +67,10 @@ export const verify2FAToken = async (req: Request, res: Response) => {
         if (err) throw new Error(err.message);
         res.user.verified = true;
         res.send({ verified: data });
-      }
+      },
     );
   } else {
-    res.redirect('/api/v1/login');
+    res.redirect("/api/v1/login");
   }
 };
 
@@ -78,7 +78,7 @@ async function sendEmailToken(email: string, code: string): Promise<void> {
   const mailOptions = {
     from: '"Team Cypher" <noreply@teamcypher.com>',
     to: email,
-    subject: 'verification code',
+    subject: "verification code",
     text: `Hi \n\n you login verification code is ${code}!\n\n`,
     html: `
       

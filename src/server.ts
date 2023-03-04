@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import app from './app';
-import swaggerDocs from '../docs/swagger';
-import { sequelize } from './database/models';
+import { Request, Response } from "express";
+import app from "./app";
+import swaggerDocs from "../docs/swagger";
+import { sequelize } from "./database/models";
 const PORT = process.env.PORT;
 
 // Connect to the db
@@ -15,10 +15,10 @@ const PORT = process.env.PORT;
   } catch (error) {
     if (error instanceof Error) {
       console.log(
-        `🍎 Error occurred when connecting to the db: ${error.message}`
+        `🍎 Error occurred when connecting to the db: ${error.message}`,
       );
     } else {
-      console.log('🍎 Unexpected error', error);
+      console.log("🍎 Unexpected error", error);
     }
   }
 })();
@@ -27,7 +27,7 @@ const start = () => {
   try {
     app.listen(PORT, () => {
       // if we are in development mode, we want the server to run on localhost
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env.NODE_ENV === "development") {
         console.log(`🍏 Server 🏃 running on: http://localhost:${PORT} ... 🚢`);
       } else {
         console.log(`🍏 Server 🏃 running on ${process.env.CLIENT_URL} ... 🚢`);
@@ -49,7 +49,7 @@ const start = () => {
       // ✅ TypeScript knows error is Error
       console.log(`🍎 Error occurred when starting server: ${error.message}`);
     } else {
-      console.log('Unexpected error', error);
+      console.log("Unexpected error", error);
     }
   }
 };

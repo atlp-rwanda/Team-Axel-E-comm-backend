@@ -7,9 +7,9 @@
  * @returns products - array of products that match the search criteria 🚛
  */
 
-import { Op, WhereOptions } from 'sequelize';
-import { IQueryParams } from '../interfaces';
-import Product from '../database/models/Product.model';
+import { Op, WhereOptions } from "sequelize";
+import { IQueryParams } from "../interfaces";
+import Product from "../database/models/Product.model";
 
 export const searchProductsUtility = async (params: IQueryParams) => {
   const { name, category, minPrice, maxPrice } = params;
@@ -58,7 +58,7 @@ export const searchProductsUtility = async (params: IQueryParams) => {
     } else {
       console.log(
         `🍎 Something went wrong when searching for a product: `,
-        error
+        error,
       );
     }
   }
