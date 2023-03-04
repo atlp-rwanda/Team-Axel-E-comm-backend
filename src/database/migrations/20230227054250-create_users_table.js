@@ -1,16 +1,28 @@
 /* eslint-disable no-undef */
-'use strict';
+"use strict";
 
 module.exports = {
   async up(queryInterface, Sequelize) {
     // create users table
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable("users", {
       id: {
         primaryKey: true,
         type: Sequelize.UUID,
         allowNull: false,
         unique: false,
         defaultValue: Sequelize.UUIDV4,
+      },
+      twoFAenabled: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+      },
+      twoFAverified: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+      },
+      secret: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       surname: {
         type: Sequelize.STRING,
@@ -32,12 +44,12 @@ module.exports = {
         allowNull: false,
       },
       role: {
-        type: Sequelize.ENUM('Admin', 'Buyer', 'Seller'),
-        defaultValue: 'Buyer',
+        type: Sequelize.ENUM("Admin", "Buyer", "Seller"),
+        defaultValue: "Buyer",
       },
       status: {
-        type: Sequelize.ENUM('Pending', 'Active'),
-        defaultValue: 'Pending',
+        type: Sequelize.ENUM("Pending", "Active"),
+        defaultValue: "Pending",
       },
       confirmationCode: {
         type: Sequelize.STRING,
@@ -77,17 +89,17 @@ module.exports = {
       },
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()'),
+        defaultValue: Sequelize.literal("NOW()"),
       },
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     });
   },
 
   async down(queryInterface) {
     // drop users table
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable("users");
   },
 };
