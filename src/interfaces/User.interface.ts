@@ -6,9 +6,11 @@ export interface UserAttributes {
   given_name: string;
   email: string;
   password: string;
-
+  twoFAenabled?: boolean;
+  twoFAverified?: boolean;
   role?: Role;
   status?: Status;
+  secret?: string | null;
 
   avatar?: string;
   province?: string;
@@ -22,12 +24,12 @@ export interface UserAttributes {
 }
 
 export enum Status {
-  Pending = 'Pending',
-  Active = 'Active',
+  Pending = "Pending",
+  Active = "Active",
 }
 
 export enum Role {
-  Admin = 'Admin',
-  Buyer = 'Buyer',
-  Seller = 'Seller',
+  Admin = "Admin",
+  Buyer = "Buyer",
+  Seller = "Seller",
 }
