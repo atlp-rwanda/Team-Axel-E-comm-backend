@@ -12,6 +12,18 @@ module.exports = {
         unique: false,
         defaultValue: Sequelize.UUIDV4,
       },
+      twoFAenabled: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+      },
+      twoFAverified: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+      },
+      secret: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       surname: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -82,6 +94,10 @@ module.exports = {
       updatedAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      },
+      lastPasswordUpdate: {
+        type: Sequelize.DATE,
+        allowNull: true,
       },
     });
   },

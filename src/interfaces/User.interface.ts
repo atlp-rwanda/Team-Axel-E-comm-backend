@@ -6,9 +6,11 @@ export interface UserAttributes {
   given_name: string;
   email: string;
   password: string;
-
+  twoFAenabled?: boolean;
+  twoFAverified?: boolean;
   role?: Role;
   status?: Status;
+  secret?: string | null;
 
   avatar?: string;
   province?: string;
@@ -19,6 +21,7 @@ export interface UserAttributes {
   confirmationCode?: string;
   googleId?: string;
   resetToken?: string;
+  lastPasswordUpdate?: Date;
 }
 
 export enum Status {
