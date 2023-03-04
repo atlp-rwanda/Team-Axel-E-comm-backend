@@ -19,15 +19,16 @@ export interface UserAttributes {
   confirmationCode?: string;
   googleId?: string;
   resetToken?: string;
+  lastPasswordUpdate?: Date;
 }
 
 export enum Status {
-  Pending = 'Pending',
-  Active = 'Active',
+  Pending = "Pending",
+  Active = "Active",
 }
 
 export enum Role {
-  Admin = 'Admin',
-  Buyer = 'Buyer',
-  Seller = 'Seller',
+  Admin = "Admin",
+  Buyer = "Buyer",
+  Seller = "Seller",
 }
