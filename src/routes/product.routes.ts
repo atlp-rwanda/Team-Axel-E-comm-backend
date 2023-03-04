@@ -4,18 +4,18 @@ import {
   getAllSellerItems,
   getAvailableProducts,
   deleteOneItemFromproduct,
-
 } from "../controllers";
 import { ValidateJoi, ProductSchema } from "../middleware/validation";
 import { searchProducts } from "../controllers";
-import { isAuth, isSeller } from "../middleware/auth";
+import { isSeller } from "../middleware/auth";
+import { protectRoute } from "../services/protectRoutes.service";
 
 const productRouter = Router();
 
 // Create a product
 productRouter.post(
   "/",
-  [isAuth, isSeller, ValidateJoi(ProductSchema.product.create)],
+  [protectRoute, isSeller, ValidateJoi(ProductSchema.product.create)],
   createProduct,
 );
 
@@ -26,11 +26,11 @@ productRouter.get("/available", getAvailableProducts);
 productRouter.get("/search", searchProducts); // search for products
 
 // Seller getting all items
-productRouter.get("/items", [isAuth, isSeller], getAllSellerItems);
+productRouter.get("/items", [protectRoute, isSeller], getAllSellerItems);
 
 productRouter.delete(
   "/delete/:id",
-  [isAuth, isSeller],
+  [protectRoute, isSeller],
   deleteOneItemFromproduct,
 );
 
