@@ -19,6 +19,7 @@ export interface UserAttributes {
   confirmationCode?: string;
   googleId?: string;
   resetToken?: string;
+  lastPasswordUpdate?: Date;
 }
 
 export enum Status {
