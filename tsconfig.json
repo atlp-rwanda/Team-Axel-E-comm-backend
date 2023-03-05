@@ -10,7 +10,7 @@
     "moduleResolution": "node",
     "allowJs": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "public", "views"],
   "include": ["src/**/*", "docs/swagger.ts", "test", "docs"],
   "files": ["types.d.ts"]
 }

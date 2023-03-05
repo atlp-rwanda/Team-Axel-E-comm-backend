@@ -1,5 +1,5 @@
-import User from '../database/models/User.model';
-import { UserAttributes } from '../interfaces';
+import User from "../database/models/User.model";
+import { UserAttributes } from "../interfaces";
 
 // Find all users
 export const findAllUsersService = async () => {
@@ -20,7 +20,7 @@ export const findOneUserService = async (userId: string) => {
 };
 
 // Find one User by id
-export const findOneUserByIdService = async (userId: number) => {
+export const findOneUserByIdService = async (userId: string) => {
   const findOneUserRequest = await User.findByPk(userId);
   return findOneUserRequest;
 };

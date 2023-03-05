@@ -1,9 +1,9 @@
 /* eslint-disable no-shadow */
-import { DataTypes, Model, Optional } from 'sequelize';
-import { sequelize } from '.';
-import { LoggedInUserAttributes } from '../../interfaces';
+import { DataTypes, Model, Optional } from "sequelize";
+import { sequelize } from ".";
+import { LoggedInUserAttributes } from "../../interfaces";
 
-type LoggedInUserCreationAttributes = Optional<LoggedInUserAttributes, 'id'>;
+type LoggedInUserCreationAttributes = Optional<LoggedInUserAttributes, "id">;
 
 interface LoggedInUserInstance
   extends Model<LoggedInUserAttributes, LoggedInUserCreationAttributes>,
@@ -14,7 +14,7 @@ interface LoggedInUserInstance
 }
 
 const LoggedInUser = sequelize.define<LoggedInUserInstance>(
-  'LoggedInUser',
+  "LoggedInUser",
   {
     id: {
       allowNull: false,
@@ -53,9 +53,9 @@ const LoggedInUser = sequelize.define<LoggedInUserInstance>(
     },
   },
   {
-    modelName: 'LoggedInUser',
-    tableName: 'logged_in_users',
-  }
+    modelName: "LoggedInUser",
+    tableName: "logged_in_users",
+  },
 );
 
 export default LoggedInUser;

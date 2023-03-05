@@ -5,7 +5,11 @@ import productRouter from "./product.routes";
 import userRouter from "./user.routes";
 import cartRouter from "./cart.routes";
 import checkoutRouter from "./checkout.routes";
+
 import wishRouter from "./wishes.routes";
+
+import testRouter from "./test.routes";
+
 
 const router = Router();
 
@@ -16,5 +20,8 @@ router.use("/cart", cartRouter);
 router.use("/user", userRouter);
 router.use("/checkout", checkoutRouter);
 router.use("/wishes", wishRouter);
+
+router.use(testRouter);
+
 
 export default router;
