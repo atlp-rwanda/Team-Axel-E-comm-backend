@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "E-commerce backend API",
   "main": "build/src/server.js",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "start": "node build/src/server.js",
     "dev": "cross-env NODE_ENV=development npx nodemon",
