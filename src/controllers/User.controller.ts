@@ -1,12 +1,12 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 import {
   findAllUsersService,
   createUserService,
   findOneUserService,
   sendEmailConfirmationRequest,
-} from '../services';
-import User from '../database/models/User.model';
-import { jwtUtility } from '../utils';
+} from "../services";
+import User from "../database/models/User.model";
+import { jwtUtility } from "../utils";
 
 // Get all users
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -40,7 +40,7 @@ export const createUser = async (req: Request, res: Response) => {
       return res.status(400).json({
         status: 400,
         success: false,
-        message: 'This email is already registered',
+        message: "This email is already registered",
       });
     } else {
       // update the user object and add the confirmationCode unique to their individual email.
@@ -51,13 +51,13 @@ export const createUser = async (req: Request, res: Response) => {
       res.status(201).json({
         status: 201,
         success: true,
-        message: 'Successfully registered. Please check your email to confirm.',
+        message: "Successfully registered. Please check your email to confirm.",
         data: [createdUser, { token: userToken }],
       });
       sendEmailConfirmationRequest(
         newUser.email,
         newUser.surName,
-        confirmationCode
+        confirmationCode,
       );
     }
   } catch (error) {
@@ -67,7 +67,7 @@ export const createUser = async (req: Request, res: Response) => {
         .status(500)
         .json({ status: 500, success: false, message: `${error.message}` });
     } else {
-      console.log('Unexpected error', error);
+      console.log("Unexpected error", error);
     }
   }
 };
@@ -82,7 +82,7 @@ export const getOneUser = async (req: Request, res: Response) => {
     } else {
       res
         .status(404)
-        .json({ status: 404, success: false, message: 'User not found' });
+        .json({ status: 404, success: false, message: "User not found" });
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -91,7 +91,7 @@ export const getOneUser = async (req: Request, res: Response) => {
         .status(500)
         .json({ status: 500, success: false, message: `${error.message}` });
     } else {
-      console.log('Unexpected error', error);
+      console.log("Unexpected error", error);
     }
   }
 };

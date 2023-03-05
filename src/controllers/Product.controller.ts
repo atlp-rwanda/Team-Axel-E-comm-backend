@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import { ProductAttributes } from "../interfaces";
+
 import { isValidUuid } from "../utils/isValidUUID.util";
 import {
   findOrCreateProductService,
   getAvailableProductsService,
   findOneProductService,
   destroyProductService,
+
 } from "../services";
 import { searchProductsUtility } from "../utils";
 
