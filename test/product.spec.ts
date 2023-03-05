@@ -49,6 +49,7 @@ describe("🛍️ Product UNIT", () => {
           quantity: 10,
           price: 10,
           images: "https://picsum.photos/id/26/4209/2769",
+          expiredAt: "2023-03-05T15:05:28.727Z",
         });
       expect(res.status).toEqual(201);
     });
@@ -66,6 +67,7 @@ describe("🛍️ Product UNIT", () => {
           quantity: 10,
           price: 700,
           images: "https://picsum.photos/id/26/4209/2769",
+          expiredAt: "2023-03-05T15:05:28.727Z",
         });
       expect(res.status).toEqual(400);
     });
@@ -83,6 +85,7 @@ describe("🛍️ Product UNIT", () => {
           quantity: 10,
           price: 10,
           images: "https://picsum.photos/id/26/4209/2769",
+          expiredAt: "2023-03-05T15:05:28.727Z",
         });
       expect(res.status).toEqual(403);
     });

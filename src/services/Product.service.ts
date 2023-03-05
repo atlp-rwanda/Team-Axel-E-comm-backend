@@ -1,5 +1,5 @@
-import Product from '../database/models/Product.model';
-import { ProductAttributes } from '../interfaces';
+import Product from "../database/models/Product.model";
+import { ProductAttributes } from "../interfaces";
 
 export const createProductService = async (newProduct: ProductAttributes) => {
   const createProductRequest = await Product.create(newProduct);
@@ -8,13 +8,13 @@ export const createProductService = async (newProduct: ProductAttributes) => {
 
 export const getAvailableProductsService = async () => {
   const getProductsRequest = await Product.findAll({
-    where: { stock: 'Available' },
+    where: { stock: "Available" },
   });
   return getProductsRequest;
 };
 
 export const findOrCreateProductService = async (
-  newProduct: ProductAttributes
+  newProduct: ProductAttributes,
 ) => {
   const findOrCreateProductRequest = await Product.findOrCreate({
     where: { name: newProduct.name },

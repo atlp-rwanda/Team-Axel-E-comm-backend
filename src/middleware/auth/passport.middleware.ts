@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
-import passport from 'passport';
-import GoogleStrategy0, { VerifyCallback } from 'passport-google-oauth2';
-import User from '../../database/models/User.model';
-import LoggedInUser from '../../database/models/LoggedInUsers.model';
+import { NextFunction, Request, Response } from "express";
+import passport from "passport";
+import GoogleStrategy0, { VerifyCallback } from "passport-google-oauth2";
+import User from "../../database/models/User.model";
+import LoggedInUser from "../../database/models/LoggedInUsers.model";
 
 /*  */
 const GoogleStrategy = GoogleStrategy0.Strategy;
@@ -24,7 +24,7 @@ passport.use(
       accessToken: string,
       refreshToken: string,
       profile: any,
-      done: VerifyCallback
+      done: VerifyCallback,
     ) {
       try {
         const user = await User.findOne({ where: { googleId: profile.id } });
@@ -43,11 +43,11 @@ passport.use(
           };
           const googleUser = await User.create(newUser);
           console.log(
-            'The user is saved in our db!!!!!!',
-            done(null, googleUser)
+            "The user is saved in our db!!!!!!",
+            done(null, googleUser),
           );
         } else {
-          console.log('The user already in our db!!!!!!', done(null, user));
+          console.log("The user already in our db!!!!!!", done(null, user));
         }
 
         /** To save logged in user in our db */
@@ -63,16 +63,16 @@ passport.use(
           await LoggedInUser.create(newActiveUser);
         }
       } catch (error) {
-        console.log('Even error happens; The user profile: ', profile);
+        console.log("Even error happens; The user profile: ", profile);
         if (error instanceof Error) {
           console.log(` 🔴 Error Log in user: 😟 ${error.message} 🔴`);
           console.log(error);
         } else {
-          console.log('Unexpected error', error);
+          console.log("Unexpected error", error);
         }
       }
-    }
-  )
+    },
+  ),
 );
 
 passport.serializeUser(function (user, done) {

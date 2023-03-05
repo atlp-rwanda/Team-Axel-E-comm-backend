@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { ObjectSchema } from 'joi';
+import { Request, Response, NextFunction } from "express";
+import { ObjectSchema } from "joi";
 
 // This function will take an object schema as a paramater
 export const ValidateJoi = (schema: ObjectSchema) => {

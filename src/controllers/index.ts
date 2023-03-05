@@ -4,3 +4,6 @@ export * from "./Product.controller";
 export * from "./TwoFactorAuth.controller";
 export * from "./User.controller";
 export * from "./Wish.controller";
+
+export * from "./Order.controller";
+

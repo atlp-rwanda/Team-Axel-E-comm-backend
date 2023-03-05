@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
-require('dotenv').config();
+require("dotenv").config();
 
 module.exports = {
   development: {
