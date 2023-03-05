@@ -13,15 +13,15 @@ export const checkLastPasswordUpdate = async (): Promise<void> => {
     console.log(`📢 Checking for users who have not updated their password...`);
     try {
       const users = await findAllUsersService();
-      users.forEach(async (user) => {
-        if (user.lastPasswordUpdate) {
-          if (user.lastPasswordUpdate < new Date()) {
-            user.status = Status.Inactive;
-            user.save();
-            // TODO: Send an email to the user to remind him to update his password
-          }
-        }
-      });
+      // users.forEach(async (user) => {
+      //   if (user.lastPasswordUpdate) {
+      //     if (user.lastPasswordUpdate < new Date()) {
+      //       user.status = Status.Inactive;
+      //       user.save();
+      //       // TODO: Send an email to the user to remind him to update his password
+      //     }
+      //   }
+      // });
       console.log(
         `🍏 Done checking for users who have not updated their password.`,
       );
