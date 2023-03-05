@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     // create carts table
-    await queryInterface.createTable('carts', {
+    await queryInterface.createTable("carts", {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -16,18 +16,22 @@ module.exports = {
         allowNull: false,
         unique: false,
         references: {
-          model: 'users',
-          key: 'id',
+          model: "users",
+          key: "id",
         },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       productId: {
         type: Sequelize.UUID,
         allowNull: false,
         unique: false,
         references: {
-          model: 'products',
-          key: 'id',
+          model: "products",
+          key: "id",
         },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       quantity: {
         type: Sequelize.INTEGER,
@@ -36,27 +40,27 @@ module.exports = {
       },
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()'),
+        defaultValue: Sequelize.literal("NOW()"),
       },
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     });
     // create a relationship between carts and products
-    await queryInterface.addConstraint('carts', {
-      fields: ['productId'],
-      type: 'foreign key',
-      name: 'fk_carts_products',
+    await queryInterface.addConstraint("carts", {
+      fields: ["productId"],
+      type: "foreign key",
+      name: "fk_carts_products",
       references: {
-        table: 'products',
-        field: 'id',
+        table: "products",
+        field: "id",
       },
     });
   },
 
   async down(queryInterface) {
     // drop carts table
-    await queryInterface.dropTable('carts');
+    await queryInterface.dropTable("carts");
   },
 };

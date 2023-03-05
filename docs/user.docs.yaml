@@ -7,15 +7,15 @@ paths:
       summary: Returns a list of users.
       description: Optional extended description in CommonMark or HTML.
       responses:
-        '200':
+        "200":
           description: OK
-        '400':
+        "400":
           description: Bad request. User ID must be an integer and larger than 0.
-        '401':
+        "401":
           description: Authorization information is missing or invalid.
-        '404':
+        "404":
           description: A user with the specified ID was not found.
-        '5XX':
+        "5XX":
           description: Unexpected error.
   # Get user by id
   /api/v1/user/{userId}:
@@ -31,19 +31,19 @@ paths:
             type: string
             minimum: 15
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        '400':
+                $ref: "#/components/schemas/User"
+        "400":
           description: Bad request. User ID must be an integer and larger than 0.
-        '401':
+        "401":
           description: Authorization information is missing or invalid.
-        '404':
+        "404":
           description: A user with the specified ID was not found.
-        '5XX':
+        "5XX":
           description: Unexpected error.
   # Create a user / sign up
   /api/v1/user:
@@ -55,17 +55,17 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
       responses:
-        '200':
+        "200":
           description: OK
-        '400':
+        "400":
           description: Bad request. User ID must be an integer and larger than 0.
-        '401':
+        "401":
           description: Authorization information is missing or invalid.
-        '404':
+        "404":
           description: A user with the specified ID was not found.
-        '5XX':
+        "5XX":
           description: Unexpected error.
 
 # schemas

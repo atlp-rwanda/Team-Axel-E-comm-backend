@@ -1,0 +1,112 @@
+paths:
+  # post wishes
+  /api/v1/wishes/{productId}:
+    post:
+      security: [{ jwt: [] }]
+      tags: [WishList]
+      summary: add to wishList product.
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type: string
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wishes'
+        '400':
+          description: Bad request.
+        '401':
+          description: Authorized.
+        '404':
+          description: A user with the specified ID was not found.
+        '5XX':
+          description: Unexpected error.
+  #get all wishes
+  /api/v1/wishes/:
+    get:
+      security: [{ jwt: [] }]
+      tags: [WishList]
+      summary: get all your wishes in wishlist
+      description: Optional extended description in CommonMark or HTML.
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request. User ID must be an integer and larger than 0.
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: A user with the specified ID was not found.
+        '5XX':
+          description: Unexpected error.
+
+  # delete one wishes
+  /api/v1/wishes/{id}:
+    delete:
+      security: [{ jwt: [] }]
+      tags: [WishList]
+      summary: delete one product from wishList .
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type: string
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wishes'
+        '400':
+          description: Bad request. Product ID must be an integer and larger than 0.
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: A user with the specified ID was not found.
+        '5XX':
+          description: Unexpected error.
+
+  #get all wishes
+  /api/v1/wishes/all:
+    delete:
+      security: [{ jwt: [] }]
+      tags: [WishList]
+      summary: delete all your wishes in wishlist
+      description: Optional extended description in CommonMark or HTML.
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request. User ID must be an integer and larger than 0.
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: A user with the specified ID was not found.
+        '5XX':
+          description: Unexpected error.
+
+# schemas
+components:
+  schemas:
+    Wishes:
+      type: object
+      properties:
+        productId:
+          type: string
+          example: 1
+        userId:
+          type: string
+          example: 1

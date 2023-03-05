@@ -1,6 +1,6 @@
-import nodemailer from 'nodemailer';
-import User from '../database/models/User.model';
-import { Status } from '../interfaces';
+import nodemailer from "nodemailer";
+import User from "../database/models/User.model";
+import { Status } from "../interfaces";
 
 // Find one User
 export const findOneUserByEmailService = async (email: string) => {
@@ -18,7 +18,7 @@ export const findRegisteredUserService = async (confirmationCode: string) => {
 export const confirmUserService = async (confirmationCode: string) => {
   const confirmedUser = await User.update(
     { status: Status.Active },
-    { where: { confirmationCode } }
+    { where: { confirmationCode } },
   );
   return confirmedUser;
 };
@@ -39,12 +39,12 @@ export const transporter = nodemailer.createTransport({
 export const sendEmailConfirmationRequest = async (
   email: string,
   name: string,
-  confirmationCode: string
+  confirmationCode: string,
 ): Promise<void> => {
   const mailOptions = {
     from: '"Team Cypher" <noreply@teamcypher.com>',
     to: email,
-    subject: 'Welcome to Team Cypher',
+    subject: "Welcome to Team Cypher",
     text: `Hi, ${name},\n\nWelcome to Team Cypher!\n\n`,
     html: `
     <html>
@@ -129,12 +129,12 @@ p {
 // send mail that they have confirmed.
 export const sendEmailConfirmationMessage = async (
   email: string,
-  name: string
+  name: string,
 ): Promise<void> => {
   const mailOptions = {
     from: '"Team Cypher" <noreply@teamcypher.com>',
     to: email,
-    subject: 'Welcome to Team Cypher',
+    subject: "Welcome to Team Cypher",
     text: `Hi, ${name},\n\nWelcome to Team Cypher!\n\n`,
     html: `
     <html>
@@ -221,12 +221,12 @@ p {
 export const sendResetRequestEmail = async (
   email: string,
   name: string,
-  token: string
+  token: string,
 ): Promise<void> => {
   const mailOptions = {
     from: '"Team Cypher" <noreply@teamcypher.com>',
     to: email,
-    subject: 'Welcome to Team Cypher',
+    subject: "Welcome to Team Cypher",
     text: `Hi, ${name},\n\nWelcome to Team Cypher!\n\n`,
     html: `
     <html>
@@ -311,12 +311,12 @@ p {
 // Send email confirmation after password reset
 export const sendPasswordResetConfirmation = async (
   email: string,
-  name: string
+  name: string,
 ): Promise<void> => {
   const mailOptions = {
     from: '"Team Cypher" <noreply@teamcypher.com>',
     to: email,
-    subject: 'Welcome to Team Cypher',
+    subject: "Welcome to Team Cypher",
     text: `Hi, ${name},\n\nWelcome to Team Cypher!\n\n`,
     html: `
     <html>

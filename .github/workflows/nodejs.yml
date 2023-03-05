@@ -3,18 +3,17 @@ name: Code Coverage
 on:
   push:
     branches:
-      - 'develop'
-      - 'main'
+      - "develop"
+      - "main"
   pull_request:
     branches:
-      - 'develop'
-      - 'main'
-    
+      - "develop"
+      - "main"
+
 env:
   GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
   GOOGLE_CLIENT_SECRET: ${{ vars.GOOGLE_CLIENT_SECRET }}
   TEST_DB_URL: ${{vars.TEST_DB_URL}}
-
 
 jobs:
   test:
