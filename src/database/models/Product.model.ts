@@ -1,9 +1,9 @@
 /* eslint-disable no-shadow */
-import { DataTypes, Model, Optional } from 'sequelize';
-import { sequelize } from '.';
-import { ProductAttributes } from '../../interfaces';
+import { DataTypes, Model, Optional } from "sequelize";
+import { sequelize } from ".";
+import { ProductAttributes } from "../../interfaces";
 
-type TokenCreationAttributes = Optional<ProductAttributes, 'id'>;
+type TokenCreationAttributes = Optional<ProductAttributes, "id">;
 
 interface ProductInstance
   extends Model<ProductAttributes, TokenCreationAttributes>,
@@ -13,7 +13,7 @@ interface ProductInstance
 }
 
 const Product = sequelize.define<ProductInstance>(
-  'Product',
+  "Product",
   {
     id: {
       type: DataTypes.UUID,
@@ -23,8 +23,8 @@ const Product = sequelize.define<ProductInstance>(
     sellerId: {
       type: DataTypes.UUID,
       references: {
-        model: 'User',
-        key: 'id',
+        model: "User",
+        key: "id",
       },
     },
     name: {
@@ -43,8 +43,8 @@ const Product = sequelize.define<ProductInstance>(
       unique: false,
     },
     stock: {
-      type: DataTypes.ENUM('Available', 'Out of Stock'),
-      defaultValue: 'Available',
+      type: DataTypes.ENUM("Available", "Out of Stock", "Expired"),
+      defaultValue: "Available",
     },
     quantity: {
       type: DataTypes.INTEGER,
@@ -58,11 +58,15 @@ const Product = sequelize.define<ProductInstance>(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    expiredAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   },
   {
-    modelName: 'Product',
-    tableName: 'products',
-  }
+    modelName: "Product",
+    tableName: "products",
+  },
 );
 
 export default Product;

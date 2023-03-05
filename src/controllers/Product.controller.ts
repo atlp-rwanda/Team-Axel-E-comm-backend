@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
-import { ProductAttributes } from '../interfaces';
+import { Request, Response } from "express";
+import { ProductAttributes } from "../interfaces";
 import {
   findOrCreateProductService,
   getAvailableProductsService,
-} from '../services';
-import { searchProductsUtility } from '../utils';
+} from "../services";
+import { searchProductsUtility } from "../utils";
 
 export const searchProducts = async (req: Request, res: Response) => {
   try {
@@ -41,7 +41,7 @@ export const createProduct = async (req: Request, res: Response) => {
       return res.status(400).json({
         status: 400,
         success: false,
-        message: 'This Product already exists, You can update the stock levels',
+        message: "This Product already exists, You can update the stock levels",
         data: thisProductExists,
       });
     } else {
@@ -54,11 +54,11 @@ export const createProduct = async (req: Request, res: Response) => {
       res.status(500).json({
         status: 500,
         success: false,
-        message: 'Something went wrong when creating the product',
+        message: "Something went wrong when creating the product",
         error: error.message,
       });
     } else {
-      console.log('Unexpected error', error);
+      console.log("Unexpected error", error);
     }
   }
 };
@@ -73,7 +73,7 @@ export const getAvailableProducts = async (req: Request, res: Response) => {
       res.status(500).json({
         status: 500,
         success: false,
-        message: 'Something went wrong when getting the products',
+        message: "Something went wrong when getting the products",
         error: error.message,
       });
     } else {

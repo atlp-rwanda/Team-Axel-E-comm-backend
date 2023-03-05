@@ -1,5 +1,5 @@
-import Joi from 'joi';
-import { UserAttributes } from '../../interfaces';
+import Joi from "joi";
+import { UserAttributes } from "../../interfaces";
 
 export const UserSchema = {
   user: {
@@ -11,10 +11,10 @@ export const UserSchema = {
         .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)
         .required()
         .messages({
-          'string.pattern.base':
-            'Password should be at least 8 characters long, contain at least 1 uppercase, 1 lowercase, 1 digit, and one case character.',
-          'string.empty': 'Password cannot be empty',
-          'any.required': 'Password is required',
+          "string.pattern.base":
+            "Password should be at least 8 characters long, contain at least 1 uppercase, 1 lowercase, 1 digit, and one case character.",
+          "string.empty": "Password cannot be empty",
+          "any.required": "Password is required",
         }),
       province: Joi.string(),
       district: Joi.string(),
