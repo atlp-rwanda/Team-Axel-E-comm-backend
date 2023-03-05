@@ -1,8 +1,8 @@
 /* eslint-disable no-shadow */
-import { DataTypes, Model, Optional } from 'sequelize';
-import { sequelize } from '.';
-import bcrypt from 'bcryptjs';
-import { UserAttributes } from '../../interfaces';
+import { DataTypes, Model, Optional } from "sequelize";
+import { sequelize } from ".";
+import bcrypt from "bcryptjs";
+import { UserAttributes } from "../../interfaces";
 
 /*
  * The `UserAttributes` interface is defined in the `src/interfaces/User.interface.ts` file
@@ -14,7 +14,7 @@ import { UserAttributes } from '../../interfaces';
  * in this case, is optional to be passed at creation time
  */
 
-type UserCreationAttributes = Optional<UserAttributes, 'id'>;
+type UserCreationAttributes = Optional<UserAttributes, "id">;
 
 interface UserInstance
   extends Model<UserAttributes, UserCreationAttributes>,
@@ -24,7 +24,7 @@ interface UserInstance
 }
 
 const User = sequelize.define<UserInstance>(
-  'User',
+  "User",
   {
     id: {
       allowNull: false,
@@ -55,12 +55,12 @@ const User = sequelize.define<UserInstance>(
       allowNull: false,
     },
     role: {
-      type: DataTypes.ENUM('Admin', 'Buyer', 'Seller'),
-      defaultValue: 'Buyer',
+      type: DataTypes.ENUM("Admin", "Buyer", "Seller"),
+      defaultValue: "Buyer",
     },
     status: {
-      type: DataTypes.ENUM('Pending', 'Active'),
-      defaultValue: 'Pending',
+      type: DataTypes.ENUM("Pending", "Active", "Inactive"),
+      defaultValue: "Pending",
     },
     confirmationCode: {
       type: DataTypes.STRING,
@@ -100,18 +100,18 @@ const User = sequelize.define<UserInstance>(
     },
   },
   {
-    modelName: 'User',
-    tableName: 'users',
+    modelName: "User",
+    tableName: "users",
     hooks: {
       beforeCreate: async (user: UserAttributes) => {
         const hashedPassword = await bcrypt.hash(
           user.password,
-          bcrypt.genSaltSync(10)
+          bcrypt.genSaltSync(10),
         );
         user.password = hashedPassword;
       },
     },
-  }
+  },
 );
 
 export default User;

@@ -9,11 +9,14 @@ export interface ProductAttributes {
   quantity: number;
   stock: Stock;
   images: string;
+
+  expiredAt?: Date;
 }
 
 export enum Stock {
-  Available = 'Available',
-  OutOfStock = 'Out of Stock',
+  Available = "Available",
+  OutOfStock = "Out of Stock",
+  Expired = "Expired",
 }
 
 export interface IQueryParams {

@@ -1,20 +1,20 @@
-import { Router } from 'express';
-import { addToCart, clearCart, removeFromCart, viewCart } from '../controllers';
-import { isAuth } from '../middleware/auth';
-import { ProductSchema, ValidateJoi } from '../middleware/validation';
+import { Router } from "express";
+import { addToCart, clearCart, removeFromCart, viewCart } from "../controllers";
+import { isAuth } from "../middleware/auth";
+import { ProductSchema, ValidateJoi } from "../middleware/validation";
 
 const cartRouter = Router();
 
 cartRouter.post(
-  '/add',
+  "/add",
   [isAuth, ValidateJoi(ProductSchema.product.addToCart)],
-  addToCart
+  addToCart,
 );
 
-cartRouter.get('/', [isAuth], viewCart);
+cartRouter.get("/", [isAuth], viewCart);
 
-cartRouter.delete('/remove/:id', [isAuth], removeFromCart);
+cartRouter.delete("/remove/:id", [isAuth], removeFromCart);
 
-cartRouter.delete('/clear', [isAuth], clearCart);
+cartRouter.delete("/clear", [isAuth], clearCart);
 
 export default cartRouter;
