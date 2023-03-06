@@ -53,6 +53,12 @@ const User = sequelize.define<UserInstance>(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+      set(value: string) {
+        this.setDataValue(
+          "password",
+          bcrypt.hashSync(value, bcrypt.genSaltSync(10)),
+        );
+      },
     },
     role: {
       type: DataTypes.ENUM("Admin", "Buyer", "Seller"),
@@ -98,19 +104,15 @@ const User = sequelize.define<UserInstance>(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    lastPasswordUpdate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   },
   {
     modelName: "User",
     tableName: "users",
-    hooks: {
-      beforeCreate: async (user: UserAttributes) => {
-        const hashedPassword = await bcrypt.hash(
-          user.password,
-          bcrypt.genSaltSync(10),
-        );
-        user.password = hashedPassword;
-      },
-    },
+    hooks: {},
   },
 );
 
