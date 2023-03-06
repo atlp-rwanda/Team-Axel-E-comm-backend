@@ -21,9 +21,9 @@ authRouter.get("/logout", [isAuth], logoutUser); //logout a user
 
 authRouter.get("/confirm/:confirmationCode", confirmUser); // Confirm the user who registered
 
-authRouter.post("/auth/requestResetPassword", resetPasswordRequestController); // Request a reset password
+authRouter.post("/requestResetPassword", resetPasswordRequestController); // Request a reset password
 
-authRouter.post("/auth/resetPassword/:token", resetPasswordController); // Reset the password
+authRouter.post("/resetPassword/:token", resetPasswordController); // Reset the password
 
 authRouter.post("/auth/2fa", create2FAToken); // Create a 2FA token
 
