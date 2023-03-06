@@ -1,18 +1,13 @@
-FROM node:19.5
+FROM node:19.5.0-alpine
 
 WORKDIR /app
 
-COPY ["package.json",  "tsconfig.json", ".env", "./"]
+COPY ["package.json", "yarn.lock",  "tsconfig.json", ".env", "./"]
 
-RUN npm install -g pnpm
+RUN yarn
 
-RUN pnpm install
 COPY . .
 
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.8.0/wait /wait
+EXPOSE 8080
 
-RUN chmod +x /wait
-
-EXPOSE 9090
-
-CMD /wait && pnpm start
+CMD yarn migrate:dev && yarn dev
