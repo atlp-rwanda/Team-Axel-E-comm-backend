@@ -67,8 +67,8 @@ paths:
           properties:
             status:
               type: string
-              enum: [pending, shipped, delivered]
-              example: shipped
+              enum: [Pending, Shipped, Delivered]
+              example: Shipped/Delivered
     responses:
       '200':
         description: OK
