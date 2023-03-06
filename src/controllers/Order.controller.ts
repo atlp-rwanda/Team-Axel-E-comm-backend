@@ -13,7 +13,7 @@ export const createOrder = async (req: Request, res: Response) => {
     const userId = req.user.id;
     const items = await getCartItemsService(userId);
     if (items.length === 0) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "No product available To make order",
         status: 400,
         success: false,
