@@ -34,7 +34,18 @@ const User = sequelize.define<UserInstance>(
       unique: true,
       defaultValue: DataTypes.UUIDV4,
     },
-
+    twoFAenabled: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
+    twoFAverified: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
+    secret: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     surname: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -65,7 +76,7 @@ const User = sequelize.define<UserInstance>(
       defaultValue: "Buyer",
     },
     status: {
-      type: DataTypes.ENUM("Pending", "Active", "Inactive"),
+      type: DataTypes.ENUM("Pending", "Active"),
       defaultValue: "Pending",
     },
     confirmationCode: {

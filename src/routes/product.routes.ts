@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { protectRoute } from "../services/protectRoutes.service";
 import {
   createProduct,
   getAvailableProducts,
@@ -7,14 +8,14 @@ import {
 
 import { ValidateJoi, ProductSchema } from "../middleware/validation";
 import { searchProducts } from "../controllers";
-import { isAuth, isSeller } from "../middleware/auth";
+import { isSeller } from "../middleware/auth";
 
 const productRouter = Router();
 
 // Create a product
 productRouter.post(
   "/",
-  [isAuth, isSeller, ValidateJoi(ProductSchema.product.create)],
+  [protectRoute, isSeller, ValidateJoi(ProductSchema.product.create)],
   createProduct,
 );
 
@@ -27,7 +28,7 @@ productRouter.get("/search", searchProducts); // search for products
 //delete one product
 productRouter.delete(
   "/delete/:id",
-  [isAuth, isSeller],
+  [protectRoute, isSeller],
   deleteOneItemFromproduct,
 );
 export default productRouter;

@@ -52,6 +52,7 @@
     "jsonwebtoken": "^9.0.0",
     "ncp": "^2.0.0",
     "node-cron": "^3.0.2",
+    "node-2fa": "^2.0.3",
     "nodemailer": "^6.9.1",
     "openapi-types": "^12.1.0",
     "passport": "^0.6.0",

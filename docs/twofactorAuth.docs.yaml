@@ -1,0 +1,39 @@
+paths:
+  # request otp code and enable two factor authentication on your account
+  /api/v1/auth/2fa:
+    post:
+      security: [{ jwt: [] }]
+      tags: [two factor authentication routes]
+      summary: enable two factor authentication on your account
+      responses:
+        200:
+          description: otp code sent on your email
+        401:
+          description: not authorized
+  # verify TOTP code
+  /api/v1/auth/2fa/verify2FAToken:
+    post:
+      security: [{ jwt: [] }]
+      tags: [two factor authentication routes]
+      summary: verify your otp code.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Verifyotp"
+      responses:
+        "200":
+          description: ok.
+        "401":
+          description: not authorized
+
+components:
+  schemas:
+    Verifyotp:
+      properties:
+        code:
+          type: string
+          example: "******"
+      required:
+        - code
