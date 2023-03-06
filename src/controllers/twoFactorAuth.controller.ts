@@ -16,7 +16,7 @@ export const create2FAToken = async (req: Request, res: Response) => {
 
     const user = await User.findByPk(req.user.id);
 
-    if (user && user?.role !== Role.Seller) {
+    if (user && user.role !== Role.Seller) {
       throw new Error(
         "Error: you are not a seller, you can't user this feature",
       );
