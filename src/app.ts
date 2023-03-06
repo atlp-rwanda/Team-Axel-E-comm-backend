@@ -1,16 +1,16 @@
-import express, { Response, Request, Application } from 'express';
-import cors from 'cors';
-import routes from './routes';
-import dotenv from 'dotenv';
-import passport from 'passport';
-import session from 'express-session';
-import SequelizeStore from 'connect-session-sequelize';
+import express, { Response, Request, Application } from "express";
+import cors from "cors";
+import routes from "./routes";
+import dotenv from "dotenv";
+import passport from "passport";
+import session from "express-session";
+import SequelizeStore from "connect-session-sequelize";
 
-import { MessageResponse } from './interfaces';
-import { sequelize } from './database/models';
-import { DataTypes } from 'sequelize';
+import { MessageResponse } from "./interfaces";
+import { sequelize } from "./database/models";
+import { DataTypes } from "sequelize";
 
-declare module 'express-session' {
+declare module "express-session" {
   export interface SessionData {
     userId: string;
   }
@@ -25,7 +25,7 @@ const app: Application = express();
 const SequelizeSessionStore = SequelizeStore(session.Store);
 
 sequelize.define(
-  'Sessions',
+  "Sessions",
   {
     sid: {
       type: DataTypes.STRING,
@@ -38,12 +38,12 @@ sequelize.define(
       type: DataTypes.TEXT,
     },
   },
-  { tableName: 'sessions' }
+  { tableName: "sessions" },
 );
 
 const sessionStore = new SequelizeSessionStore({
   db: sequelize,
-  table: 'Sessions',
+  table: "Sessions",
 });
 
 app.use(cors());
@@ -59,7 +59,7 @@ app.use(
       secure: true, // Set to true if using HTTPS
       maxAge: 60 * 60 * 1000, // 1 hour
     },
-  })
+  }),
 );
 
 sessionStore.sync();
@@ -67,7 +67,7 @@ sessionStore.sync();
 app.use(passport.initialize());
 app.use(passport.session());
 // eslint-disable-next-line @typescript-eslint/ban-types
-app.get<{}, MessageResponse>('/', async (req: Request, res: Response) => {
+app.get<{}, MessageResponse>("/", async (req: Request, res: Response) => {
   res.status(200).send({
     status: 200,
     success: true,
@@ -75,6 +75,6 @@ app.get<{}, MessageResponse>('/', async (req: Request, res: Response) => {
   });
 });
 
-app.use('/api/v1', routes);
+app.use("/api/v1", routes);
 
 export default app;

@@ -1,8 +1,8 @@
-import { DataTypes, Model, Optional } from 'sequelize';
-import { sequelize } from '.';
-import { TokenAttributes } from '../../interfaces';
+import { DataTypes, Model, Optional } from "sequelize";
+import { sequelize } from ".";
+import { TokenAttributes } from "../../interfaces";
 
-type TokenCreationAttributes = Optional<TokenAttributes, 'id'>;
+type TokenCreationAttributes = Optional<TokenAttributes, "id">;
 
 interface TokenInstance
   extends Model<TokenAttributes, TokenCreationAttributes>,
@@ -12,7 +12,7 @@ interface TokenInstance
 }
 
 const Token = sequelize.define<TokenInstance>(
-  'Token',
+  "Token",
   {
     id: {
       allowNull: false,
@@ -35,15 +35,15 @@ const Token = sequelize.define<TokenInstance>(
     userId: {
       type: DataTypes.UUID,
       references: {
-        model: 'Users',
-        key: 'id',
+        model: "Users",
+        key: "id",
       },
     },
   },
   {
-    modelName: 'Token',
-    tableName: 'tokens',
-  }
+    modelName: "Token",
+    tableName: "tokens",
+  },
 );
 
 export default Token;

@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
-import { jwtUtility } from '../utils/jwt.utils';
+import { Request, Response } from "express";
+import bcrypt from "bcryptjs";
+import { jwtUtility } from "../utils/jwt.utils";
 import {
   confirmUserService,
   findOneUserByEmailService,
@@ -8,8 +8,8 @@ import {
   sendEmailConfirmationMessage,
   sendPasswordResetConfirmation,
   sendResetRequestEmail,
-} from '../services';
-import User from '../database/models/User.model';
+} from "../services";
+import User from "../database/models/User.model";
 
 //User Login
 export const loginUser = async (req: Request, res: Response) => {
@@ -22,26 +22,26 @@ export const loginUser = async (req: Request, res: Response) => {
       res.status(401).send({
         status: 401,
         success: false,
-        message: 'User with this email does not exist',
+        message: "User with this email does not exist",
       });
     } else {
-      if (user.dataValues.status === 'Pending') {
+      if (user.dataValues.status === "Pending") {
         res.status(401).send({
           status: 401,
           success: false,
           message:
-            'Please first head over to your email and confirm your registration',
+            "Please first head over to your email and confirm your registration",
         });
       } else {
         const passwordMatch = await bcrypt.compare(
           password,
-          user.dataValues.password
+          user.dataValues.password,
         );
         if (!passwordMatch) {
           res.status(401).send({
             status: 401,
             success: false,
-            message: 'Password does not match with email',
+            message: "Password does not match with email",
           });
         } else {
           const token = jwtUtility.generateToken(user.dataValues.id);
@@ -51,7 +51,7 @@ export const loginUser = async (req: Request, res: Response) => {
           res.status(200).json({
             status: 200,
             success: true,
-            message: 'Login successful ',
+            message: "Login successful ",
             data: token,
           });
         }
@@ -100,13 +100,13 @@ export const confirmUser = async (req: Request, res: Response) => {
       res.status(400).json({
         status: 400,
         success: false,
-        message: 'Invalid Code: User not found who matches this code.',
+        message: "Invalid Code: User not found who matches this code.",
       });
     } else {
       const confirmedUser = await confirmUserService(confirmationCode);
       sendEmailConfirmationMessage(
         currentUser.dataValues.email,
-        currentUser.dataValues.surname
+        currentUser.dataValues.surname,
       );
       res.status(201).json({
         status: 201,
@@ -122,14 +122,14 @@ export const confirmUser = async (req: Request, res: Response) => {
         .status(500)
         .json({ status: 500, success: false, message: `${error.message}` });
     } else {
-      console.log('Unexpected error', error);
+      console.log("Unexpected error", error);
     }
   }
 };
 // Request Password Reset
 export const resetPasswordRequestController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   // const requestPasswordResetService = await requestPasswordResetService(
   //   req.body.email
@@ -139,12 +139,12 @@ export const resetPasswordRequestController = async (
   if (!user) {
     res
       .status(404)
-      .json({ status: 404, success: false, message: 'Email does not exist' });
+      .json({ status: 404, success: false, message: "Email does not exist" });
   } else {
     const resetToken = jwtUtility.generateToken(user.dataValues.email);
     const updateResetToken = await User.update(
       { resetToken: resetToken },
-      { where: { email: req.body.email } }
+      { where: { email: req.body.email } },
     );
     if (updateResetToken[0] === 1) {
       res.status(200).json({
@@ -155,7 +155,7 @@ export const resetPasswordRequestController = async (
       sendResetRequestEmail(
         user.dataValues.email,
         user.dataValues.surname,
-        resetToken
+        resetToken,
       );
     } else {
       res.status(505).json({
@@ -174,30 +174,30 @@ export const resetPasswordController = async (req: Request, res: Response) => {
   });
 
   if (!currentUser) {
-    res.status(404).json({ status: 404, success: false, message: 'Forbidden' });
+    res.status(404).json({ status: 404, success: false, message: "Forbidden" });
   } else {
     try {
       const decodedToken = await jwtUtility.verifyToken(resetToken);
 
       const updatedResponse = await User.update(
         { password: req.body.password },
-        { where: { email: decodedToken.email } }
+        { where: { email: decodedToken.email } },
       );
       if (updatedResponse[0] === 1) {
         res.status(201).json({
           status: 201,
           success: true,
-          message: 'Password reset successfully',
+          message: "Password reset successfully",
         });
         sendPasswordResetConfirmation(
           decodedToken.email,
-          currentUser.dataValues.surname
+          currentUser.dataValues.surname,
         );
       } else {
         res.status(505).json({
           status: 505,
           success: false,
-          message: 'Failed to reset password',
+          message: "Failed to reset password",
         });
       }
     } catch (error) {
@@ -207,7 +207,7 @@ export const resetPasswordController = async (req: Request, res: Response) => {
           message: `${error.message}`,
         });
       } else {
-        console.log('Something went wrong', error);
+        console.log("Something went wrong", error);
       }
     }
   }

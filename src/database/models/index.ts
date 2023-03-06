@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { Sequelize } from 'sequelize';
+import { Sequelize } from "sequelize";
 
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.js')[env];
+const env = process.env.NODE_ENV || "development";
+const config = require(__dirname + "/../config/config.js")[env];
 
 // * This is just a way to get the console.log to work with the ANSI escape codes
 // * to make the environment, and the db you are connected to stand out in the console.
-const message = '\x1B[41;93;4m🛖🏠Environment = ';
-const message2 = '\x1B[92;102;4m🏦🎰URL = ';
+const message = "\x1B[41;93;4m🛖🏠Environment = ";
+const message2 = "\x1B[92;102;4m🏦🎰URL = ";
 const environment = `\x1B[34;44;4m${env}\x1B[m`;
 const url = `\x1B[36;46;4m${config.url}\x1B[m`;
 console.log(message + environment);

@@ -1,20 +1,20 @@
-import { NextFunction, Request, Response } from 'express';
-import { jwtUtility } from '../../utils';
-import { findOneUserByIdService } from '../../services';
+import { NextFunction, Request, Response } from "express";
+import { jwtUtility } from "../../utils";
+import { findOneUserByIdService } from "../../services";
 
 export const isAuth = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   // check if there is a user in the req
   if (!req.headers.authorization) {
     res
       .status(401)
-      .send({ status: 401, success: false, message: 'You are not logged in' });
+      .send({ status: 401, success: false, message: "You are not logged in" });
   } else {
     try {
-      const token = req.headers.authorization.split(' ')[1];
+      const token = req.headers.authorization.split(" ")[1];
       const decodedData = jwtUtility.verifyToken(token);
       const currentUser = await findOneUserByIdService(decodedData);
       if (!currentUser) {
@@ -22,7 +22,7 @@ export const isAuth = async (
         return res.json({
           statusCode: 403,
           success: false,
-          message: 'Unauthorized access. User not found',
+          message: "Unauthorized access. User not found",
         });
       }
       req.user = currentUser.dataValues; // is this right koko?
@@ -44,16 +44,16 @@ export const isAuth = async (
 export const isSeller = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     // check if the user is a seller
     const currentUserStatus = req.user.role;
-    if (currentUserStatus !== 'Seller') {
+    if (currentUserStatus !== "Seller") {
       res.status(403).json({
         status: 403,
         success: false,
-        message: 'Unauthorized access. You are not a seller',
+        message: "Unauthorized access. You are not a seller",
       });
     } else {
       next();
@@ -74,16 +74,16 @@ export const isSeller = async (
 export const isAdmin = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     // check if the user is an admin
     const currentUserStatus = req.user.role;
-    if (currentUserStatus !== 'Admin') {
+    if (currentUserStatus !== "Admin") {
       res.status(403).json({
         status: 403,
         success: false,
-        message: 'Unauthorized access. You are not an admin',
+        message: "Unauthorized access. You are not an admin",
       });
     } else {
       next();

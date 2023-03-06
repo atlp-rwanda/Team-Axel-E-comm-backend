@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
 
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     // create products table
-    await queryInterface.createTable('products', {
+    await queryInterface.createTable("products", {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -15,8 +15,8 @@ module.exports = {
       sellerId: {
         type: Sequelize.UUID,
         references: {
-          model: 'users',
-          key: 'id',
+          model: "users",
+          key: "id",
         },
       },
       name: {
@@ -33,8 +33,8 @@ module.exports = {
         allowNull: false,
       },
       stock: {
-        type: Sequelize.ENUM('Available', 'Out of Stock'),
-        defaultValue: 'Available',
+        type: Sequelize.ENUM("Available", "Out of Stock"),
+        defaultValue: "Available",
       },
       quantity: {
         type: Sequelize.INTEGER,
@@ -50,17 +50,17 @@ module.exports = {
       },
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()'),
+        defaultValue: Sequelize.literal("NOW()"),
       },
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     });
   },
 
   async down(queryInterface) {
     // drop products table
-    await queryInterface.dropTable('products');
+    await queryInterface.dropTable("products");
   },
 };

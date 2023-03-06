@@ -1,5 +1,5 @@
-import Joi from 'joi';
-import { CartAttributes, ProductAttributes } from '../../interfaces';
+import Joi from "joi";
+import { CartAttributes, ProductAttributes } from "../../interfaces";
 
 export const ProductSchema = {
   product: {

@@ -12,8 +12,8 @@ export interface ProductAttributes {
 }
 
 export enum Stock {
-  Available = 'Available',
-  OutOfStock = 'Out of Stock',
+  Available = "Available",
+  OutOfStock = "Out of Stock",
 }
 
 export interface IQueryParams {
