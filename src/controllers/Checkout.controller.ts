@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import Stripe from 'stripe';
+import { Request, Response } from "express";
+import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET as string, {
-  apiVersion: '2022-11-15',
+  apiVersion: "2022-11-15",
 });
 
 export const checkoutController = {
@@ -11,7 +11,7 @@ export const checkoutController = {
       // we still need ID coming from the front-end for this to work
       const paymentIntent = await stripe.paymentIntents.create({
         amount: 4000, // generic number
-        currency: 'usd',
+        currency: "usd",
       });
 
       res.send({

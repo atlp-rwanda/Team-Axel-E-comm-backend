@@ -1,5 +1,5 @@
-import User from '../database/models/User.model';
-import { UserAttributes } from '../interfaces';
+import User from "../database/models/User.model";
+import { UserAttributes } from "../interfaces";
 
 // Find all users
 export const findAllUsersService = async () => {

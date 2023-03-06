@@ -22,12 +22,12 @@ export interface UserAttributes {
 }
 
 export enum Status {
-  Pending = 'Pending',
-  Active = 'Active',
+  Pending = "Pending",
+  Active = "Active",
 }
 
 export enum Role {
-  Admin = 'Admin',
-  Buyer = 'Buyer',
-  Seller = 'Seller',
+  Admin = "Admin",
+  Buyer = "Buyer",
+  Seller = "Seller",
 }

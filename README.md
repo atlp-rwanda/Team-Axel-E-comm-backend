@@ -7,7 +7,6 @@
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/atlp-rwanda/e-comm-team-axel25-bn/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/atlp-rwanda/e-comm-team-axel25-bn/tree/develop)
 <br>
 
-
 <br>
 
 <!-- TABLE OF CONTENTS -->
