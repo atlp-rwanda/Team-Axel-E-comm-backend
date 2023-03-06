@@ -83,6 +83,11 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
+      lastPasswordUpdate: {
+        type: Sequelize.DATE,
+        allowNull: true,
+
+      },
     });
   },
 
