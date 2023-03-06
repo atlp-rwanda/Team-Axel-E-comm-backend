@@ -122,6 +122,7 @@ button:focus-visible {
         border: 1px solid cyan;
         padding: 1em;
         border-radius: 8px;
+  background-color: #020917;
       }
 
     </style>
@@ -247,6 +248,7 @@ button:focus-visible {
         border: 1px solid cyan;
         padding: 1em;
         border-radius: 8px;
+  background-color: #020917;
       }
 
     </style>
