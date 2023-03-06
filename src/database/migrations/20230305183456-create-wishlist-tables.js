@@ -1,15 +1,14 @@
 /* eslint-disable no-undef */
 "use strict";
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    // create carts table
-    await queryInterface.createTable("carts", {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable("wishlists", {
       id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
+        type: Sequelize.UUID,
+        allowNull: false,
+        defaultValue: Sequelize.UUIDV4,
       },
       userId: {
         type: Sequelize.UUID,
@@ -33,34 +32,18 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      quantity: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        unique: false,
-      },
       createdAt: {
+        allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal("NOW()"),
       },
       updatedAt: {
+        allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-      },
-    });
-    // create a relationship between carts and products
-    await queryInterface.addConstraint("carts", {
-      fields: ["productId"],
-      type: "foreign key",
-      name: "fk_carts_products",
-      references: {
-        table: "products",
-        field: "id",
       },
     });
   },
 
-  async down(queryInterface) {
-    // drop carts table
-    await queryInterface.dropTable("carts");
+  down: async (queryInterface) => {
+    await queryInterface.dropTable("wishlists");
   },
 };
