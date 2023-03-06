@@ -3,6 +3,8 @@ import {
   createProduct,
   getAllSellerItems,
   getAvailableProducts,
+  deleteOneItemFromproduct,
+
 } from "../controllers";
 import { ValidateJoi, ProductSchema } from "../middleware/validation";
 import { searchProducts } from "../controllers";
@@ -25,5 +27,11 @@ productRouter.get("/search", searchProducts); // search for products
 
 // Seller getting all items
 productRouter.get("/items", [isAuth, isSeller], getAllSellerItems);
+
+productRouter.delete(
+  "/delete/:id",
+  [isAuth, isSeller],
+  deleteOneItemFromproduct,
+);
 
 export default productRouter;
