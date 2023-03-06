@@ -13,6 +13,7 @@ import { UserSchema } from "../middleware/validation/user.schema.middleware";
 import { isAuth } from "../middleware/auth";
 import { updatePassword } from "../controllers/updatePassword.controller";
 
+
 const authRouter = Router();
 
 authRouter.post("/login", ValidateJoi(UserSchema.loginData.create), loginUser); // login a User
@@ -35,5 +36,6 @@ authRouter.post(
   ValidateJoi(UserSchema.passwordUpdate.create),
   updatePassword,
 );
+
 
 export default authRouter;

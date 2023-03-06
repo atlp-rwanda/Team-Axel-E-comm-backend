@@ -25,6 +25,7 @@ export interface UserAttributes {
 export enum Status {
   Pending = "Pending",
   Active = "Active",
+  Inactive = "Inactive",
 }
 
 export enum Role {

@@ -21,13 +21,13 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/CreateProductInput'
+              $ref: "#/components/schemas/CreateProductInput"
       responses:
-        '201':
+        "201":
           description: Post Created Successfully
-        '400':
+        "400":
           description: This Product already exists, You can update the stock levels
-        '401':
+        "401":
           description: You are not allowed to access this route
 
   # search for a product

@@ -1,9 +1,9 @@
-import { DataTypes, Model, Optional } from 'sequelize';
-import { sequelize } from '.';
-import Product from './Product.model';
-import { CartAttributes } from '../../interfaces';
+import { DataTypes, Model, Optional } from "sequelize";
+import { sequelize } from ".";
+import Product from "./Product.model";
+import { CartAttributes } from "../../interfaces";
 
-type CartCreationAttributes = Optional<CartAttributes, 'id'>;
+type CartCreationAttributes = Optional<CartAttributes, "id">;
 
 interface CartInstance
   extends Model<CartAttributes, CartCreationAttributes>,
@@ -13,7 +13,7 @@ interface CartInstance
 }
 
 const Cart = sequelize.define<CartInstance>(
-  'Cart',
+  "Cart",
   {
     id: {
       allowNull: false,
@@ -26,15 +26,15 @@ const Cart = sequelize.define<CartInstance>(
     userId: {
       type: DataTypes.UUID,
       references: {
-        model: 'User',
-        key: 'id',
+        model: "User",
+        key: "id",
       },
     },
     productId: {
       type: DataTypes.UUID,
       references: {
-        model: 'Product',
-        key: 'id',
+        model: "Product",
+        key: "id",
       },
     },
     quantity: {
@@ -43,12 +43,12 @@ const Cart = sequelize.define<CartInstance>(
     },
   },
   {
-    modelName: 'Cart',
-    tableName: 'carts',
-  }
+    modelName: "Cart",
+    tableName: "carts",
+  },
 );
 
 // Add the belongsTo association to the Product model
-Cart.belongsTo(Product, { foreignKey: 'productId' });
+Cart.belongsTo(Product, { foreignKey: "productId" });
 
 export default Cart;

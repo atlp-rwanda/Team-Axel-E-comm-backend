@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
 
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     // create logged_in_users table
-    await queryInterface.createTable('logged_in_users', {
+    await queryInterface.createTable("logged_in_users", {
       id: {
         primaryKey: true,
         type: Sequelize.UUID,
@@ -49,17 +49,17 @@ module.exports = {
       },
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('NOW()'),
+        defaultValue: Sequelize.literal("NOW()"),
       },
       updatedAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     });
   },
 
   async down(queryInterface) {
     // drop logged_in_users table
-    await queryInterface.dropTable('logged_in_users');
+    await queryInterface.dropTable("logged_in_users");
   },
 };

@@ -86,6 +86,7 @@ module.exports = {
       lastPasswordUpdate: {
         type: Sequelize.DATE,
         allowNull: true,
+
       },
     });
   },
