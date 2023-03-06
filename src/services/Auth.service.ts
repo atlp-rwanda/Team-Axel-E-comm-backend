@@ -47,7 +47,6 @@ export const sendEmailConfirmationRequest = async (
     subject: "Welcome to Team Cypher",
     text: `Hi, ${name},\n\nWelcome to Team Cypher!\n\n`,
     html: `
-
     <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -61,7 +60,6 @@ export const sendEmailConfirmationRequest = async (
   font-weight: 400;
 
   color: rgba(255, 255, 255, 0.87);
-  background-color: #020917;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -85,6 +83,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #020917;
 }
 
 h1 {
@@ -123,6 +122,7 @@ button:focus-visible {
         border: 1px solid cyan;
         padding: 1em;
         border-radius: 8px;
+  background-color: #020917;
       }
 
     </style>
@@ -148,7 +148,6 @@ button:focus-visible {
     <footer>© 2023 Andela - Team Cypher</footer>
   </body>
 </html>
-    
     `,
   };
 
@@ -187,7 +186,6 @@ export const sendEmailConfirmationMessage = async (
   font-weight: 400;
 
   color: rgba(255, 255, 255, 0.87);
-  background-color: #020917;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -211,6 +209,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #020917;
 }
 
 h1 {
@@ -249,6 +248,7 @@ button:focus-visible {
         border: 1px solid cyan;
         padding: 1em;
         border-radius: 8px;
+  background-color: #020917;
       }
 
     </style>
