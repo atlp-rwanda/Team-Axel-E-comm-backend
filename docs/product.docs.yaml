@@ -79,8 +79,7 @@ paths:
         401:
           description: Unauthorized
         400:
-          description: product not availble          
-
+          description: product not availble
 
 # schemas
 components:
@@ -110,6 +109,9 @@ components:
         price:
           type: number
           default: 3
+        quantity:
+          type: number
+          default: 1
         images:
           type: string
           default:
