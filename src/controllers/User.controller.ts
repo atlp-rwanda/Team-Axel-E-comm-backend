@@ -56,7 +56,7 @@ export const createUser = async (req: Request, res: Response) => {
       });
       sendEmailConfirmationRequest(
         newUser.email,
-        newUser.surName,
+        newUser.surname,
         confirmationCode,
       );
     }
