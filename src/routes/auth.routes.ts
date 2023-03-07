@@ -11,6 +11,7 @@ import {
 import { ValidateJoi } from "../middleware/validation/validation.middleware";
 import { UserSchema } from "../middleware/validation/user.schema.middleware";
 import { isAuth } from "../middleware/auth";
+import { updatePassword } from "../controllers/updatePassword.controller";
 
 const authRouter = Router();
 
@@ -27,5 +28,12 @@ authRouter.post("/auth/resetPassword/:token", resetPasswordController); // Reset
 authRouter.post("/auth/2fa", create2FAToken); // Create a 2FA token
 
 authRouter.post("/auth/2fa/verify2FAToken", verify2FAToken); // Verify the 2FA token
+
+authRouter.post(
+  "/updatepassword",
+  isAuth,
+  ValidateJoi(UserSchema.passwordUpdate.create),
+  updatePassword,
+);
 
 export default authRouter;
