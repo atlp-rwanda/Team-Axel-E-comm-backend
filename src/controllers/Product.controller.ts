@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
 import { ProductAttributes } from "../interfaces";
+import { isValidUuid } from "../utils/isValidUUID.util";
 import {
   findOrCreateProductService,
   getAllItemsService,
   getAvailableProductsService,
+  findOneProductService,
+  destroyProductService,
 } from "../services";
 import { searchProductsUtility } from "../utils";
 
@@ -75,6 +78,46 @@ export const getAvailableProducts = async (req: Request, res: Response) => {
         status: 500,
         success: false,
         message: "Something went wrong when getting the products",
+        error: error.message,
+      });
+    } else {
+      console.log(`Unexpected error: ${error}`);
+    }
+  }
+};
+export const deleteOneItemFromproduct = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const isValidUUID = isValidUuid(id);
+    if (!isValidUUID) {
+      return res.status(400).send({
+        status: 400,
+        message: "Invalid UUID format",
+      });
+    } else {
+      const available = await findOneProductService(id);
+      if (!available) {
+        return res.status(400).send({
+          status: 400,
+          success: false,
+          message: "Unavailable product",
+        });
+      } else {
+        const clearProduct = await destroyProductService(id);
+        res.status(201).send({
+          status: 201,
+          message: `Product deleted successfully`,
+          data: clearProduct,
+        });
+      }
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log(error.message);
+      res.status(500).json({
+        status: 500,
+        success: false,
+        message: "Error while clearing product",
         error: error.message,
       });
     } else {

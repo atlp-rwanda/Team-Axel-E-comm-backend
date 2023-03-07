@@ -4,6 +4,7 @@ import app from "../src/app";
 describe("🛍️ Product UNIT", () => {
   let token: string;
   let buyerToken: string;
+  let productId: string;
 
   beforeAll(async () => {
     try {
@@ -13,7 +14,6 @@ describe("🛍️ Product UNIT", () => {
         password: "Password@123",
       });
       token = await loginResponse.body.data;
-
       //login a buyer
       const loginBuyerResponse = await request(app)
         .post("/api/v1/auth/login")
@@ -50,6 +50,7 @@ describe("🛍️ Product UNIT", () => {
           price: 10,
           images: "https://picsum.photos/id/26/4209/2769",
         });
+      productId = res.body.data[0].id;
       expect(res.status).toEqual(201);
     });
 
@@ -133,13 +134,12 @@ describe("🛍️ Product UNIT", () => {
    * 🛑 end search products  *
    **********************************************
    */
-  
   /*
    **********************************************
    *  🟩 Seller get all items *
    **********************************************
    */
-  describe("GET  /api/v1/product/items", () => {
+   describe("GET  /api/v1/product/items", () => {
     it("should return 200 if user is seller and there no error", async () => {
       const res = await request(app)
         .get("/api/v1/product/items")
@@ -152,4 +152,74 @@ describe("🛍️ Product UNIT", () => {
    * 🛑 end of Seller get all items  *
    **********************************************
    */
+  
+  //   /*
+  //    **********************************************
+  //    * 🛑 END delete one product  *
+  //    **********************************************
+  //    */
+  describe("Delete /api/v1/product/delete/:id", () => {
+    it("it delete one product with its id", async () => {
+      const adminCredentials = {
+        email: "seller@gmail.com",
+        password: "Password@123",
+      };
+      const loginResponse = await request(app)
+        .post("/api/v1/auth/login")
+        .send(adminCredentials);
+      token = loginResponse.body.data;
+      const res = await request(app)
+        .delete(`/api/v1/product/delete/${productId}`)
+        .set("Authorization", "Bearer " + token)
+        .send();
+      expect(res.status).toEqual(201);
+      expect(res.body.message).toBe(`Product deleted successfully`);
+    });
+
+    it("when product is not available it should return 400", async () => {
+      const adminCredentials = {
+        email: "seller@gmail.com",
+        password: "Password@123",
+      };
+      const loginResponse = await request(app)
+        .post("/api/v1/auth/login")
+        .send(adminCredentials);
+      token = loginResponse.body.data;
+      const res = await request(app)
+        .delete(`/api/v1/product/delete/4b35a4b0-53e8-48a4-97b0-9d3685d3197d`)
+        .set("Authorization", "Bearer " + token)
+        .send();
+      expect(res.status).toEqual(400);
+      expect(res.body.message).toBe(`Unavailable product`);
+    });
+
+    it("when product ID is not in UUID format it should return 400", async () => {
+      const adminCredentials = {
+        email: "seller@gmail.com",
+        password: "Password@123",
+      };
+      const loginResponse = await request(app)
+        .post("/api/v1/auth/login")
+        .send(adminCredentials);
+      token = loginResponse.body.data;
+      const res = await request(app)
+        .delete(`/api/v1/product/delete/4b35a4b0`)
+        .set("Authorization", "Bearer " + token)
+        .send();
+      expect(res.status).toEqual(400);
+      expect(res.body.message).toBe(`Invalid UUID format`);
+    });
+    it("it shouldnot delete and return error status 401, when you are not logen in", async () => {
+      const res = await request(app)
+        .delete(`/api/v1/product/delete/4b35a4b0-53e8-48a4-97b0-9d3685d3197c`)
+        .send();
+      expect(res.status).toEqual(401);
+      expect(res.body.message).toBe(`You are not logged in`);
+    });
+  });
+  //   /*
+  //    **********************************************
+  //    * 🛑 END delete one product  *
+  //    **********************************************
+  //    */
 });

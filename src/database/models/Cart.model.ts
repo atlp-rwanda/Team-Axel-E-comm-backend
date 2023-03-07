@@ -29,6 +29,8 @@ const Cart = sequelize.define<CartInstance>(
         model: "User",
         key: "id",
       },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     productId: {
       type: DataTypes.UUID,
@@ -36,6 +38,8 @@ const Cart = sequelize.define<CartInstance>(
         model: "Product",
         key: "id",
       },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     quantity: {
       type: DataTypes.INTEGER,

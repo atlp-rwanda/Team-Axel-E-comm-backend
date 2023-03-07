@@ -7,7 +7,6 @@ describe(" 🦺 🛂 AUTH UNIT", () => {
     await sequelize.truncate({ cascade: true }); // deletes all data from all tables
     await sequelize.close(); // closes the connection to the database
   });
-
   /*
    **********************************************
    * 🟩 confirm user registration *
@@ -40,4 +39,53 @@ describe(" 🦺 🛂 AUTH UNIT", () => {
    * 🛑 end confirm user registration *
    **********************************************
    */
+  /*
+   **********************************************
+   * 🛑 end login user *
+   **********************************************
+   */
+  describe("LOGIN", () => {
+    // it("it login a user (status :200)", async () => {
+    //   const res = await request(app).post("/api/v1/auth/login").send({
+    //     email: "buyer@gmail.com",
+    //     password: "Password@123",
+    //   });
+    //   expect(res.status).toEqual(200);
+    //   expect(res.body.message).toEqual("Login successful ");
+    // });
+    it("if email is not available,it not login a user (status :401)", async () => {
+      const res = await request(app).post("/api/v1/auth/login").send({
+        email: "buye@gmail.com",
+        password: "Password@123",
+      });
+      expect(res.status).toEqual(401);
+      expect(res.body.message).toEqual("User with this email does not exist");
+    });
+    // it("if password not match, it not login a user (status :401)", async () => {
+    //   const res = await request(app).post("/api/v1/auth/login").send({
+    //     email: "buyer@gmail.com",
+    //     password: "Passwor@123",
+    //   });
+    //   expect(res.status).toEqual(401);
+    //   expect(res.body.message).toEqual("Password does not match with email");
+    // });
+
+    it("if user did not confirm password,it not login a user (status :401)", async () => {
+      //signUp
+      await request(app).post("/api/v1/user").send({
+        surname: "KANYOMBYA",
+        given_name: "Irindi Sindizi",
+        email: "kanyombya@gmail.com",
+        password: "Password!23",
+      });
+      const res = await request(app).post("/api/v1/auth/login").send({
+        email: "kanyombya@gmail.com",
+        password: "Password!23",
+      });
+      expect(res.status).toEqual(401);
+      expect(res.body.message).toEqual(
+        "Please first head over to your email and confirm your registration",
+      );
+    });
+  });
 });

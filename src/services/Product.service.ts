@@ -28,6 +28,24 @@ export const findProductService = async (productId: string) => {
   return getProductRequest;
 };
 
+export const findOneProductService = async (id: string) => {
+  const product = await Product.findOne({
+    where: {
+      id,
+    },
+  });
+  return product;
+};
+
+export const destroyProductService = async (id: string) => {
+  const clearProduct = await Product.destroy({
+    where: {
+      id,
+    },
+  });
+  return clearProduct;
+};
+
 export const getAllItemsService = async () => {
   const allItems = await Product.findAll();
   return allItems;
