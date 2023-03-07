@@ -181,7 +181,7 @@ export const resetPasswordController = async (req: Request, res: Response) => {
 
       const updatedResponse = await User.update(
         { password: req.body.password },
-        { where: { email: decodedToken.email } },
+        { where: { email: decodedToken } },
       );
       if (updatedResponse[0] === 1) {
         res.status(201).json({
@@ -190,7 +190,7 @@ export const resetPasswordController = async (req: Request, res: Response) => {
           message: "Password reset successfully",
         });
         sendPasswordResetConfirmation(
-          decodedToken.email,
+          decodedToken,
           currentUser.dataValues.surname,
         );
       } else {
