@@ -3,6 +3,26 @@ import app from "../src/app";
 
 describe("🍎🍎WISHLIST FEATURES", () => {
   const productId = "4b35a4b0-53e8-48a4-97b0-9d3685d3197c";
+  let buyerToken: string;
+
+  beforeAll(async () => {
+    try {
+      //login a buyer
+      const loginBuyerResponse = await request(app)
+        .post("/api/v1/auth/login")
+        .send({
+          email: "buyer@gmail.com",
+          password: "Password@123",
+        });
+      buyerToken = await loginBuyerResponse.body.data;
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(`🍎 Error logging in beforeAll hook ${error.message}`);
+      } else {
+        console.log(`🍎 Error logging in beforeAll hook`, error);
+      }
+    }
+  });
 
   /*
    **********************************************
@@ -12,19 +32,9 @@ describe("🍎🍎WISHLIST FEATURES", () => {
 
   describe("POST /api/v1/wishes/:productId", () => {
     it("adds a product to the user wishlist", async () => {
-      // login the buyer
-      const currentUser = {
-        email: "buyer@gmail.com",
-        password: "Password@123",
-      };
-      const loginResponse = await request(app)
-        .post("/api/v1/auth/login")
-        .send(currentUser);
-      const token = loginResponse.body.data;
-
       const response = await request(app)
         .post(`/api/v1/wishes/${productId}`)
-        .set("Authorization", `Bearer ${token}`)
+        .set("Authorization", `Bearer ${buyerToken}`)
         .send();
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -32,20 +42,9 @@ describe("🍎🍎WISHLIST FEATURES", () => {
     });
 
     it("returns 400 error if the product is not found", async () => {
-      // login the buyer
-      const currentUser = {
-        email: "buyer@gmail.com",
-        password: "Password@123",
-      };
-      const loginResponse = await request(app)
-        .post("/api/v1/auth/login")
-        .send(currentUser);
-
-      const token = loginResponse.body.data;
-
       const response = await request(app)
         .post(`/api/v1/wishes/4b35a4b0-53e8-48a4-97b0-9d3685d3197d`)
-        .set("Authorization", `Bearer ${token}`)
+        .set("Authorization", `Bearer ${buyerToken}`)
         .send();
       expect(response.status).toBe(400);
       expect(response.body.success).toBe(false);
@@ -55,20 +54,9 @@ describe("🍎🍎WISHLIST FEATURES", () => {
     });
 
     it("returns 400 error if the product is already in the wishlist", async () => {
-      // login the buyer
-      const currentUser = {
-        email: "buyer@gmail.com",
-        password: "Password@123",
-      };
-      const loginResponse = await request(app)
-        .post("/api/v1/auth/login")
-        .send(currentUser);
-
-      const token = loginResponse.body.data;
-
       const response = await request(app)
         .post(`/api/v1/wishes/${productId}`)
-        .set("Authorization", `Bearer ${token}`)
+        .set("Authorization", `Bearer ${buyerToken}`)
         .send();
       expect(response.status).toBe(400);
       expect(response.body.success).toBe(false);
@@ -95,19 +83,9 @@ describe("🍎🍎WISHLIST FEATURES", () => {
 
   describe("GET /api/v1/wishes/", () => {
     it("returns the user wishlist", async () => {
-      // login the buyer
-      const currentUser = {
-        email: "buyer@gmail.com",
-        password: "Password@123",
-      };
-      const loginResponse = await request(app)
-        .post("/api/v1/auth/login")
-        .send(currentUser);
-
-      const token = loginResponse.body.data;
       const response = await request(app)
         .get("/api/v1/wishes/")
-        .set("Authorization", `Bearer ${token}`)
+        .set("Authorization", `Bearer ${buyerToken}`)
         .send();
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -132,38 +110,18 @@ describe("🍎🍎WISHLIST FEATURES", () => {
    */
   describe("DELETE /api/v1/wishes/:id", () => {
     it("deletes a product from the user wishlist", async () => {
-      // login the buyer
-      const currentUser = {
-        email: "buyer@gmail.com",
-        password: "Password@123",
-      };
-      const loginResponse = await request(app)
-        .post("/api/v1/auth/login")
-        .send(currentUser);
-
-      const token = loginResponse.body.data;
       const response = await request(app)
         .delete(`/api/v1/wishes/${productId}`)
-        .set("Authorization", `Bearer ${token}`)
+        .set("Authorization", `Bearer ${buyerToken}`)
         .send();
       expect(response.body.message).toBe(`deleted successfully`);
       expect(response.body.data).toBe(1);
     });
 
     it("returns 400 error if the wishlist item is not found", async () => {
-      // login the buyer
-      const currentUser = {
-        email: "buyer@gmail.com",
-        password: "Password@123",
-      };
-      const loginResponse = await request(app)
-        .post("/api/v1/auth/login")
-        .send(currentUser);
-
-      const token = loginResponse.body.data;
       const response = await request(app)
         .delete("/api/v1/wishes/4b35a4b0-53e8-48a4-97b0-9d3685d3197d")
-        .set("Authorization", `Bearer ${token}`)
+        .set("Authorization", `Bearer ${buyerToken}`)
         .send();
       expect(response.status).toBe(400);
       expect(response.body.error).toBe(
@@ -180,19 +138,9 @@ describe("🍎🍎WISHLIST FEATURES", () => {
 
   describe("DELETE /api/v1/wishes/all", () => {
     it("deletes all products in the user wishlist", async () => {
-      // login the buyer
-      const currentUser = {
-        email: "buyer@gmail.com",
-        password: "Password@123",
-      };
-      const loginResponse = await request(app)
-        .post("/api/v1/auth/login")
-        .send(currentUser);
-
-      const token = loginResponse.body.data;
       const response = await request(app)
         .delete("/api/v1/wishes/all")
-        .set("Authorization", `Bearer ${token}`)
+        .set("Authorization", `Bearer ${buyerToken}`)
         .send();
       expect(response.body.status).toBe(200);
       expect(response.body.message).toBe("Wishlist cleared successfully");

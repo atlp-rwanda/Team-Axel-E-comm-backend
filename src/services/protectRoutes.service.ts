@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as JWT from "jsonwebtoken";
 import User from "../database/models/User.model";
+import { verifyToken } from "../utils";
 
 export const protectRoute = async (
   req: Request,
@@ -17,7 +18,7 @@ export const protectRoute = async (
   ) {
     return res.status(401).json({
       error: "not authorized",
-      statusCode: 401,
+      status: 401,
       success: false,
     });
   }
@@ -25,9 +26,9 @@ export const protectRoute = async (
   try {
     token = req.headers.authorization.split(" ")[1];
 
-    const decodedData = JWT.verify(token, secret);
+    const decodedData = await verifyToken(token);
 
-    const user = await User.findByPk(decodedData.toString());
+    const user = await User.findByPk(decodedData.payload.toString());
 
     if (!user) throw new Error("user not found");
     req.user = user.dataValues;
@@ -47,8 +48,8 @@ export const protectRoute = async (
       }
       return res.status(400).json({
         verified: false,
-        statusCode: 400,
-        message: "please verify your code sent to yuor email",
+        status: 400,
+        message: "please verify your code sent to your email",
       });
     }
 
@@ -56,9 +57,10 @@ export const protectRoute = async (
   } catch (err) {
     if (err instanceof Error) {
       return res.status(401).json({
-        error: err.message,
-        statusCode: 401,
+        status: 401,
         success: false,
+        message: "Error when verifying token",
+        error: err.message,
       });
     }
   }
