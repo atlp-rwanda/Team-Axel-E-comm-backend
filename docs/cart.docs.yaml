@@ -73,4 +73,3 @@ components:
       # all properties are required
       required:
         - productId
-        - quantity
