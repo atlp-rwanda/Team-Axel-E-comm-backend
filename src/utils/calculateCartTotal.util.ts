@@ -17,9 +17,6 @@ export const calculateCartTotal = async (itemsInCart: CartAttributes[]) => {
       0,
     );
 
-    if (!cartTotal) {
-      throw new Error("Cart is empty");
-    }
     return cartTotal;
   } catch (error) {
     if (error instanceof Error) {

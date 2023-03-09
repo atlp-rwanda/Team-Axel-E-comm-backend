@@ -14,7 +14,7 @@ export const ProductSchema = {
     }),
     addToCart: Joi.object<CartAttributes>({
       productId: Joi.string().required(),
-      quantity: Joi.number().required(),
+      quantity: Joi.number(),
     }),
   },
 };
