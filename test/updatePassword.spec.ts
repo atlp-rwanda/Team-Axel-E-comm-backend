@@ -2,7 +2,6 @@ import request from "supertest";
 import app from "./../src/app";
 import crypto from "node:crypto";
 
-jest.setTimeout(150000);
 let jwt: string;
 const email = crypto.randomUUID() + "@gmail.com";
 
