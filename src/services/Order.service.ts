@@ -1,8 +1,13 @@
 import Cart from "../database/models/Cart.model";
 import Order from "../database/models/Order.model";
+import Product from "../database/models/Product.model";
+import { Orderinterface } from "../interfaces";
 
 // To create order
-export const createOrderService = async (userId: string, items: string[]) => {
+export const createOrderService = async (
+  userId: string,
+  items: Orderinterface,
+) => {
   const order = await Order.create({
     userId,
     items: JSON.stringify(items),
@@ -72,14 +77,21 @@ export const updatedOrderStatusService = async (
   return updatedOrderSt;
 };
 
-export const getCartItemsService = async (
-  userId: string,
-): Promise<string[]> => {
+export const getCartItemsService = async (userId: string) => {
   const cartItems = await Cart.findAll({
+    include: Product,
     where: {
       userId,
     },
   });
-  const items = cartItems.map((item) => item.dataValues.productId);
+  const items = cartItems.map((item) => ({
+    quantity: item.dataValues.quantity,
+    product: item.dataValues.Product,
+  }));
   return items;
+};
+
+export const getAllOrder = async () => {
+  const orders = await Order.findAll();
+  return orders;
 };

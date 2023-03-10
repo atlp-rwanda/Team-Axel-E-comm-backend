@@ -5,15 +5,17 @@ import {
   ViewOrders,
   getOrderStatus,
   updatedOrderStatus,
+  AdminGetAllOrders,
 } from "../controllers";
-import { isAdmin, isAuth } from "../middleware/auth";
+import { isAdmin } from "../middleware/auth";
 import { protectRoute } from "../services/protectRoutes.service";
 
 const orderRouter = Router();
 
-orderRouter.post("/", [isAuth], createOrder); // create order
-orderRouter.get("/all", [isAuth], ViewOrders); // view all orders
-orderRouter.delete("/alll", [isAuth], clearOrders); // delete all orders
-orderRouter.get("/status/:orderId", [isAuth], getOrderStatus); //get order status
-orderRouter.put("/status/:orderId", [isAuth], [isAdmin], updatedOrderStatus); //updated order status
+orderRouter.post("/", protectRoute, createOrder);
+orderRouter.get("/get/all", protectRoute, ViewOrders);
+orderRouter.delete("/delete/all", protectRoute, clearOrders);
+orderRouter.get("/status/:orderId", protectRoute, getOrderStatus);
+orderRouter.put("/status/:orderId", protectRoute, isAdmin, updatedOrderStatus);
+orderRouter.get("/all", protectRoute, isAdmin, AdminGetAllOrders);
 export default orderRouter;

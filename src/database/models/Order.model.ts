@@ -27,6 +27,10 @@ const Order = sequelize.define(
       type: DataTypes.ENUM("Pending", "Shipped", "Delivered"),
       defaultValue: "Pending",
     },
+    payment: {
+      type: DataTypes.ENUM("Pending", "Paid"),
+      defaultValue: "Pending",
+    },
     expectedDeliveryDate: {
       type: DataTypes.DATE,
       defaultValue: function () {

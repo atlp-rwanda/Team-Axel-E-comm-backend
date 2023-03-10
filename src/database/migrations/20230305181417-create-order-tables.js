@@ -27,6 +27,10 @@ module.exports = {
         type: Sequelize.ENUM("Pending", "Shipped", "Delivered"),
         defaultValue: "Pending",
       },
+      payment: {
+        type: Sequelize.ENUM("Pending", "Paid"),
+        defaultValue: "Pending",
+      },
       expectedDeliveryDate: {
         type: Sequelize.DATE,
         defaultValue: function () {
