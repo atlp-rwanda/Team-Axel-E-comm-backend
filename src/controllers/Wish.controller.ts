@@ -29,7 +29,7 @@ export const addWishlistItem = async (req: Request, res: Response) => {
       res.status(500).json({
         status: 500,
         success: false,
-        message: "unecpected Error while adding product to wishlist",
+        message: "Unexpected Error while adding product to wishlist",
         error: error,
       });
     }

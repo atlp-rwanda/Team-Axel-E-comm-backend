@@ -20,7 +20,7 @@ export const findOneUserService = async (userId: string) => {
 };
 
 // Find one User by id
-export const findOneUserByIdService = async (userId: number) => {
+export const findOneUserByIdService = async (userId: string) => {
   const findOneUserRequest = await User.findByPk(userId);
   return findOneUserRequest;
 };

@@ -6,7 +6,7 @@ import {
   sendEmailConfirmationRequest,
 } from "../services";
 import User from "../database/models/User.model";
-import { jwtUtility } from "../utils";
+import { generateToken } from "../utils";
 
 // Get all users
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -29,9 +29,10 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const createUser = async (req: Request, res: Response) => {
   try {
     let newUser = req.body;
+    const email = req.body.email;
     // set unique token which will be the new user's confirmation code.
 
-    const confirmationCode = jwtUtility.generateToken(newUser.email);
+    const confirmationCode = await generateToken(email);
     // check if this user already exists.
     const thisUserExists = await User.findOne({
       where: { email: newUser.email },
@@ -47,14 +48,18 @@ export const createUser = async (req: Request, res: Response) => {
       newUser = { ...newUser, confirmationCode };
       // create this user with that code.
       const createdUser = await createUserService(newUser);
-      const userToken = jwtUtility.generateToken(newUser);
+      const userData = {
+        name: createdUser.surname,
+        email: createdUser.email,
+        confirmationCode: createdUser.confirmationCode,
+      };
       res.status(201).json({
         status: 201,
         success: true,
         message: "Successfully registered. Please check your email to confirm.",
-        data: [createdUser, { token: userToken }],
+        data: [userData],
       });
-      sendEmailConfirmationRequest(
+      await sendEmailConfirmationRequest(
         newUser.email,
         newUser.surName,
         confirmationCode,
@@ -63,6 +68,8 @@ export const createUser = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof Error) {
       console.log(`Error creating user: ${error.message}`);
+      console.log(error);
+
       res
         .status(500)
         .json({ status: 500, success: false, message: `${error.message}` });

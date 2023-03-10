@@ -9,7 +9,7 @@ import { isAuth } from "../middleware/auth";
 
 const wishRouter = Router();
 
-wishRouter.post("/:productId", isAuth, addWishlistItem);
+wishRouter.post("/:productId", [isAuth], addWishlistItem);
 
 wishRouter.get("/", [isAuth], getWishlist);
 

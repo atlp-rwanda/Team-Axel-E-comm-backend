@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import { jwtUtility } from "../utils/jwt.utils";
+import { generateToken, verifyToken } from "../utils";
 import {
   confirmUserService,
   findOneUserByEmailService,
@@ -44,7 +44,7 @@ export const loginUser = async (req: Request, res: Response) => {
             message: "Password does not match with email",
           });
         } else {
-          const token = jwtUtility.generateToken(user.dataValues.id);
+          const token = await generateToken(user.dataValues.id);
           // Store the user's ID in the session
           req.session.userId = user.dataValues.id;
 
@@ -131,17 +131,13 @@ export const resetPasswordRequestController = async (
   req: Request,
   res: Response,
 ) => {
-  // const requestPasswordResetService = await requestPasswordResetService(
-  //   req.body.email
-  // );
-  // return res.json(requestPasswordResetService);
   const user = await User.findOne({ where: { email: req.body.email } });
   if (!user) {
     res
       .status(404)
       .json({ status: 404, success: false, message: "Email does not exist" });
   } else {
-    const resetToken = jwtUtility.generateToken(user.dataValues.email);
+    const resetToken = await generateToken(user.dataValues.email, "5m");
     const updateResetToken = await User.update(
       { resetToken: resetToken },
       { where: { email: req.body.email } },
@@ -168,20 +164,20 @@ export const resetPasswordRequestController = async (
 };
 // Reset Password
 export const resetPasswordController = async (req: Request, res: Response) => {
-  const resetToken = req.params.token;
-  const currentUser = await User.findOne({
-    where: { resetToken },
-  });
-
-  if (!currentUser) {
-    res.status(404).json({ status: 404, success: false, message: "Forbidden" });
-  } else {
-    try {
-      const decodedToken = await jwtUtility.verifyToken(resetToken);
-
+  try {
+    const resetToken = req.params.token;
+    const currentUser = await User.findOne({
+      where: { resetToken },
+    });
+    if (!currentUser) {
+      res
+        .status(404)
+        .json({ status: 404, success: false, message: "Forbidden" });
+    } else {
+      const decodedToken = await verifyToken(resetToken);
       const updatedResponse = await User.update(
-        { password: req.body.password },
-        { where: { email: decodedToken } },
+        { password: req.body.password, resetToken: "" },
+        { where: { email: decodedToken.payload } },
       );
       if (updatedResponse[0] === 1) {
         res.status(201).json({
@@ -190,25 +186,19 @@ export const resetPasswordController = async (req: Request, res: Response) => {
           message: "Password reset successfully",
         });
         sendPasswordResetConfirmation(
-          decodedToken,
+          decodedToken.payload,
           currentUser.dataValues.surname,
         );
-      } else {
-        res.status(505).json({
-          status: 505,
-          success: false,
-          message: "Failed to reset password",
-        });
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        res.json({
-          success: false,
-          message: `${error.message}`,
-        });
-      } else {
-        console.log("Something went wrong", error);
-      }
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.json({
+        success: false,
+        message: `${error.message}`,
+      });
+    } else {
+      console.log("Something went wrong", error);
     }
   }
 };

@@ -1,24 +1,39 @@
-import * as JWT from "jsonwebtoken";
-import * as dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
 dotenv.config();
 
-export class jwtUtility {
-  static generateToken(userData: string): string {
-    if (!process.env.SECRET_TOKEN) {
-      throw new Error("SECRET_TOKEN environment variable not set");
-    }
-    return JWT.sign(userData, process.env.SECRET_TOKEN);
-  }
+type IReturn = {
+  payload: string;
+  iat: number;
+  exp: number;
+};
 
-  static verifyToken(token: string): any | Error {
-    if (!process.env.SECRET_TOKEN) {
-      throw new Error("SECRET_TOKEN environment variable not set");
-    }
-    return JWT.verify(token, process.env.SECRET_TOKEN, (err, decoded) => {
-      if (err) {
-        return err;
-      }
-      return decoded;
-    });
-  }
+const secretToken = process.env.SECRET_TOKEN as string;
+if (!secretToken) {
+  throw new Error("SECRET_TOKEN environment variable not set");
 }
+
+async function generateToken(payload: string, date?: string): Promise<string> {
+  if (!date) {
+    date = "1d";
+  }
+  return jwt.sign({ payload }, secretToken, { expiresIn: `${date}` });
+}
+
+async function verifyToken(token: string): Promise<IReturn> {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, secretToken, (err, decoded) => {
+      if (err) {
+        reject(new Error(err.message));
+      } else {
+        if (!decoded) {
+          reject(new Error("No decoded token"));
+        }
+        return resolve(decoded as IReturn);
+      }
+    });
+  });
+}
+
+export { generateToken, verifyToken };

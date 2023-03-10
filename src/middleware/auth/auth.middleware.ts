@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { jwtUtility } from "../../utils";
+import { verifyToken } from "../../utils";
 import { findOneUserByIdService } from "../../services";
 
 export const isAuth = async (
@@ -15,14 +15,15 @@ export const isAuth = async (
   } else {
     try {
       const token = req.headers.authorization.split(" ")[1];
-      const decodedData = jwtUtility.verifyToken(token);
-      const currentUser = await findOneUserByIdService(decodedData);
+      const decodedData = await verifyToken(token);
+
+      const currentUser = await findOneUserByIdService(decodedData.payload);
       if (!currentUser) {
         res.status(403);
         return res.json({
-          statusCode: 403,
+          status: 403,
           success: false,
-          message: "Unauthorized access. User not found",
+          message: "Unauthorized access.",
         });
       }
       req.user = currentUser.dataValues; // is this right koko?
@@ -32,7 +33,8 @@ export const isAuth = async (
         res.status(500).json({
           status: 500,
           success: false,
-          message: `${error.message}`,
+          message: "Error when verifying user",
+          error: error.message,
         });
       } else {
         console.log(`Something went wrong when verifying the token: `, error);
@@ -63,7 +65,8 @@ export const isSeller = async (
       res.status(500).json({
         status: 500,
         success: false,
-        message: `${error.message}`,
+        message: "Error when verifying seller status",
+        error: error.message,
       });
     } else {
       console.log(`Something went wrong when verifying user status: `, error);
@@ -93,7 +96,8 @@ export const isAdmin = async (
       res.status(500).json({
         status: 500,
         success: false,
-        message: `${error.message}`,
+        message: "Error when verifying admin status",
+        error: error.message,
       });
     } else {
       console.log(`Something went wrong when verifying user status: `, error);

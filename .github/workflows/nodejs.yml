@@ -14,6 +14,7 @@ env:
   GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
   GOOGLE_CLIENT_SECRET: ${{ vars.GOOGLE_CLIENT_SECRET }}
   TEST_DB_URL: ${{vars.TEST_DB_URL}}
+  SECRET_TOKEN: ${{vars.GOOGLE_CLIENT_SECRET}}
 
 jobs:
   test:
