@@ -4,6 +4,7 @@ import {
   getAllSellerItems,
   getAvailableProducts,
   deleteOneItemFromproduct,
+  getOneAvailableProduct,
 } from "../controllers";
 import { ValidateJoi, ProductSchema } from "../middleware/validation";
 import { searchProducts } from "../controllers";
@@ -21,6 +22,9 @@ productRouter.post(
 
 // Get all products
 productRouter.get("/available", getAvailableProducts);
+
+// Get one available product
+productRouter.get("/available/:id", getOneAvailableProduct);
 
 // search for products
 productRouter.get("/search", searchProducts); // search for products

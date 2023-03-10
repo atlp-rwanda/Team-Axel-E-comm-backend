@@ -79,8 +79,29 @@ paths:
         401:
           description: Unauthorized
         400:
-          description: product not availble          
-
+          description: product not availble
+    # Get product by id
+  /api/v1/product/available/{productId}:
+    get:
+      tags: [Product Routes]
+      summary: Returns a product by ID.
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The Id of the product you want returned
+          schema:
+            type: string
+            # minimum: 15
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: This Product does not exist.
+        "500":
+          description: Something went wrong when fetching the product.
+        "5XX":
+          description: Unexpected error.
 
 # schemas
 components:
