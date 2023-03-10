@@ -6,20 +6,37 @@ const stripe = new Stripe(process.env.STRIPE_SECRET as string, {
 });
 
 export const checkoutController = {
-  async checkoutPayment(_req: Request, res: Response) {
+  async checkoutPayment(req: Request, res: Response) {
     try {
-      // we still need ID coming from the front-end for this to work
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: 4000, // generic number
-        currency: "usd",
+      const { email, tokenId, amount } = req.body;
+
+      const customer = await stripe.customers.create({
+        email,
+        source: tokenId,
+        description: "Customer from the e-commerce",
       });
 
-      res.send({
-        clientSecret: paymentIntent.client_secret,
+      await stripe.paymentIntents.create({
+        amount,
+        currency: "usd",
+        customer: customer.id,
+        confirm: true,
+      });
+
+      return res.status(200).json({
+        data: customer,
+        message: "Successfully made payment",
+        success: true,
+        status: 200,
       });
     } catch (err) {
       if (err instanceof Error) {
-        return res.status(400).json({ success: false, error: err.message });
+        return res.status(400).json({
+          error: err.message,
+          message: "Failed to make payment",
+          status: 400,
+          success: false,
+        });
       }
     }
   },

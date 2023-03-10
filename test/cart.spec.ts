@@ -1,7 +1,7 @@
 import app from "../src/app";
 import request from "supertest";
 
-jest.setTimeout(3000000);
+jest.setTimeout(150000);
 
 describe("🛒 📦 CART UNIT", () => {
   let token: string;
