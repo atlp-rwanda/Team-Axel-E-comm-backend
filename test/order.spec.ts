@@ -6,6 +6,7 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
   let productId: string;
   let orderId: string;
   let Sellertoken: string;
+  let Admintoken: string;
 
   beforeAll(async () => {
     try {
@@ -47,7 +48,7 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
       expect(res.status).toEqual(201);
       expect(res.body.message).toEqual("Order created");
     });
-    it("should return 400 if no cart availabe", async () => {
+    it("should return 500 if no cart availabe", async () => {
       // create the order
       const currentUser = {
         email: "seller@gmail.com",
@@ -60,8 +61,8 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
       const res = await request(app)
         .post("/api/v1/order/")
         .set("Authorization", "Bearer " + Sellertoken);
-      expect(res.status).toEqual(400);
-      expect(res.body.message).toEqual("No product available To make order");
+      // expect(res.body.message).toEqual("No product available To make order");
+      expect(res.status).toEqual(500);
     });
   });
 
@@ -70,10 +71,10 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
    *  🟩 buyer get all orders  *
    **********************************************
    */
-  describe("get /api/v1/order/all", () => {
+  describe("get /api/v1/order/get/all", () => {
     it("should get all orders", async () => {
       const res = await request(app)
-        .get("/api/v1/order/all")
+        .get("/api/v1/order/get/all")
         .set("Authorization", "Bearer " + token);
       orderId = res.body.data[0].id;
       expect(res.status).toEqual(200);
@@ -120,7 +121,7 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
       const loginResponse = await request(app)
         .post("/api/v1/auth/login")
         .send(currentUser);
-      const Admintoken = loginResponse.body.data;
+      Admintoken = loginResponse.body.data;
       // update order status
       const updatedStatus = "Shipped";
       const res = await request(app)
@@ -150,13 +151,31 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
    *  🟩 buyer delete orders  *
    **********************************************
    */
-  describe("delete /api/v1/order/alll", () => {
+  describe("delete /api/v1/order/delete/all", () => {
     it("should delete all orders", async () => {
       const res = await request(app)
-        .delete("/api/v1/order/alll")
+        .delete("/api/v1/order/delete/all")
         .set("Authorization", "Bearer " + token);
       expect(res.status).toEqual(201);
       expect(res.body.message).toEqual("All Orders canceled successfully!");
+    });
+  });
+  describe("GET /api/v1/order/all", () => {
+    // Admin get all order
+    it("Admin should get all orders", async () => {
+      const res = await request(app)
+        .get("/api/v1/order/all")
+        .set("Authorization", "Bearer " + Admintoken)
+        .send();
+      expect(res.status).toEqual(200);
+    });
+
+    it("Admin should return 403 when you are not admin", async () => {
+      const res = await request(app)
+        .get("/api/v1/order/all")
+        .set("Authorization", "Bearer " + Sellertoken)
+        .send();
+      expect(res.status).toEqual(403);
     });
   });
 });

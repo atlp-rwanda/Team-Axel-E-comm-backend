@@ -6,20 +6,26 @@ import {
   getOrderStatusService,
   updatedOrderStatusService,
   getCartItemsService,
+  getAllOrder,
 } from "../services";
+import { Orderinterface } from "../interfaces";
 
 export const createOrder = async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
     const items = await getCartItemsService(userId);
-    if (items.length === 0) {
+    if (!items) {
       return res.status(400).json({
         message: "No product available To make order",
         status: 400,
         success: false,
       });
     }
-    const order = await createOrderService(userId, items);
+    const data: Orderinterface = {
+      QUANTITY: items[0].quantity,
+      PRODUCT: items[0].product,
+    };
+    const order = await createOrderService(userId, data);
     res.status(201).json({
       data: order,
       message: "Order created",
@@ -136,6 +142,26 @@ export const updatedOrderStatus = async (req: Request, res: Response) => {
         success: false,
         message: "Error updating order status",
         error: err.message,
+      });
+    }
+  }
+};
+
+export const AdminGetAllOrders = async (req: Request, res: Response) => {
+  try {
+    const orders = await getAllOrder();
+    res.status(200).send({
+      data: orders,
+      status: 200,
+      success: true,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        status: 500,
+        success: false,
+        message: "unexpected Error while getting order",
+        error: error,
       });
     }
   }
