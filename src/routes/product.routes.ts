@@ -5,6 +5,7 @@ import {
   getAvailableProducts,
   deleteOneItemFromproduct,
   getOneAvailableProduct,
+  updateProduct,
 } from "../controllers";
 import { ValidateJoi, ProductSchema } from "../middleware/validation";
 import { searchProducts } from "../controllers";
@@ -36,6 +37,16 @@ productRouter.delete(
   "/delete/:id",
   [protectRoute, isSeller],
   deleteOneItemFromproduct,
+);
+
+productRouter.patch(
+  "/update/:id",
+  [
+    protectRoute,
+    isSeller,
+    ValidateJoi(ProductSchema.product.updateSellerProduct),
+  ],
+  updateProduct,
 );
 
 export default productRouter;
