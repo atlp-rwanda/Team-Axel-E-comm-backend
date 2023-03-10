@@ -13,6 +13,13 @@ export const getAvailableProductsService = async () => {
   return getProductsRequest;
 };
 
+export const getOneAvailableProductService = async (productId: string) => {
+  const getOneProductRequest = await Product.findOne({
+    where: { stock: "Available", id: productId },
+  });
+  return getOneProductRequest;
+};
+
 export const findOrCreateProductService = async (
   newProduct: ProductAttributes,
 ) => {
