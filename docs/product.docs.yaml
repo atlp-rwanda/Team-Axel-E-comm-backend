@@ -103,6 +103,54 @@ paths:
         "5XX":
           description: Unexpected error.
 
+  # update a product
+  /api/v1/product/update/{productId}:
+    patch:
+      security: [{ jwt: [] }]
+      summary: Update a product
+      tags: [Product Routes]
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The Id of product you want to update
+          schema:
+            type: string
+            minimum: 15
+      requestBody:
+        description: Please fill fields you want to update and remove un wanted
+        content:
+          application/json:
+            schema:
+              product:
+                type: object
+              properties:
+                name:
+                  type: string
+                  default: Meat
+                category:
+                  type: string
+                  default: Food
+                description:
+                  type: string
+                  default: Quality meat for your whole family
+                stock:
+                  type: string
+                  default: Available
+                price:
+                  type: number
+                  default: 3
+                images:
+                  type: string
+                  default:
+      responses:
+        '200':
+          description: Update done Successfully
+        '404':
+          description: This Product doesn't exists.
+        '401':
+          description: You are not allowed to access this route
+
 # schemas
 components:
   schemas:

@@ -222,4 +222,27 @@ describe("🛍️ Product UNIT", () => {
   //    * 🛑 END delete one product  *
   //    **********************************************
   //    */
+  /*
+   **********************************************
+   *  🟩 Update a product *
+   **********************************************
+   */
+  describe("PATCH /api/v1/product/update/{productId}", () => {
+    it("should return 200 if the user is not a seller", async () => {
+      const res = await request(app)
+        .patch(`/api/v1/product/update/926ade6c-21f7-4866-ae7f-360d1574839d`)
+        .set("Authorization", "Bearer " + token)
+        .send({
+          name: "Test product Failure",
+          quantity: 48,
+          price: 140,
+        });
+      expect(res.status).toEqual(200);
+    });
+  });
+  /*
+   **********************************************
+   * 🛑 End Of pruduct update *
+   **********************************************
+   */
 });

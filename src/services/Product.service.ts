@@ -57,3 +57,14 @@ export const getAllItemsService = async () => {
   const allItems = await Product.findAll();
   return allItems;
 };
+
+export const updateProductService = async (
+  productId: string,
+  parsedDataToUpdate: ProductAttributes,
+) => {
+  const updatedProduct = await Product.update(parsedDataToUpdate, {
+    where: { id: productId },
+    returning: true,
+  });
+  return updatedProduct;
+};
