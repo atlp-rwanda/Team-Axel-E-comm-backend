@@ -2,6 +2,7 @@ import cron from "node-cron";
 import { Stock } from "../interfaces";
 import { getAvailableProductsService } from "../services";
 import { sendExpiredProductNotice } from "../services/mail";
+import { notifyReal } from "../controllers";
 
 export const checkExpiredProducts = async (): Promise<void> => {
   cron.schedule("30 17 * * *", async () => {
@@ -15,6 +16,14 @@ export const checkExpiredProducts = async (): Promise<void> => {
             product.save();
             const { id, name, sellerId, quantity } = product;
             await sendExpiredProductNotice({ id, name, sellerId, quantity });
+            notifyReal({
+              title: "Product Expiry",
+              message: `Product "${product.name}" has been expired`,
+              action: "product expiry",
+              userId: sellerId,
+              message2: `"${product.name}" has expired, Don't miss out on other products 🫠`,
+              // "*/30 * * * * *",
+            });
           }
         }
       });

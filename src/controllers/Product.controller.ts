@@ -12,6 +12,7 @@ import {
   updateProductService,
 } from "../services";
 import { searchProductsUtility } from "../utils";
+import { notifyReal } from "../controllers";
 
 export const searchProducts = async (req: Request, res: Response) => {
   try {
@@ -52,6 +53,15 @@ export const createProduct = async (req: Request, res: Response) => {
         data: thisProductExists,
       });
     } else {
+      notifyReal({
+        title: "Product creation",
+        message: `Product "${newProduct.name}" has been created successfully`,
+        email: req.user.email,
+        action: "product create",
+        userId: sellerId,
+        message2: "A product that may interest you has been created",
+        // "*/30 * * * * *",
+      });
       return res
         .status(201)
         .json({ status: 201, success: true, data: thisProductExists });
@@ -106,6 +116,18 @@ export const deleteOneItemFromproduct = async (req: Request, res: Response) => {
           message: "Unavailable product",
         });
       } else {
+        const productName = available.dataValues.name;
+        const user = req.user;
+        const sellerId = user.id;
+        const userEmail = user.email;
+        notifyReal({
+          title: "Product Deletion",
+          message: `Product "${productName}" has been deleted successfully`,
+          email: userEmail,
+          action: "product create",
+          userId: sellerId,
+          // "*/30 * * * * *",
+        });
         const clearProduct = await destroyProductService(id);
         res.status(201).send({
           status: 201,
@@ -200,6 +222,14 @@ export const updateProduct = async (req: Request, res: Response) => {
       productId,
       parsedProductToUpdate,
     );
+    notifyReal({
+      title: "Product edit",
+      message: `Product "${parsedProductToUpdate.name}" has been edited successfully`,
+      email: req.user.email,
+      action: "product edit",
+      userId: req.user.id,
+      // "*/30 * * * * *",
+    });
     return res.status(200).json({
       status: 200,
       success: true,
