@@ -76,7 +76,7 @@ const User = sequelize.define<UserInstance>(
       defaultValue: "Buyer",
     },
     status: {
-      type: DataTypes.ENUM("Pending", "Active"),
+      type: DataTypes.ENUM("Pending", "Active", "Needs_Password_Reset"),
       defaultValue: "Pending",
     },
     confirmationCode: {

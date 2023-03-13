@@ -32,6 +32,13 @@ export const loginUser = async (req: Request, res: Response) => {
           message:
             "Please first head over to your email and confirm your registration",
         });
+      } else if (user.dataValues.status === "Needs_Password_Reset") {
+        res.status(401).send({
+          status: 401,
+          success: false,
+          message:
+            "Please first head over to your email and reset your password. It has expired",
+        });
       } else {
         const passwordMatch = await bcrypt.compare(
           password,
