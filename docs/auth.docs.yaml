@@ -45,10 +45,10 @@ components:
       properties:
         email:
           type: string
-          example: netero@huntersguild.com
+          example: buyer@gmail.com
         password:
           type: string
-          example: HunterxHunter@1
+          example: Password@123
       # all properties are required
       required:
         - email

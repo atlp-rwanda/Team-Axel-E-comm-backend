@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import app from "./app";
 import swaggerDocs from "../docs/swagger";
 import { sequelize } from "./database/models";
+import registerCronJobs from "./jobs";
 const PORT = process.env.PORT;
 
 // Connect to the db
@@ -35,6 +36,10 @@ const start = () => {
 
       // swagger documentation
       swaggerDocs(app, Number(PORT));
+
+      // register all cron jobs
+      registerCronJobs();
+
       // catch all "not found" routes and send this message response
       app.use((req: Request, res: Response) => {
         res.status(404).json({

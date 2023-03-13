@@ -19,6 +19,7 @@ module.exports = {
         sellerId: "a45fc063-b7e6-468b-963d-512e840778c4",
         createdAt: new Date(),
         updatedAt: new Date(),
+        expiredAt: new Date(),
       },
       {
         id: "926ade6c-21f7-4866-ae7f-360d1574839d",
@@ -32,6 +33,7 @@ module.exports = {
         sellerId: "a45fc063-b7e6-468b-963d-512e840778c4",
         createdAt: new Date(),
         updatedAt: new Date(),
+        expiredAt: new Date(),
       },
     ]);
   },

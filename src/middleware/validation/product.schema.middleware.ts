@@ -11,6 +11,7 @@ export const ProductSchema = {
       quantity: Joi.number().required(),
       price: Joi.number().required(),
       images: Joi.string(),
+      expiredAt: Joi.date().optional(),
     }),
     addToCart: Joi.object<CartAttributes>({
       productId: Joi.string().required(),

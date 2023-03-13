@@ -5,7 +5,7 @@ import crypto from "node:crypto";
 let jwt: string;
 let _2FAcode: string;
 
-jest.mock("../src/services/mails/sendEmailToken", () => {
+jest.mock("../src/services/mail/sendEmailToken", () => {
   return (...args: unknown[]) => {
     console.log(...args);
   };
