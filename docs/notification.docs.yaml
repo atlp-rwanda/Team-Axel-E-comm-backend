@@ -1,0 +1,46 @@
+paths:
+  # get all notifications
+  /api/v1/notification/all:
+    get:
+      security: [{ jwt: [] }]
+      tags: [Notification Routes]
+      summary: View All Notifications
+      description: Returns all notifications from our database
+      responses:
+        200:
+          description: Ok
+        500:
+          description: Something went wrong when getting the notifications
+
+  # read one notification
+  /api/v1/notification/read/{notificationId}:
+    delete:
+      security: [{ jwt: [] }]
+      tags: [Notification Routes]
+      summary: Mark One Notification as Read
+      parameters:
+        - name: notificationId
+          in: path
+          required: true
+          description: The Id of the notification you want to read
+          schema:
+            type: string
+      responses:
+        200:
+          description: Notification successfully marked as read
+        404:
+          description: Notification unsuccessfully marked as read
+        500:
+          description: Something went wrong when marking notification as read
+
+  # read one notification
+  /api/v1/notification/read/:
+    delete:
+      security: [{ jwt: [] }]
+      tags: [Notification Routes]
+      summary: Mark All Notifications as Read
+      responses:
+        200:
+          description: All Notifications successfully marked as read
+        500:
+          description: Something went wrong when marking all notifications as readd
