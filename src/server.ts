@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import app from "./app";
+import app, { httpServer } from "./app";
 import swaggerDocs from "../docs/swagger";
 import { sequelize } from "./database/models";
 import registerCronJobs from "./jobs";
@@ -26,7 +26,7 @@ const PORT = process.env.PORT;
 
 const start = () => {
   try {
-    app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
       // if we are in development mode, we want the server to run on localhost
       if (process.env.NODE_ENV === "development") {
         console.log(`🍏 Server 🏃 running on: http://localhost:${PORT} ... 🚢`);

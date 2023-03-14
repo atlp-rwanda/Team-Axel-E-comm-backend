@@ -5,10 +5,13 @@ import dotenv from "dotenv";
 import passport from "passport";
 import session from "express-session";
 import SequelizeStore from "connect-session-sequelize";
+import http from "http";
+import { Server } from "socket.io";
 
 import { MessageResponse } from "./interfaces";
 import { sequelize } from "./database/models";
 import { DataTypes } from "sequelize";
+import { setup } from "./controllers";
 
 declare module "express-session" {
   export interface SessionData {
@@ -22,6 +25,16 @@ const PORT = process.env.PORT;
 
 const app: Application = express();
 
+export const httpServer = http.createServer(app);
+export const io = new Server(httpServer, {
+  cors: {
+    origin: [
+      "http://localhost:5173",
+      "https://inspiring-choux-2672b4.netlify.app",
+    ],
+    methods: ["GET", "HEAD", "OPTIONS", "PUT", "PATCH", "POST", "DELETE"],
+  },
+});
 const SequelizeSessionStore = SequelizeStore(session.Store);
 
 sequelize.define(
@@ -47,6 +60,8 @@ const sessionStore = new SequelizeSessionStore({
 });
 
 app.use(cors());
+
+setup();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
