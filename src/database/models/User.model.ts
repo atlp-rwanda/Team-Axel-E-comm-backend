@@ -16,7 +16,7 @@ import { UserAttributes } from "../../interfaces";
 
 type UserCreationAttributes = Optional<UserAttributes, "id">;
 
-interface UserInstance
+export interface UserInstance
   extends Model<UserAttributes, UserCreationAttributes>,
     UserAttributes {
   createdAt?: Date;
@@ -76,7 +76,7 @@ const User = sequelize.define<UserInstance>(
       defaultValue: "Buyer",
     },
     status: {
-      type: DataTypes.ENUM("Pending", "Active"),
+      type: DataTypes.ENUM("Pending", "Active", "Needs_Password_Reset"),
       defaultValue: "Pending",
     },
     confirmationCode: {

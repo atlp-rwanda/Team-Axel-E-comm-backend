@@ -53,6 +53,12 @@ export const createUser = async (req: Request, res: Response) => {
         email: createdUser.email,
         confirmationCode: createdUser.confirmationCode,
       };
+
+      await User.update(
+        { lastPasswordUpdate: new Date() },
+        { where: { email: email } },
+      );
+
       res.status(201).json({
         status: 201,
         success: true,
