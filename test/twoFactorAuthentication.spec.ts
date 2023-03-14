@@ -36,7 +36,6 @@ describe("two factor auth test", () => {
       .send(userCredintials);
 
     jwt = res.body.data;
-    console.log(res.body);
   });
 
   it("request 2fa code", async () => {

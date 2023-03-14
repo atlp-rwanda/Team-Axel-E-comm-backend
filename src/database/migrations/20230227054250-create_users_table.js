@@ -48,7 +48,7 @@ module.exports = {
         defaultValue: "Buyer",
       },
       status: {
-        type: Sequelize.ENUM("Pending", "Active"),
+        type: Sequelize.ENUM("Pending", "Active", "Needs_Password_Reset"),
         defaultValue: "Pending",
       },
       confirmationCode: {

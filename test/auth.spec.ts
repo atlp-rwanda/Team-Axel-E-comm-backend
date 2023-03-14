@@ -58,8 +58,8 @@ describe(" 🦺 🛂 AUTH UNIT", () => {
         email: "buye@gmail.com",
         password: "Password@123",
       });
-      expect(res.status).toEqual(401);
-      expect(res.body.message).toEqual("User with this email does not exist");
+      expect(res.status).toEqual(403);
+      expect(res.body.message).toEqual("🚨 Invalid credentials");
     });
     // it("if password not match, it not login a user (status :401)", async () => {
     //   const res = await request(app).post("/api/v1/auth/login").send({
@@ -75,14 +75,14 @@ describe(" 🦺 🛂 AUTH UNIT", () => {
       await request(app).post("/api/v1/user").send({
         surname: "KANYOMBYA",
         given_name: "Irindi Sindizi",
-        email: "kanyombya@gmail.com",
+        email: "kanyombya2@gmail.com",
         password: "Password!23",
       });
       const res = await request(app).post("/api/v1/auth/login").send({
-        email: "kanyombya@gmail.com",
+        email: "kanyombya2@gmail.com",
         password: "Password!23",
       });
-      expect(res.status).toEqual(401);
+      expect(res.status).toEqual(403);
       expect(res.body.message).toEqual(
         "Please first head over to your email and confirm your registration",
       );

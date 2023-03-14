@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import { generateToken, verifyToken } from "../utils";
+import { checkLoginIntegrity, generateToken, verifyToken } from "../utils";
 import {
   confirmUserService,
   findOneUserByEmailService,
@@ -11,61 +11,43 @@ import {
 } from "../services";
 import User from "../database/models/User.model";
 
-//User Login
 export const loginUser = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-
   try {
-    // find if the the user exists by email
-    const user = await findOneUserByEmailService(email);
-    if (!user) {
-      res.status(401).send({
-        status: 401,
-        success: false,
-        message: "User with this email does not exist",
-      });
-    } else {
-      if (user.dataValues.status === "Pending") {
-        res.status(401).send({
-          status: 401,
-          success: false,
-          message:
-            "Please first head over to your email and confirm your registration",
-        });
-      } else {
-        const passwordMatch = await bcrypt.compare(
-          password,
-          user.dataValues.password,
-        );
-        if (!passwordMatch) {
-          res.status(401).send({
-            status: 401,
-            success: false,
-            message: "Password does not match with email",
-          });
-        } else {
-          const token = await generateToken(user.dataValues.id);
-          // Store the user's ID in the session
-          req.session.userId = user.dataValues.id;
+    const loginError = "🚨 Invalid credentials";
 
-          res.status(200).json({
-            status: 200,
-            success: true,
-            message: "Login successful ",
-            data: token,
-          });
-        }
-      }
-    }
+    const { email, password } = req.body;
+
+    const user = await findOneUserByEmailService(email);
+
+    if (!user) throw new Error(loginError);
+
+    await checkLoginIntegrity(user.dataValues);
+
+    const pwdMatch = await bcrypt.compare(password, user.dataValues.password);
+    if (!pwdMatch) throw new Error(loginError);
+
+    const token = await generateToken(user.dataValues.id);
+    req.session.userId = user.dataValues.id;
+
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: "Login successful ",
+      data: token,
+    });
   } catch (error) {
     if (error instanceof Error) {
+      res.status(403).send({
+        status: 403,
+        success: false,
+        message: error.message,
+      });
+    } else {
       res.status(500).send({
         status: 500,
         success: false,
-        message: `Internal server error: ${error.message}`,
+        message: error,
       });
-    } else {
-      console.log(`Something went  wrong when logging in: `, error);
     }
   }
 };
