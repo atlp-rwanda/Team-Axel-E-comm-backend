@@ -43,7 +43,7 @@ const Product = sequelize.define<ProductInstance>(
       unique: false,
     },
     stock: {
-      type: DataTypes.ENUM("Available", "Out of Stock"),
+      type: DataTypes.ENUM("Available", "Out of Stock", "Expired"),
       defaultValue: "Available",
     },
     quantity: {
@@ -57,6 +57,10 @@ const Product = sequelize.define<ProductInstance>(
     images: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    expiredAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
   },
   {

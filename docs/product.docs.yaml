@@ -162,6 +162,7 @@ components:
         - description
         - stock
         - price
+        - quantity
         - images
       properties:
         name:
@@ -179,9 +180,15 @@ components:
         price:
           type: number
           default: 3
+        quantity:
+          type: number
+          default: 1
         images:
           type: string
-          default:
+          default: https://picsum.photos/id/26/4209/2769
+        expiredAt:
+          type: date
+          default: 2023-12-31
     CreatePostResponse:
       type: object
       properties:

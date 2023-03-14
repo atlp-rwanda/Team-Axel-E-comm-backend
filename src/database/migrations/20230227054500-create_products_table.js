@@ -33,7 +33,7 @@ module.exports = {
         allowNull: false,
       },
       stock: {
-        type: Sequelize.ENUM("Available", "Out of Stock"),
+        type: Sequelize.ENUM("Available", "Out of Stock", "Expired"),
         defaultValue: "Available",
       },
       quantity: {
@@ -55,6 +55,10 @@ module.exports = {
       updatedAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      },
+      expiredAt: {
+        type: Sequelize.DATE,
+        allowNull: true,
       },
     });
   },

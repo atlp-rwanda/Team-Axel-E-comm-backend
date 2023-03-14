@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import User from "../database/models/User.model";
 import * as twofactor from "node-2fa";
-import sendEmailToken from "../services/mails/sendEmailToken";
+import sendEmailToken from "../services/mail/sendEmailToken";
 
 export const create2FAToken = async (req: Request, res: Response) => {
   try {
