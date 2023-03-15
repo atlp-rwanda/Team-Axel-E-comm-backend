@@ -10,6 +10,10 @@ export const checkLoginIntegrity = async (user: UserAttributes) => {
         throw new Error(
           "Please first head over to your email and confirm your registration",
         );
+      case "Disabled":
+        throw new Error(
+          "Please contact our customer care, your account has been blocked",
+        );
       case "Needs_Password_Reset":
         throw new Error(
           "Please first head over to your email and reset your password. It has expired",
