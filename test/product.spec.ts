@@ -160,14 +160,6 @@ describe("🛍️ Product UNIT", () => {
   //    */
   describe("Delete /api/v1/product/delete/:id", () => {
     it("it delete one product with its id", async () => {
-      const adminCredentials = {
-        email: "seller@gmail.com",
-        password: "Password@123",
-      };
-      const loginResponse = await request(app)
-        .post("/api/v1/auth/login")
-        .send(adminCredentials);
-      token = loginResponse.body.data;
       const res = await request(app)
         .delete(`/api/v1/product/delete/${productId}`)
         .set("Authorization", "Bearer " + token)
@@ -177,14 +169,6 @@ describe("🛍️ Product UNIT", () => {
     });
 
     it("when product is not available it should return 400", async () => {
-      const adminCredentials = {
-        email: "seller@gmail.com",
-        password: "Password@123",
-      };
-      const loginResponse = await request(app)
-        .post("/api/v1/auth/login")
-        .send(adminCredentials);
-      token = loginResponse.body.data;
       const res = await request(app)
         .delete(`/api/v1/product/delete/4b35a4b0-53e8-48a4-97b0-9d3685d3197d`)
         .set("Authorization", "Bearer " + token)
@@ -194,14 +178,6 @@ describe("🛍️ Product UNIT", () => {
     });
 
     it("when product ID is not in UUID format it should return 400", async () => {
-      const adminCredentials = {
-        email: "seller@gmail.com",
-        password: "Password@123",
-      };
-      const loginResponse = await request(app)
-        .post("/api/v1/auth/login")
-        .send(adminCredentials);
-      token = loginResponse.body.data;
       const res = await request(app)
         .delete(`/api/v1/product/delete/4b35a4b0`)
         .set("Authorization", "Bearer " + token)
