@@ -8,6 +8,7 @@ import checkoutRouter from "./checkout.routes";
 import orderRouter from "./order.routes";
 import wishRouter from "./wishes.routes";
 import notificationRouter from "./notification.routes";
+import chatRouter from "./chat.routes";
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.use("/checkout", checkoutRouter);
 router.use("/order", orderRouter);
 router.use("/wishes", wishRouter);
 router.use("/notification", notificationRouter);
+router.use("/chat", chatRouter);
 
 export default router;
