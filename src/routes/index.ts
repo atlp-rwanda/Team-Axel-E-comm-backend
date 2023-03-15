@@ -9,6 +9,7 @@ import orderRouter from "./order.routes";
 import wishRouter from "./wishes.routes";
 import notificationRouter from "./notification.routes";
 import chatRouter from "./chat.routes";
+import reviewRout from "./review.routes";
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.use("/order", orderRouter);
 router.use("/wishes", wishRouter);
 router.use("/notification", notificationRouter);
 router.use("/chat", chatRouter);
+router.use("/productReview", reviewRout);
 
 export default router;
