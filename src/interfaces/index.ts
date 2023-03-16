@@ -9,3 +9,4 @@ export * from "./Wish.interface";
 export * from "./Order.interface";
 export * from "./Notification.interface";
 export * from "./Chat.interface";
+export * from "./Review.interface";

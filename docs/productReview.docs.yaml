@@ -1,0 +1,119 @@
+paths:
+  # add Product Review
+  /api/v1/productReview/{productId}:
+    post:
+      security: [{ jwt: [] }]
+      tags: [Product Review]
+      summary: Add Product Review.
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The Id of the Product to review
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Review"
+      responses:
+        "200":
+          description: OK
+  # get all items in Product Review
+  /api/v1/productReview/get/{productId}:
+    get:
+      tags: [Product Review]
+      summary: get product Review.
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The Id of the Product
+          schema:
+            type: string
+      responses:
+        200:
+          description: Okay
+
+  # Update a Product Review
+  /api/v1/productReview/edit/{productId}:
+    put:
+      security: [{ jwt: [] }]
+      tags: [Product Review]
+      summary: Buyer update Product Review.
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The Id of the Product to update Review
+          schema:
+            type: string
+      requestBody:
+        description: Please fill the field(s) you want to update
+        required: true
+        content:
+          application/json:
+            schema:
+                Product Review:
+                  type: object
+                properties:
+                  "rating":
+                    type: number
+                    description: update rating.
+                  "feedback":
+                    type: string
+                    description: update feedback.
+      responses:
+        200:
+          description: Success.
+
+  # remove Product Review for one user
+  /api/v1/productReview/delete/{productId}:
+    delete:
+      security: [{ jwt: [] }]
+      tags: [Product Review]
+      summary: user remove Product Review
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The Id of the Product
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+  # clear all Product Review
+  /api/v1/productReview/delete/all/{productId}:
+    delete:
+      security: [{ jwt: [] }]
+      tags: [Product Review]
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The Id of the Product
+          schema:
+            type: string      
+      summary: Clears the Product Review.
+      responses:
+        200:
+          description: Success
+
+
+# schemas
+components:
+  schemas:
+    Review:
+      type: object
+      properties:
+        rating:
+          type: integer
+          example: 1
+        feedback:
+          type: string
+          example: good good
+      required:
+       - feedback
