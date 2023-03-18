@@ -29,7 +29,13 @@ const Chat = sequelize.define<ChatInstance>(
         key: "id",
       },
     },
-
+    receiverId: {
+      type: DataTypes.UUID,
+      references: {
+        model: "users",
+        key: "id",
+      },
+    },
     message: {
       type: DataTypes.TEXT,
       allowNull: false,

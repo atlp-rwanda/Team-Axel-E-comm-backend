@@ -7,3 +7,4 @@ export * from "./Order.controller";
 export * from "./Wish.controller";
 export * from "./Notifications.controller";
 export * from "./Review.controller";
+export * from "./Chat.controller";

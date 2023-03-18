@@ -8,13 +8,14 @@ import {
   viewAllNotifications,
 } from "../services";
 import { NotificationAttributes } from "../interfaces";
-import { verifyToken } from "../utils";
-import User from "../database/models/User.model";
+import { chat } from "./Chat.controller";
+import { socketAuth } from "../middleware/auth/socketAuth.middleware";
 
-let roomId: string;
-const roomSeller = "sellersRoom";
-const roomBuyer = "buyersRoom";
-const roomAdmin = "adminRoom";
+export const rooms = {
+  roomSeller: "Seller",
+  roomBuyer: "Buyer",
+  roomAdmin: "Admin",
+} as const;
 
 function mailService(email: string, title: string, message: string) {
   const transporter = nodemailer.createTransport({
@@ -47,7 +48,7 @@ type notifyRealParams = {
   message: string;
   email?: string;
   action: string;
-  userId?: string;
+  userId: string;
   message2?: string;
 };
 
@@ -68,9 +69,9 @@ export const notifyReal = async ({
     await createNotificationService(notificationInfo);
 
     mailService(email as string, title, message);
-    io.to(roomSeller).emit(`on ${action}`, [message]); // Seller's notification
-    io.to(roomBuyer).emit(`on ${action}`, [message2]); // Buyer's notification
-    io.to(roomAdmin).emit(`on ${action}`, [message, message2]); //Admin sees both seller and buyer notifications
+    io.to(rooms.roomSeller).emit(`on ${action}`, [message]); // Seller's notification
+    io.to(rooms.roomBuyer).emit(`on ${action}`, [message2]); // Buyer's notification
+    io.to(rooms.roomAdmin).emit(`on ${action}`, [message, message2]); //Admin sees both seller and buyer notifications
   } catch (error) {
     if (error instanceof Error) {
       console.error(`🛑 Error sending notification: ${error.message}`);
@@ -82,39 +83,12 @@ export const notifyReal = async ({
 
 export function setup() {
   try {
-    io.on("connection", async (socket) => {
-      /* socket object may be used to send specific messages to the new connected client */
+    io.use(socketAuth).sockets.on("connection", async (socket) => {
+      chat(socket, io);
       socket.emit("connection", null);
-      console.log("new client connected");
-      if (socket.handshake.query.token) {
-        const tokenVerification = await verifyToken(
-          socket.handshake.query.token as string,
-        );
-        roomId = tokenVerification.payload;
-        const user = await User.findByPk(roomId);
-        if (!user) {
-          console.log("User not found");
-        } else {
-          if (user.dataValues.role === "Seller") {
-            socket.join(roomSeller);
-            io.sockets
-              .in(roomSeller)
-              .emit("connectToRoom", "You are in room no. " + roomId);
-          } else if (user.dataValues.role === "Buyer") {
-            socket.join(roomBuyer);
-            io.sockets
-              .in(roomBuyer)
-              .emit("connectToRoom", "You are in room no. " + roomId);
-          } else if (user.dataValues.role === "Admin") {
-            {
-              socket.join(roomAdmin);
-              io.sockets
-                .in(roomAdmin)
-                .emit("connectToRoom", "You are in room no. " + roomId);
-            }
-          }
-        }
-      }
+      const { role, id } = socket.data.user;
+      socket.join(role);
+      io.sockets.in(role).emit("connectToRoom", "You are in room no. " + id);
     });
   } catch (error) {
     console.error("Error connecting to client");
