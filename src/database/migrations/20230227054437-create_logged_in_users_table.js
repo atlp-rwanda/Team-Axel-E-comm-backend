@@ -46,6 +46,7 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
         unique: false,
+        defaultValue: new Date(Date.now() + 60 * 60 * 24 * 5).toISOString(),
       },
       createdAt: {
         type: Sequelize.DATE,
