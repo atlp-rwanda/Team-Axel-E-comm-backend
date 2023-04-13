@@ -85,17 +85,12 @@ export const confirmUser = async (req: Request, res: Response) => {
         message: "Invalid Code: User not found who matches this code.",
       });
     } else {
-      const confirmedUser = await confirmUserService(confirmationCode);
+      await confirmUserService(confirmationCode);
       sendEmailConfirmationMessage(
         currentUser.dataValues.email,
         currentUser.dataValues.surname,
       );
-      res.status(201).json({
-        status: 201,
-        success: true,
-        data: confirmedUser,
-        message: `User confirmed successfully.`,
-      });
+      res.redirect(process.env.CLIENT_URL as string);
     }
   } catch (error) {
     if (error instanceof Error) {
