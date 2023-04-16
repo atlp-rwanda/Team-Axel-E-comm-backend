@@ -1,0 +1,100 @@
+paths:
+  /api/v1/role:
+    post:
+      security: [{ jwt: [] }]
+      summary: Admin set roles
+      tags: [Role and Permissions]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Role_Permissions"
+      responses:
+        "200":
+          description: ok.
+        "401":
+          description: not authorized
+        "404":
+          description: Not Found
+
+    get:
+      security: [{ jwt: [] }]
+      summary: Admin get all roles
+      tags: [Role and Permissions]
+      responses:
+        "200":
+          description: ok.
+        "401":
+          description: not authorized
+        "404":
+          description: Not Found
+
+  /api/v1/role/{role_id}:
+    delete:
+      security: [{ jwt: [] }]
+      summary: Admin a role
+      tags: [Role and Permissions]
+      parameters:
+        - name: role_id
+          in: path
+          required: true
+          description: Provide role_id you want delete
+          schema:
+            type: string
+            format: int64
+            minimum: 1
+      responses:
+        "200":
+          description: ok.
+        "401":
+          description: not authorized
+        "404":
+          description: Not Found
+
+  /api/v1/role/update/{user_id}:
+    patch:
+      security: [{ jwt: [] }]
+      summary: Admin assign a role to a particular user
+      tags: [Role and Permissions]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: Provide user_id you want to assign role
+          schema:
+            type: string
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - role
+              properties:
+                id:
+                  type: string
+                  example: "UUIDV4"
+      responses:
+        "200":
+          description: ok.
+        "401":
+          description: not authorized
+        "404":
+          description: Not Found
+
+components:
+  schemas:
+    Role_Permissions:
+      required:
+        - id
+        - role
+      properties:
+        id:
+          type: string
+          example: "ROLE_UUID"
+        role:
+          type: string
+          example: "SUPPLIER"

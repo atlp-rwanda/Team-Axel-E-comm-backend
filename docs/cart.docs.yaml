@@ -76,16 +76,15 @@ paths:
         content:
           application/json:
             schema:
-                CartProduct:
-                  type: object
-                properties:
-                  quantity:
-                    type: number
-                    description: quantity of the product.
+              CartProduct:
+                type: object
+              properties:
+                quantity:
+                  type: number
+                  description: quantity of the product.
       responses:
         200:
           description: A list of cart product and new cart total.
-
 
 # schemas
 components:

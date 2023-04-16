@@ -15,7 +15,7 @@ export const socketAuth = async (
     const decodedData = await verifyToken(
       socket.handshake.query.token as string,
     );
-    const user = await User.findByPk(decodedData.payload);
+    const user = await User.findByPk(decodedData.payload.id);
     socket.data.user = user?.dataValues;
 
     next();

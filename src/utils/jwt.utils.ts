@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { UserAttributes } from "../interfaces";
 
 dotenv.config();
 
 type IReturn = {
-  payload: string;
+  payload: UserAttributes;
   iat: number;
   exp: number;
 };
@@ -14,7 +15,7 @@ if (!secretToken) {
   throw new Error("SECRET_TOKEN environment variable not set");
 }
 
-async function generateToken(payload: string, date?: string): Promise<string> {
+async function generateToken<T>(payload: T, date?: string): Promise<string> {
   if (!date) {
     date = "1d";
   }

@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import * as JWT from "jsonwebtoken";
 import User from "../database/models/User.model";
 import { verifyToken } from "../utils";
 
@@ -9,7 +8,6 @@ export const protectRoute = async (
   next: NextFunction,
 ) => {
   let token;
-  const secret = process.env.SECRET_TOKEN as string;
   if (
     !(
       req.headers.authorization &&
@@ -28,7 +26,7 @@ export const protectRoute = async (
 
     const decodedData = await verifyToken(token);
 
-    const user = await User.findByPk(decodedData.payload.toString());
+    const user = await User.findByPk(decodedData.payload.id.toString());
 
     if (!user) throw new Error("user not found");
     req.user = user.dataValues;

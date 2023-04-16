@@ -3,6 +3,7 @@ import passport from "passport";
 import GoogleStrategy0, { VerifyCallback } from "passport-google-oauth2";
 import User from "../../database/models/User.model";
 import LoggedInUser from "../../database/models/LoggedInUsers.model";
+import { defaultRoleId } from "../../utils/defaultRoleId";
 
 /*  */
 const GoogleStrategy = GoogleStrategy0.Strategy;
@@ -40,14 +41,12 @@ passport.use(
             password: profile.password || process.env.USER_PASSWORD,
             googleId: profile.id,
             avatar: profile.photos[0].value,
+            role: await defaultRoleId(),
           };
           const googleUser = await User.create(newUser);
-          console.log(
-            "The user is saved in our db!!!!!!",
-            done(null, googleUser),
-          );
+          done(null, googleUser);
         } else {
-          console.log("The user already in our db!!!!!!", done(null, user));
+          done(null, user);
         }
 
         /** To save logged in user in our db */
@@ -81,3 +80,5 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (user: any, done) {
   done(null, user);
 });
+
+export default passport;

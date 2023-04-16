@@ -144,11 +144,11 @@ paths:
                   type: string
                   default:
       responses:
-        '200':
+        "200":
           description: Update done Successfully
-        '404':
+        "404":
           description: This Product doesn't exists.
-        '401':
+        "401":
           description: You are not allowed to access this route
 
 # schemas

@@ -131,7 +131,7 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
       expect(res.status).toEqual(200);
       expect(res.body.message).toEqual("status updated");
     });
-    it("should return 403 if you are not admin", async () => {
+    it("should return 401 if you are not admin", async () => {
       // login the admin
 
       // update order status
@@ -140,9 +140,9 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
         .put(`/api/v1/order/status/${orderId}`)
         .set("Authorization", "Bearer " + Sellertoken)
         .send({ status: updatedStatus });
-      expect(res.status).toEqual(403);
+      expect(res.status).toEqual(401);
       expect(res.body.message).toEqual(
-        "Unauthorized access. You are not an admin",
+        "You are not allowed to perform this action!",
       );
     });
   });
@@ -170,12 +170,12 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
       expect(res.status).toEqual(200);
     });
 
-    it("Admin should return 403 when you are not admin", async () => {
+    it("Admin should return 401 when you are not admin", async () => {
       const res = await request(app)
         .get("/api/v1/order/all")
         .set("Authorization", "Bearer " + Sellertoken)
         .send();
-      expect(res.status).toEqual(403);
+      expect(res.status).toEqual(401);
     });
   });
 });

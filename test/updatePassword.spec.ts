@@ -21,6 +21,7 @@ describe("update password test", () => {
 
     const createUser = await request(app).post("/api/v1/user").send(user);
     const confirmationCode = createUser.body.data[0].confirmationCode;
+
     await request(app).post("/api/v1/auth/login").send(userCredintials);
     await request(app).get(`/api/v1/auth/confirm/${confirmationCode}`);
     const resp = await request(app)

@@ -1,6 +1,5 @@
 import request from "supertest";
 import app from "./../src/app";
-import crypto from "node:crypto";
 
 let jwt: string;
 let _2FAcode: string;
@@ -12,25 +11,12 @@ jest.mock("../src/services/mail/sendEmailToken", () => {
 });
 
 describe("two factor auth test", () => {
-  const email = crypto.randomUUID() + "@gmail.com";
-  const user = {
-    email: email,
-    password: "musliM123!",
-    surname: "muslim",
-    given_name: "uwi",
-    role: "Seller",
-  };
-
   const userCredintials = {
-    email: email,
-    password: "musliM123!",
+    email: "seller@gmail.com",
+    password: "Password@123",
   };
 
   beforeAll(async () => {
-    const createUser = await request(app).post("/api/v1/user").send(user);
-    await request(app).post("/api/v1/auth/login").send(userCredintials);
-    const confirmationCode = createUser.body.data[0].confirmationCode;
-    await request(app).get(`/api/v1/auth/confirm/${confirmationCode}`);
     const res = await request(app)
       .post("/api/v1/auth/login")
       .send(userCredintials);
@@ -42,7 +28,6 @@ describe("two factor auth test", () => {
     const res = await request(app)
       .post("/api/v1/auth/2fa")
       .set("Authorization", "Bearer " + jwt);
-
     expect(res.status).toEqual(200);
     expect(res.body.data.token.length).toBe(6);
     expect(res.body).toHaveProperty("data");

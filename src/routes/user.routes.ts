@@ -5,19 +5,30 @@ import {
   getOneUser,
   updateUser,
 } from "../controllers";
+import { AuthAndRoleChecker } from "../middleware/auth/authanticated.middleware";
 import { UserSchema, ValidateJoi } from "../middleware/validation";
-import { isAdmin, isAuth } from "../middleware/auth";
+import { getAccessKeys } from "../utils/roleConstants";
+import { protectRoute } from "../services/protectRoutes.service";
+
+let ADMIN_ACCESSKEY = "";
+getAccessKeys((Keys: Record<string, string>) => {
+  ADMIN_ACCESSKEY = Keys.ADMIN_ACCESSKEY;
+});
 
 const userRouter = Router();
 
-userRouter.get("/all", [isAuth, isAdmin], getAllUsers); // Get all users
+userRouter.get(
+  "/all",
+  AuthAndRoleChecker(() => ({ value: ADMIN_ACCESSKEY })),
+  getAllUsers,
+);
 
-userRouter.get("/:id", getOneUser); // Get one user
+userRouter.get("/:id", getOneUser);
 
 userRouter.post("/", [ValidateJoi(UserSchema.user.create)], createUser); // Create a user
 userRouter.patch(
   "/update/:id",
-  isAuth,
+  protectRoute,
   [ValidateJoi(UserSchema.updateUser.create)],
   updateUser,
 );

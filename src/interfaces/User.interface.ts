@@ -8,7 +8,7 @@ export interface UserAttributes {
   password: string;
   twoFAenabled?: boolean;
   twoFAverified?: boolean;
-  role?: Role;
+  role?: string;
   status?: Status;
   secret?: string | null;
 
@@ -28,10 +28,4 @@ export enum Status {
   Pending = "Pending",
   Active = "Active",
   Needs_Password_Reset = "Needs_Password_Reset",
-}
-
-export enum Role {
-  Admin = "Admin",
-  Buyer = "Buyer",
-  Seller = "Seller",
 }

@@ -11,6 +11,12 @@
     "allowJs": true
   },
   "exclude": ["node_modules"],
-  "include": ["src/**/*", "docs/swagger.ts", "test", "docs"],
+  "include": [
+    "src/**/*",
+    "docs/swagger.ts",
+    "test",
+    "docs",
+    "src/middleware/permissionCheck"
+  ],
   "files": ["types.d.ts"]
 }

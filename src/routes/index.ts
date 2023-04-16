@@ -10,6 +10,7 @@ import wishRouter from "./wishes.routes";
 import notificationRouter from "./notification.routes";
 import chatRouter from "./chat.routes";
 import reviewRout from "./review.routes";
+import setRoleRouter from "./role.routes";
 
 const router = Router();
 
@@ -24,5 +25,6 @@ router.use("/wishes", wishRouter);
 router.use("/notification", notificationRouter);
 router.use("/chat", chatRouter);
 router.use("/productReview", reviewRout);
+router.use("/role", setRoleRouter);
 
 export default router;

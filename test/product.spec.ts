@@ -72,7 +72,7 @@ describe("🛍️ Product UNIT", () => {
     });
 
     // Unauthorized user(buyer) create product
-    it("should return 403 if the user is not a seller", async () => {
+    it("should return 401 if the user is not a seller", async () => {
       const res = await request(app)
         .post("/api/v1/product/")
         .set("Authorization", "Bearer " + buyerToken)
@@ -85,7 +85,7 @@ describe("🛍️ Product UNIT", () => {
           price: 10,
           images: "https://picsum.photos/id/26/4209/2769",
         });
-      expect(res.status).toEqual(403);
+      expect(res.status).toEqual(401);
     });
   });
   /*

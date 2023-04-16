@@ -21,13 +21,33 @@ export const loginUser = async (req: Request, res: Response) => {
 
     if (!user) throw new Error(loginError);
 
+    const {
+      id,
+      role,
+      given_name,
+      surname,
+      password: hashedPassword,
+      avatar,
+    } = user.dataValues;
+
     await checkLoginIntegrity(user.dataValues);
 
-    const pwdMatch = await bcrypt.compare(password, user.dataValues.password);
+    const pwdMatch = await bcrypt.compare(password, hashedPassword);
     if (!pwdMatch) throw new Error(loginError);
 
-    const token = await generateToken(user.dataValues.id);
+    const token = await generateToken({
+      id,
+      role,
+      given_name,
+      surname,
+      avatar,
+      email,
+    });
+
     req.session.userId = user.dataValues.id;
+
+    user.twoFAverified = false;
+    await user.save();
 
     res.status(200).json({
       status: 200,
@@ -90,7 +110,7 @@ export const confirmUser = async (req: Request, res: Response) => {
         currentUser.dataValues.email,
         currentUser.dataValues.surname,
       );
-      res.redirect(process.env.CLIENT_URL as string);
+      res.redirect(`${process.env.CLIENT_URL}/login`);
     }
   } catch (error) {
     if (error instanceof Error) {
@@ -114,7 +134,18 @@ export const resetPasswordRequestController = async (
       .status(404)
       .json({ status: 404, success: false, message: "Email does not exist" });
   } else {
-    const resetToken = await generateToken(user.dataValues.email, "5m");
+    const { id, role, given_name, surname, avatar, email } = user.dataValues;
+    const resetToken = await generateToken(
+      {
+        id,
+        role,
+        given_name,
+        surname,
+        avatar,
+        email,
+      },
+      "5m",
+    );
     const updateResetToken = await User.update(
       { resetToken: resetToken },
       { where: { email: req.body.email } },
@@ -154,7 +185,7 @@ export const resetPasswordController = async (req: Request, res: Response) => {
       const decodedToken = await verifyToken(resetToken);
       const updatedResponse = await User.update(
         { password: req.body.password, resetToken: "" },
-        { where: { email: decodedToken.payload } },
+        { where: { email: decodedToken.payload.email } },
       );
       if (updatedResponse[0] === 1) {
         res.status(201).json({
@@ -163,7 +194,7 @@ export const resetPasswordController = async (req: Request, res: Response) => {
           message: "Password reset successfully",
         });
         sendPasswordResetConfirmation(
-          decodedToken.payload,
+          decodedToken.payload.email,
           currentUser.dataValues.surname,
         );
       }

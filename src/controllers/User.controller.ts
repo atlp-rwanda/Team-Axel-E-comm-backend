@@ -8,6 +8,7 @@ import {
 } from "../services";
 import User from "../database/models/User.model";
 import { generateToken } from "../utils";
+import { defaultRoleId } from "../utils/defaultRoleId";
 
 // Get all users
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -16,7 +17,6 @@ export const getAllUsers = async (req: Request, res: Response) => {
     res.status(200).json({ status: 200, success: true, data: allUsers });
   } catch (error) {
     if (error instanceof Error) {
-      console.log(`Error fetching users from the db: ${error.message}`);
       res
         .status(500)
         .json({ status: 500, success: false, message: `${error.message}` });
@@ -29,6 +29,12 @@ export const getAllUsers = async (req: Request, res: Response) => {
 // create user
 export const createUser = async (req: Request, res: Response) => {
   try {
+    // default role id
+    const defaulRoletId = await defaultRoleId();
+    if (defaulRoletId) {
+      req.body.role = defaulRoletId;
+    }
+
     let newUser = req.body;
     const email = req.body.email;
     // set unique token which will be the new user's confirmation code.
@@ -68,15 +74,12 @@ export const createUser = async (req: Request, res: Response) => {
       });
       await sendEmailConfirmationRequest(
         newUser.email,
-        newUser.surName,
+        newUser.surname,
         confirmationCode,
       );
     }
   } catch (error) {
     if (error instanceof Error) {
-      console.log(`Error creating user: ${error.message}`);
-      console.log(error);
-
       res
         .status(500)
         .json({ status: 500, success: false, message: `${error.message}` });
@@ -100,7 +103,6 @@ export const getOneUser = async (req: Request, res: Response) => {
     }
   } catch (error) {
     if (error instanceof Error) {
-      console.log(`Error fetching user: ${error.message}`);
       res
         .status(500)
         .json({ status: 500, success: false, message: `${error.message}` });

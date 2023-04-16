@@ -3,6 +3,7 @@ import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from ".";
 import bcrypt from "bcryptjs";
 import { UserAttributes } from "../../interfaces";
+import RolesPermission from "./Roles.model";
 
 /*
  * The `UserAttributes` interface is defined in the `src/interfaces/User.interface.ts` file
@@ -15,6 +16,7 @@ import { UserAttributes } from "../../interfaces";
  */
 
 type UserCreationAttributes = Optional<UserAttributes, "id">;
+// extract default permission id;
 
 export interface UserInstance
   extends Model<UserAttributes, UserCreationAttributes>,
@@ -22,7 +24,6 @@ export interface UserInstance
   createdAt?: Date;
   updatedAt?: Date;
 }
-
 const User = sequelize.define<UserInstance>(
   "User",
   {
@@ -72,8 +73,15 @@ const User = sequelize.define<UserInstance>(
       },
     },
     role: {
-      type: DataTypes.ENUM("Admin", "Buyer", "Seller"),
-      defaultValue: "Buyer",
+      type: DataTypes.UUID,
+      allowNull: true,
+      defaultValue: "",
+      references: {
+        model: "Roles",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     status: {
       type: DataTypes.ENUM("Pending", "Active", "Needs_Password_Reset"),
@@ -126,6 +134,8 @@ const User = sequelize.define<UserInstance>(
     hooks: {},
   },
 );
+
+User.belongsTo(RolesPermission, { foreignKey: "role" });
 
 export default User;
 

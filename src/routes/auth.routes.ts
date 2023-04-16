@@ -13,7 +13,13 @@ import { UserSchema } from "../middleware/validation/user.schema.middleware";
 
 import { updatePassword } from "../controllers/updatePassword.controller";
 import { protectRoute } from "../services/protectRoutes.service";
-import { isSeller } from "../middleware/auth";
+import { AuthAndRoleChecker } from "../middleware/auth/authanticated.middleware";
+import { getAccessKeys } from "../utils/roleConstants";
+
+let MERCHANT_ACCESSKEY = "";
+getAccessKeys((Keys: Record<string, string>) => {
+  MERCHANT_ACCESSKEY = Keys.MERCHANT_ACCESSKEY;
+});
 
 const authRouter = Router();
 
@@ -27,9 +33,19 @@ authRouter.post("/requestResetPassword", resetPasswordRequestController); // Req
 
 authRouter.post("/resetPassword/:token", resetPasswordController); // Reset the password
 
-authRouter.post("/2fa", protectRoute, isSeller, create2FAToken); // Create a 2FA token
+authRouter.post(
+  "/2fa",
+  protectRoute,
+  AuthAndRoleChecker(() => ({ value: MERCHANT_ACCESSKEY })),
+  create2FAToken,
+); // Create a 2FA token
 
-authRouter.post("/2fa/verify2FAToken", protectRoute, isSeller, verify2FAToken); // Verify the 2FA token
+authRouter.post(
+  "/2fa/verify2FAToken",
+  protectRoute,
+  AuthAndRoleChecker(() => ({ value: MERCHANT_ACCESSKEY })),
+  verify2FAToken,
+); // Verify the 2FA token
 
 authRouter.post(
   "/updatepassword",

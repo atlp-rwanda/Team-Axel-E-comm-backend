@@ -44,8 +44,14 @@ module.exports = {
         allowNull: false,
       },
       role: {
-        type: Sequelize.ENUM("Admin", "Buyer", "Seller"),
-        defaultValue: "Buyer",
+        type: Sequelize.UUID,
+        allowNull: true,
+        references: {
+          model: "roles",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       status: {
         type: Sequelize.ENUM("Pending", "Active", "Needs_Password_Reset"),
@@ -98,6 +104,16 @@ module.exports = {
       lastPasswordUpdate: {
         type: Sequelize.DATE,
         allowNull: true,
+      },
+    });
+
+    await queryInterface.addConstraint("users", {
+      type: "foreign key",
+      fields: ["role"],
+      name: "role_name",
+      references: {
+        table: "roles",
+        field: "id",
       },
     });
   },

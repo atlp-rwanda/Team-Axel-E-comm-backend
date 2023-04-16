@@ -5,5 +5,5 @@ eslint:
   extensions:
     - .ts
 additional_dependencies:
-    - "@typescript-eslint/eslint-plugin"
-    - "@typescript-eslint/parser"
+  - "@typescript-eslint/eslint-plugin"
+  - "@typescript-eslint/parser"

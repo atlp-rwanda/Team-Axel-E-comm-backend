@@ -56,15 +56,15 @@ paths:
         content:
           application/json:
             schema:
-                Product Review:
-                  type: object
-                properties:
-                  "rating":
-                    type: number
-                    description: update rating.
-                  "feedback":
-                    type: string
-                    description: update feedback.
+              Product Review:
+                type: object
+              properties:
+                "rating":
+                  type: number
+                  description: update rating.
+                "feedback":
+                  type: string
+                  description: update feedback.
       responses:
         200:
           description: Success.
@@ -96,12 +96,11 @@ paths:
           required: true
           description: The Id of the Product
           schema:
-            type: string      
+            type: string
       summary: Clears the Product Review.
       responses:
         200:
           description: Success
-
 
 # schemas
 components:
@@ -116,4 +115,4 @@ components:
           type: string
           example: good good
       required:
-       - feedback
+        - feedback

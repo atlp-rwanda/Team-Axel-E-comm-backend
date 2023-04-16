@@ -1,9 +1,10 @@
 import { Op } from "sequelize";
+import Roles from "../database/models/Roles.model";
 import User, { UserInstance } from "../database/models/User.model";
 import { Status, UserAttributes } from "../interfaces";
 
 export const findAllUsersService = async () => {
-  const findUsersRequest = await User.findAll();
+  const findUsersRequest = await User.findAll({ include: Roles });
   return findUsersRequest;
 };
 
@@ -13,7 +14,10 @@ export const createUserService = async (newUser: UserAttributes) => {
 };
 
 export const findOneUserService = async (userId: string) => {
-  const findOneUserRequest = await User.findOne({ where: { id: userId } });
+  const findOneUserRequest = await User.findOne({
+    include: Roles,
+    where: { id: userId },
+  });
   return findOneUserRequest;
 };
 

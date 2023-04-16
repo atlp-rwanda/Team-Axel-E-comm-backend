@@ -71,7 +71,7 @@ describe("🍎🍎WISHLIST FEATURES", () => {
         .send();
       expect(response.status).toBe(401);
       expect(response.body.success).toBe(false);
-      expect(response.body.message).toBe("You are not logged in");
+      expect(response.body.message).toBe("Unauthorized");
     });
   });
 

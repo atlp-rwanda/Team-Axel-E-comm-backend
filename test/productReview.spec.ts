@@ -146,7 +146,7 @@ describe("PRODUCT RATING AND FEEDBACK UNIT", () => {
       const res = await request(app)
         .delete(`/api/v1/productReview/delete/all/${productId}`)
         .set("Authorization", "Bearer " + token);
-      expect(res.status).toEqual(403);
+      expect(res.status).toEqual(401);
     });
   });
 });
