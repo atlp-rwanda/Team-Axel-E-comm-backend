@@ -13,7 +13,6 @@ on:
 env:
   GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
   GOOGLE_CLIENT_SECRET: ${{ vars.GOOGLE_CLIENT_SECRET }}
-  TEST_DB_URL: ${{vars.TEST_DB_URL}}
   SECRET_TOKEN: ${{vars.GOOGLE_CLIENT_SECRET}}
 
 jobs:
@@ -27,12 +26,19 @@ jobs:
         with:
           version: 16.x
 
+      - name: clear the db
+        run: ${{secrets.DB_CLEAR_CMD }}
+
       - name: npm install.
         run: npm install
 
+      - name: create .env file
+        run: echo "${{secrets.ENV_SECRET }}" > .env
+ 
       - name: check build.
         run: npm run build
 
       - name: Coveralls Finished
 
         run: env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} npm run coverage --if-present
+
