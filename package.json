@@ -10,7 +10,7 @@
     "test": "cross-env NODE_ENV=test && yarn migration && yarn seed:test && yarn jest --coverage --detectOpenHandles",
     "test:dev": "cross-env NODE_ENV=development & yarn migrate:dev && yarn seed:dev && NODE_ENV=development yarn jest --coverage --detectOpenHandles",
     "test:watch": "yarn test -- --watch",
-    "coverage": "jest --coverage --detectOpenHandles --coverageReporters=text-lcov | coveralls",
+    "coverage": "cross-env NODE_ENV=test && yarn migration && yarn seed:test && yarn jest --coverage --detectOpenHandles --coverageReporters=text-lcov | coveralls",
     "prettier": "prettier --write .",
     "prepare": "husky install",
     "watch": "tsc -w",
