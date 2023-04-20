@@ -48,6 +48,30 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
       expect(res.status).toEqual(201);
       expect(res.body.message).toEqual("Order created");
     });
+    // remove one item from the cart
+    it("should return 200 OK after removing one item from the cart", async () => {
+      // prepare a cart item to send to the cart endpoint
+      const cartItem = {
+        productId: productId,
+        quantity: 1,
+      };
+      // create a cart item
+      await request(app)
+        .post("/api/v1/cart/add")
+        .send(cartItem)
+        .set("Authorization", "Bearer " + token);
+      // first get the entire cart
+      const getCartResponse = await request(app)
+        .get("/api/v1/cart/")
+        .set("Authorization", "Bearer " + token);
+      // get the cart item id
+      const cartItemId = getCartResponse.body.data.items[0].id;
+      //   remove the cart item from the cart
+      const res = await request(app)
+        .delete(`/api/v1/cart/remove/${cartItemId}`)
+        .set("Authorization", "Bearer " + token);
+      expect(res.status).toEqual(200);
+    });
     it("should return 400 if no cart availabe", async () => {
       // create the order
       const currentUser = {
@@ -60,7 +84,7 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
       Sellertoken = loginResponse.body.data;
       const res = await request(app)
         .post("/api/v1/order/")
-        .set("Authorization", "Bearer " + Sellertoken);
+        .set("Authorization", "Bearer " + token);
       expect(res.body.message).toEqual("No product available To make order");
       expect(res.status).toEqual(400);
     });
@@ -141,9 +165,7 @@ describe("🚛 ✈️  ORDERS UNIT", () => {
         .set("Authorization", "Bearer " + Sellertoken)
         .send({ status: updatedStatus });
       expect(res.status).toEqual(403);
-      expect(res.body.message).toEqual(
-        "Unauthorized access. You are not an admin",
-      );
+      expect(res.body.message).toEqual("Unauthorized.");
     });
   });
   /*

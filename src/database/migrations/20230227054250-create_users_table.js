@@ -44,8 +44,15 @@ module.exports = {
         allowNull: false,
       },
       role: {
-        type: Sequelize.ENUM("Admin", "Buyer", "Seller"),
-        defaultValue: "Buyer",
+        type: Sequelize.UUID,
+        allowNull: false,
+        unique: false,
+        references: {
+          model: "roles",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       status: {
         type: Sequelize.ENUM("Pending", "Active", "Needs_Password_Reset"),

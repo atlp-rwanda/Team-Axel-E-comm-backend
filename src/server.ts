@@ -3,6 +3,7 @@ import app, { httpServer } from "./app";
 import swaggerDocs from "../docs/swagger";
 import { sequelize } from "./database/models";
 import registerCronJobs from "./jobs";
+import { createInitialBuyerRole } from "./services";
 const PORT = process.env.PORT;
 
 // Connect to the db
@@ -12,6 +13,7 @@ const PORT = process.env.PORT;
       // let sequelize tell us the name of the database we are connected to
       const database = sequelize.getDatabaseName();
       console.log(`🍏 Successfully connected to the db 🔥${database}🔥`);
+      createInitialBuyerRole();
     });
   } catch (error) {
     if (error instanceof Error) {

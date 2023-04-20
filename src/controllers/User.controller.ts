@@ -73,9 +73,6 @@ export const createUser = async (req: Request, res: Response) => {
     }
   } catch (error) {
     if (error instanceof Error) {
-      console.log(`Error creating user: ${error.message}`);
-      console.log(error);
-
       res
         .status(500)
         .json({ status: 500, success: false, message: `${error.message}` });

@@ -7,15 +7,14 @@ import {
   updatedOrderStatus,
   AdminGetAllOrders,
 } from "../controllers";
-import { isAdmin } from "../middleware/auth";
-import { protectRoute } from "../services/protectRoutes.service";
+import { protectRoute } from "../middleware/auth/protectRoutes.middleware";
 
 const orderRouter = Router();
 
 orderRouter.post("/", protectRoute, createOrder);
 orderRouter.get("/get/all", protectRoute, ViewOrders);
 orderRouter.delete("/delete/all", protectRoute, clearOrders);
-orderRouter.get("/status/:orderId", protectRoute, getOrderStatus);
-orderRouter.put("/status/:orderId", protectRoute, isAdmin, updatedOrderStatus);
-orderRouter.get("/all", protectRoute, isAdmin, AdminGetAllOrders);
+orderRouter.get("/status/:id", protectRoute, getOrderStatus);
+orderRouter.put("/status/:id", protectRoute, updatedOrderStatus);
+orderRouter.get("/all", protectRoute, AdminGetAllOrders);
 export default orderRouter;

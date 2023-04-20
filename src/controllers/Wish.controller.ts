@@ -7,7 +7,7 @@ import {
 } from "../services";
 
 export const addWishlistItem = async (req: Request, res: Response) => {
-  const productId = req.params.productId;
+  const productId = req.params.id;
   const userId = req.user.id;
   try {
     const wishlistItem = await addToWishlist({ userId, productId });

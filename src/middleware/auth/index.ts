@@ -1,2 +1,2 @@
-export * from "./auth.middleware";
 export * from "./passport.middleware";
+export * from "./protectRoutes.middleware";

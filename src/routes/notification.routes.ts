@@ -1,20 +1,20 @@
 import { Router } from "express";
-import { isAuth } from "../middleware/auth";
 import {
   getAllNotifications,
   readAllNotifications,
   readOneNotification,
 } from "../controllers/Notifications.controller";
+import { protectRoute } from "../middleware/auth";
 
 const notificationRouter = Router();
 
 // View all notifications
-notificationRouter.get("/all", [isAuth], getAllNotifications);
+notificationRouter.get("/all", [protectRoute], getAllNotifications);
 
 // Read one notification'
-notificationRouter.delete("/read/:id", [isAuth], readOneNotification);
+notificationRouter.delete("/read/:id", [protectRoute], readOneNotification);
 
 // Read all notifications
-notificationRouter.delete("/read", [isAuth], readAllNotifications);
+notificationRouter.delete("/read", [protectRoute], readAllNotifications);
 
 export default notificationRouter;

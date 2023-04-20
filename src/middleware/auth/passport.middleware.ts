@@ -3,6 +3,7 @@ import passport from "passport";
 import GoogleStrategy0, { VerifyCallback } from "passport-google-oauth2";
 import User from "../../database/models/User.model";
 import LoggedInUser from "../../database/models/LoggedInUsers.model";
+import { getRoleByNameService } from "../../services";
 
 /*  */
 const GoogleStrategy = GoogleStrategy0.Strategy;
@@ -33,6 +34,8 @@ passport.use(
         });
 
         if (!user) {
+          const buyerRole = await getRoleByNameService("BUYER");
+          if (!buyerRole) throw new Error("Buyer role not found");
           const newUser = {
             surname: profile.family_name,
             given_name: profile.given_name,
@@ -40,6 +43,7 @@ passport.use(
             password: profile.password || process.env.USER_PASSWORD,
             googleId: profile.id,
             avatar: profile.photos[0].value,
+            role: buyerRole.id,
           };
           const googleUser = await User.create(newUser);
           console.log(

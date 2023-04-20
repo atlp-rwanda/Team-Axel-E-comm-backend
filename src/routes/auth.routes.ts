@@ -12,24 +12,23 @@ import { ValidateJoi } from "../middleware/validation/validation.middleware";
 import { UserSchema } from "../middleware/validation/user.schema.middleware";
 
 import { updatePassword } from "../controllers/updatePassword.controller";
-import { protectRoute } from "../services/protectRoutes.service";
-import { isSeller } from "../middleware/auth";
+import { protectRoute } from "../middleware/auth/protectRoutes.middleware";
 
 const authRouter = Router();
 
-authRouter.post("/login", ValidateJoi(UserSchema.loginData.create), loginUser); // login a User
+authRouter.post("/login", ValidateJoi(UserSchema.loginData.create), loginUser);
 
-authRouter.get("/logout", [protectRoute], logoutUser); //logout a user
+authRouter.get("/logout", [protectRoute], logoutUser);
 
-authRouter.get("/confirm/:confirmationCode", confirmUser); // Confirm the user who registered
+authRouter.get("/confirm/:confirmationCode", confirmUser);
 
-authRouter.post("/requestResetPassword", resetPasswordRequestController); // Request a reset password
+authRouter.post("/requestResetPassword", resetPasswordRequestController);
 
-authRouter.post("/resetPassword/:token", resetPasswordController); // Reset the password
+authRouter.post("/resetPassword/:token", resetPasswordController);
 
-authRouter.post("/2fa", protectRoute, isSeller, create2FAToken); // Create a 2FA token
+authRouter.post("/2fa", protectRoute, create2FAToken);
 
-authRouter.post("/2fa/verify2FAToken", protectRoute, isSeller, verify2FAToken); // Verify the 2FA token
+authRouter.post("/2fa/verify2FAToken", protectRoute, verify2FAToken);
 
 authRouter.post(
   "/updatepassword",

@@ -15,19 +15,19 @@ paths:
             format: int64
             minimum: 1
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Wishes'
-        '400':
+                $ref: "#/components/schemas/Wishes"
+        "400":
           description: Bad request.
-        '401':
+        "401":
           description: Authorized.
-        '404':
+        "404":
           description: A user with the specified ID was not found.
-        '5XX':
+        "5XX":
           description: Unexpected error.
   #get all wishes
   /api/v1/wishes/:
@@ -37,15 +37,15 @@ paths:
       summary: get all your wishes in wishlist
       description: Optional extended description in CommonMark or HTML.
       responses:
-        '200':
+        "200":
           description: OK
-        '400':
+        "400":
           description: Bad request. User ID must be an integer and larger than 0.
-        '401':
+        "401":
           description: Authorization information is missing or invalid.
-        '404':
+        "404":
           description: A user with the specified ID was not found.
-        '5XX':
+        "5XX":
           description: Unexpected error.
 
   # delete one wishes
@@ -64,19 +64,19 @@ paths:
             format: int64
             minimum: 1
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Wishes'
-        '400':
+                $ref: "#/components/schemas/Wishes"
+        "400":
           description: Bad request. Product ID must be an integer and larger than 0.
-        '401':
+        "401":
           description: Authorization information is missing or invalid.
-        '404':
+        "404":
           description: A user with the specified ID was not found.
-        '5XX':
+        "5XX":
           description: Unexpected error.
 
   #get all wishes
@@ -87,15 +87,15 @@ paths:
       summary: delete all your wishes in wishlist
       description: Optional extended description in CommonMark or HTML.
       responses:
-        '200':
+        "200":
           description: OK
-        '400':
+        "400":
           description: Bad request. User ID must be an integer and larger than 0.
-        '401':
+        "401":
           description: Authorization information is missing or invalid.
-        '404':
+        "404":
           description: A user with the specified ID was not found.
-        '5XX':
+        "5XX":
           description: Unexpected error.
 
 # schemas

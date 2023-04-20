@@ -1,12 +1,12 @@
 import request from "supertest";
 import app from "../src/app";
-import { sequelize } from "../src/database/models";
+// import { sequelize } from "../src/database/models";
 
 describe(" 🦺 🛂 AUTH UNIT", () => {
-  afterAll(async () => {
-    await sequelize.truncate({ cascade: true }); // deletes all data from all tables
-    await sequelize.close(); // closes the connection to the database
-  });
+  // afterAll(async () => {
+  //   await sequelize.truncate({ cascade: true }); // deletes all data from all tables
+  //   await sequelize.close(); // closes the connection to the database
+  // });
   /*
    **********************************************
    * 🟩 confirm user registration *

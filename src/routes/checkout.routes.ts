@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { checkoutController } from "../controllers/Checkout.controller";
-import { isAuth } from "../middleware/auth";
 import { CheckoutSchema, ValidateJoi } from "../middleware/validation";
+import { protectRoute } from "../middleware/auth";
 
 const checkoutRouter = Router();
 
 checkoutRouter.post(
   "/payment",
-  [isAuth, ValidateJoi(CheckoutSchema.checkout.create)],
+  [protectRoute, ValidateJoi(CheckoutSchema.checkout.create)],
   checkoutController.checkoutPayment,
 );
 

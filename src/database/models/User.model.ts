@@ -3,6 +3,7 @@ import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from ".";
 import bcrypt from "bcryptjs";
 import { UserAttributes } from "../../interfaces";
+import Role from "./Role.model";
 
 /*
  * The `UserAttributes` interface is defined in the `src/interfaces/User.interface.ts` file
@@ -72,8 +73,14 @@ const User = sequelize.define<UserInstance>(
       },
     },
     role: {
-      type: DataTypes.ENUM("Admin", "Buyer", "Seller"),
-      defaultValue: "Buyer",
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: "Role",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "CASCADE",
     },
     status: {
       type: DataTypes.ENUM("Pending", "Active", "Needs_Password_Reset"),
@@ -126,6 +133,7 @@ const User = sequelize.define<UserInstance>(
     hooks: {},
   },
 );
+User.belongsTo(Role, { foreignKey: "role" });
 
 export default User;
 

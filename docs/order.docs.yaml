@@ -6,9 +6,9 @@ paths:
       tags: [ORDERS]
       summary: make order.
       responses:
-        '200':
+        "200":
           description: order created
-        '400':
+        "400":
           description: Bad request. Product ID must be an integer and larger than 0.
 
   #get all order
@@ -18,9 +18,9 @@ paths:
       tags: [ORDERS]
       summary: get all your orders
       responses:
-        '200':
+        "200":
           description: OK
-        '400':
+        "400":
           description: Bad request.
 
   /api/v1/order/all:
@@ -29,19 +29,19 @@ paths:
       tags: [ORDERS]
       summary: Admin get all orders
       responses:
-        '200':
+        "200":
           description: OK
-        '400':
+        "400":
           description: Bad request.
 
   # get order starts
-  /api/v1/order/status/{orderId}:
+  /api/v1/order/status/{id}:
     get:
       security: [{ jwt: [] }]
       tags: [ORDERS]
       summary: get order status .
       parameters:
-        - name: orderId
+        - name: id
           in: path
           required: true
           description: The Id on order you.
@@ -49,17 +49,17 @@ paths:
             type: string
             minimum: 1
       responses:
-        '200':
+        "200":
           description: OK
 
   # update order status starts
-/api/v1/order/status/{orderId}:
+/api/v1/order/status/{id}:
   put:
     security: [{ jwt: [] }]
     tags: [ORDERS]
     summary: Update the status of an order.
     parameters:
-      - name: orderId
+      - name: id
         in: path
         required: true
         description: The ID of the order to update.
@@ -78,9 +78,8 @@ paths:
               enum: [Pending, Shipped, Delivered]
               example: Shipped/Delivered
     responses:
-      '200':
+      "200":
         description: OK
-
 
   #delete all order
 /api/v1/order/delete/all:
@@ -89,7 +88,7 @@ paths:
     tags: [ORDERS]
     summary: delete all your ORDERS
     responses:
-      '200':
+      "200":
         description: OK
-      '401':
-        description: Unauthorized  
+      "401":
+        description: Unauthorized

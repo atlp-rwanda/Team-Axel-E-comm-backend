@@ -6,9 +6,8 @@ import {
   updateCartProduct,
   viewCart,
 } from "../controllers";
-import { isAuth } from "../middleware/auth";
 import { ProductSchema, ValidateJoi } from "../middleware/validation";
-import { protectRoute } from "../services/protectRoutes.service";
+import { protectRoute } from "../middleware/auth/protectRoutes.middleware";
 
 const cartRouter = Router();
 
@@ -22,7 +21,7 @@ cartRouter.get("/", [protectRoute], viewCart);
 
 cartRouter.delete("/remove/:id", [protectRoute], removeFromCart);
 
-cartRouter.delete("/clear", [isAuth], clearCart);
+cartRouter.delete("/clear", [protectRoute], clearCart);
 
 cartRouter.patch(
   "/update/:id",

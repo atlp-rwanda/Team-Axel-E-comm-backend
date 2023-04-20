@@ -1,6 +1,5 @@
 import { Router } from "express";
-import { isAuth, isAdmin } from "../middleware/auth";
-import { protectRoute } from "../services/protectRoutes.service";
+import { protectRoute } from "../middleware/auth/protectRoutes.middleware";
 import {
   addReview,
   getReview,
@@ -11,14 +10,9 @@ import {
 
 const reviewRout = Router();
 
-reviewRout.post("/:productId", isAuth, addReview);
-reviewRout.get("/get/:productId", getReview);
-reviewRout.delete(
-  "/delete/all/:productId",
-  protectRoute,
-  isAdmin,
-  deleteallProductReview,
-);
-reviewRout.put("/edit/:productId", isAuth, updateReview);
-reviewRout.delete("/delete/:productId", isAuth, deleteUserReview);
+reviewRout.post("/:id", protectRoute, addReview);
+reviewRout.get("/get/:id", getReview);
+reviewRout.delete("/delete/all/:id", protectRoute, deleteallProductReview);
+reviewRout.put("/edit/:id", protectRoute, updateReview);
+reviewRout.delete("/delete/:id", protectRoute, deleteUserReview);
 export default reviewRout;

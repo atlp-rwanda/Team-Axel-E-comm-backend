@@ -16,7 +16,7 @@ module.exports = {
           password:
             "$2a$12$NSJOdLeS/Tz7zZzVRp5glO9nhAnRzLa3bA1GOF6vCMYCbI/Meo/Xu",
           status: "Active",
-          role: "Admin",
+          role: "cccbc6eb-d927-436a-9284-7de00b26b807",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -28,7 +28,7 @@ module.exports = {
           password:
             "$2a$12$NSJOdLeS/Tz7zZzVRp5glO9nhAnRzLa3bA1GOF6vCMYCbI/Meo/Xu",
           status: "Active",
-          role: "Seller",
+          role: "9b5b7638-961b-45d1-959a-cefc08e5f25e",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -40,7 +40,7 @@ module.exports = {
           password:
             "$2a$12$NSJOdLeS/Tz7zZzVRp5glO9nhAnRzLa3bA1GOF6vCMYCbI/Meo/Xu",
           status: "Active",
-          role: "Buyer",
+          role: "5b628ec1-6400-431e-bfa6-2668352cac6c",
           createdAt: new Date(),
           updatedAt: new Date(),
         },

@@ -9,15 +9,14 @@ import {
 } from "../controllers";
 import { ValidateJoi, ProductSchema } from "../middleware/validation";
 import { searchProducts } from "../controllers";
-import { isSeller } from "../middleware/auth";
-import { protectRoute } from "../services/protectRoutes.service";
+import { protectRoute } from "../middleware/auth/protectRoutes.middleware";
 
 const productRouter = Router();
 
 // Create a product
 productRouter.post(
   "/",
-  [protectRoute, isSeller, ValidateJoi(ProductSchema.product.create)],
+  [protectRoute, ValidateJoi(ProductSchema.product.create)],
   createProduct,
 );
 
@@ -31,21 +30,13 @@ productRouter.get("/available/:id", getOneAvailableProduct);
 productRouter.get("/search", searchProducts); // search for products
 
 // Seller getting all items
-productRouter.get("/items", [protectRoute, isSeller], getAllSellerItems);
+productRouter.get("/items", [protectRoute], getAllSellerItems);
 
-productRouter.delete(
-  "/delete/:id",
-  [protectRoute, isSeller],
-  deleteOneItemFromproduct,
-);
+productRouter.delete("/delete/:id", [protectRoute], deleteOneItemFromproduct);
 
 productRouter.patch(
   "/update/:id",
-  [
-    protectRoute,
-    isSeller,
-    ValidateJoi(ProductSchema.product.updateSellerProduct),
-  ],
+  [protectRoute, ValidateJoi(ProductSchema.product.updateSellerProduct)],
   updateProduct,
 );
 

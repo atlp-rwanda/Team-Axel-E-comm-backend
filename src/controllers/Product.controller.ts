@@ -13,6 +13,7 @@ import {
 } from "../services";
 import { searchProductsUtility } from "../utils";
 import { notifyReal } from "../controllers";
+import { exist } from "joi";
 
 export const searchProducts = async (req: Request, res: Response) => {
   try {

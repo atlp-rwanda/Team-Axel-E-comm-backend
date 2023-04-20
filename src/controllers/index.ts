@@ -8,3 +8,4 @@ export * from "./Wish.controller";
 export * from "./Notifications.controller";
 export * from "./Review.controller";
 export * from "./Chat.controller";
+export * from "./Role.controller";

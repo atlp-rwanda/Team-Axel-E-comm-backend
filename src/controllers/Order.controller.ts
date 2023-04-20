@@ -92,7 +92,7 @@ export const clearOrders = async (req: Request, res: Response) => {
 export const getOrderStatus = async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
-    const orderId = req.params.orderId;
+    const orderId = req.params.id;
 
     const orderStatus = await getOrderStatusService(userId, orderId);
     res.status(200).json({
@@ -122,7 +122,7 @@ export const getOrderStatus = async (req: Request, res: Response) => {
 // PUT request to update order status information
 export const updatedOrderStatus = async (req: Request, res: Response) => {
   try {
-    const orderId = req.params.orderId;
+    const orderId = req.params.id;
     const status = req.body.status;
 
     await updatedOrderStatusService(orderId, status);

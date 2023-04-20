@@ -11,7 +11,7 @@ import {
 export const addReview = async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
-    const productId = req.params.productId;
+    const productId = req.params.id;
     const review = req.body;
     const allreadyReviewed = await getUserReviewService(productId, userId);
     if (allreadyReviewed.length > 0) {
@@ -43,7 +43,7 @@ export const addReview = async (req: Request, res: Response) => {
 };
 export const getReview = async (req: Request, res: Response) => {
   try {
-    const productId = req.params.productId;
+    const productId = req.params.id;
     const data = await getProductReviewService(productId);
     res.status(200).json({
       status: 200,
@@ -60,7 +60,7 @@ export const getReview = async (req: Request, res: Response) => {
 };
 export const deleteallProductReview = async (req: Request, res: Response) => {
   try {
-    const productId = req.params.productId;
+    const productId = req.params.id;
     const data = await deleteProductReviewService(productId);
     res.status(200).json({
       status: 200,
@@ -79,7 +79,7 @@ export const deleteallProductReview = async (req: Request, res: Response) => {
 export const deleteUserReview = async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
-    const productId = req.params.productId;
+    const productId = req.params.id;
     const data = await removeUserProductReviewService(productId, userId);
     res.status(200).json({
       status: 200,
@@ -98,7 +98,7 @@ export const deleteUserReview = async (req: Request, res: Response) => {
 export const updateReview = async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
-    const productId = req.params.productId;
+    const productId = req.params.id;
     const review = req.body;
     const allreadyReviewed = await getUserReviewService(productId, userId);
     if (allreadyReviewed.length <= 0) {

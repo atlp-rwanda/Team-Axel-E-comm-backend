@@ -5,16 +5,16 @@ import {
   clearWishlist,
   clearOneWishlistItem,
 } from "../controllers";
-import { isAuth } from "../middleware/auth";
+import { protectRoute } from "../middleware/auth";
 
 const wishRouter = Router();
 
-wishRouter.post("/:productId", [isAuth], addWishlistItem);
+wishRouter.post("/:id", [protectRoute], addWishlistItem);
 
-wishRouter.get("/", [isAuth], getWishlist);
+wishRouter.get("/", [protectRoute], getWishlist);
 
-wishRouter.delete("/all", [isAuth], clearWishlist);
+wishRouter.delete("/all", [protectRoute], clearWishlist);
 
-wishRouter.delete("/:id", [isAuth], clearOneWishlistItem);
+wishRouter.delete("/:id", [protectRoute], clearOneWishlistItem);
 
 export default wishRouter;
