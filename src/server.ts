@@ -5,20 +5,6 @@ import { sequelize } from "./database/models";
 import registerCronJobs from "./jobs";
 const PORT = process.env.PORT;
 
-import http from "node:http";
-import { Server } from "socket.io";
-import { socketAuth } from "./middleware/auth/socketAuth.middleware";
-import { chat } from "./controllers/Chat.controller";
-
-const server = http.createServer(app);
-export const io = new Server(server, {
-  cors: {
-    origin: process.env.CLIENT_URL,
-  },
-});
-
-io.use(socketAuth).on("connection", chat);
-
 // Connect to the db
 (async () => {
   try {
@@ -40,7 +26,7 @@ io.use(socketAuth).on("connection", chat);
 
 const start = () => {
   try {
-    server.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
       // if we are in development mode, we want the server to run on localhost
       if (process.env.NODE_ENV === "development") {
         console.log(`🍏 Server 🏃 running on: http://localhost:${PORT} ... 🚢`);

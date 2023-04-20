@@ -7,14 +7,21 @@ export const socketAuth = async (
   socket: Socket,
   next: (err?: ExtendedError | undefined) => void,
 ) => {
-  if (socket.handshake.query && socket.handshake.query.token) {
+  try {
+    if (!(socket.handshake.query && socket.handshake.query.token)) {
+      return next(new Error("Authentication error"));
+    }
+
     const decodedData = await verifyToken(
       socket.handshake.query.token as string,
     );
     const user = await User.findByPk(decodedData.payload);
     socket.data.user = user?.dataValues;
+
     next();
-  } else {
-    next(new Error("Authentication error"));
+  } catch (error) {
+    if (error instanceof Error) {
+      next(error);
+    }
   }
 };

@@ -22,6 +22,17 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
+      receiverId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        unique: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
       message: {
         type: Sequelize.TEXT,
         allowNull: false,

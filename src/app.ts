@@ -31,6 +31,7 @@ export const io = new Server(httpServer, {
     origin: [
       "http://localhost:5173",
       "https://inspiring-choux-2672b4.netlify.app",
+      process.env.CLIENT_URL as string,
     ],
     methods: ["GET", "HEAD", "OPTIONS", "PUT", "PATCH", "POST", "DELETE"],
   },
