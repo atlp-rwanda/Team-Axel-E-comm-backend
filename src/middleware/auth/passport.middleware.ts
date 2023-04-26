@@ -8,7 +8,7 @@ import LoggedInUser from "../../database/models/LoggedInUsers.model";
 const GoogleStrategy = GoogleStrategy0.Strategy;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
-const CLIENT_URL = process.env.CLIENT_URL as string;
+const SERVER_URL = process.env.SERVER_URL as string;
 
 // google auth
 passport.use(
@@ -16,7 +16,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: `${CLIENT_URL}/api/v1/auth/google/callback`,
+      callbackURL: `${SERVER_URL}/api/v1/auth/google/callback`,
       passReqToCallback: true,
     },
     async function (

@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import passport from "passport";
+import { googleLogin } from "../controllers/googleAuth.controller";
 
 const passportRouter = Router();
 
@@ -22,5 +23,7 @@ passportRouter.get(
     failureRedirect: "/auth/google/failure",
   }),
 );
+
+passportRouter.post("/auth/google-login", googleLogin);
 
 export default passportRouter;
