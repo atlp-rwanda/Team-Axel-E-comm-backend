@@ -39,4 +39,16 @@ export const UserSchema = {
       newPasswordConfirmation: passwordSchema,
     }),
   },
+  updateUser: {
+    create: Joi.object<UserAttributes>({
+      surname: Joi.string(),
+      given_name: Joi.string(),
+      province: Joi.string(),
+      district: Joi.string(),
+      sector: Joi.string(),
+      cell: Joi.string(),
+      street: Joi.string(),
+      avatar: Joi.string(),
+    }),
+  },
 };

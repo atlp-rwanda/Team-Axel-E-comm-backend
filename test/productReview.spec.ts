@@ -5,6 +5,7 @@ describe("PRODUCT RATING AND FEEDBACK UNIT", () => {
   let token: string;
   let productId: string;
   let Admintoken: string;
+  let sellerToken: string;
 
   beforeAll(async () => {
     try {
@@ -14,8 +15,26 @@ describe("PRODUCT RATING AND FEEDBACK UNIT", () => {
         password: "Password@123",
       });
       token = await loginResponse.body.data;
+      //login a seller
+      const loginRespons = await request(app).post("/api/v1/auth/login").send({
+        email: "seller@gmail.com",
+        password: "Password@123",
+      });
+      sellerToken = await loginRespons.body.data;
+      const res = await request(app)
+        .post("/api/v1/product/")
+        .set("Authorization", "Bearer " + sellerToken)
+        .send({
+          name: "Testing forreview",
+          category: "Test",
+          description: "Testing testing",
+          stock: "Available",
+          quantity: 10,
+          price: 10,
+          images: "https://picsum.photos/id/26/4209/2769",
+        });
+      productId = res.body.data[0].id;
       //   get the product id of the first product in the database
-      productId = "4b35a4b0-53e8-48a4-97b0-9d3685d3197c";
     } catch (error) {
       if (error instanceof Error) {
         console.log(`🍎 Error in the REVIEW beforeAll hook ${error.message}`);

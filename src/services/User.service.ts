@@ -44,3 +44,19 @@ export const updateUsersStatusWhoNeedsPasswordReset = async (
   );
   return updateUsersRequest;
 };
+
+export const updateUserService = async (
+  userId: string,
+  updatedUserData: UserAttributes,
+) => {
+  const [affectedCount, affectedRows] = await User.update(updatedUserData, {
+    where: {
+      id: userId,
+    },
+    returning: true,
+  });
+  if (affectedCount !== 1) {
+    throw new Error(`Failed to update user with id ${userId}`);
+  }
+  return affectedRows[0];
+};

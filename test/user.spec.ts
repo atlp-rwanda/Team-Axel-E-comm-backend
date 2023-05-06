@@ -37,6 +37,44 @@ describe("🧑‍🤝‍🧑 USERS UNIT", () => {
   });
   /*
    **********************************************
+   * 🟩 update user  *
+   **********************************************
+   */
+  describe("PATCH /api/v1/user/update/{id}", () => {
+    const id = "a6adf4ad-dac5-4ac6-9419-cd885de58eb0";
+
+    it("should return 200 OK and the updated user data", async () => {
+      const updatedUserData = {
+        surname: "New Surname",
+        province: "New Province",
+        district: "New District",
+        sector: "New Sector",
+        cell: "New Cell",
+        street: "New Street",
+      };
+      const res = await request(app)
+        .patch(`/api/v1/user/update/${id}`)
+        .set("Authorization", "Bearer " + token)
+        .send(updatedUserData);
+      expect(res.status).toEqual(200);
+      expect(res.body.success).toEqual(true);
+    });
+    it("should return 500 Internal Server Error for invalid user ID", async () => {
+      const updatedUserData = {
+        surname: "New Surname",
+        given_name: "New Given Name",
+        province: "New Province",
+      };
+      const res = await request(app)
+        .patch(`/api/v1/user/update/invalid-id`)
+        .set("Authorization", "Bearer " + token)
+        .send(updatedUserData);
+      expect(res.status).toEqual(500);
+    });
+  });
+
+  /*
+   **********************************************
    * 🛑 end get all users *
    **********************************************
    */
