@@ -68,6 +68,29 @@ paths:
         "5XX":
           description: Unexpected error.
 
+  /api/v1/user/update/{id}:
+    patch:
+      security: [{ jwt: [] }]
+      tags: [User Routes]
+      summary: Update user.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user to update.
+          schema:
+            type: string
+            minimum: 15
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/userUpdate"
+      responses:
+        '200':
+          description: OK
+
 # schemas
 components:
   schemas:
@@ -92,3 +115,22 @@ components:
         - given_name
         - email
         - password
+    userUpdate:
+      type: object
+      properties:
+        province:
+          type: string
+        district:
+          type: string
+        surname: 
+          type: string
+        given_name: 
+          type: string
+        sector: 
+          type: string
+        cell: 
+          type: string
+        street:
+          type: string
+        avatar:
+          type: string
