@@ -106,7 +106,7 @@ p {
          <p>Hi, ${name}</p>
     <p>Tap the button below to confirm your email address (<span style="font-weight: bold; color: #9DA4DB;">@${email}</span>).</p>
     <p>If you didn't create an account with Team Cypher, you can safely delete this email. </p>
-        <a href="${process.env.CLIENT_URL}:${process.env.PORT}/api/v1/auth/confirm/${confirmationCode}" target="_blank" class= "button">Confirm</a>
+        <a href="${process.env.SERVER_URL}/api/v1/auth/confirm/${confirmationCode}" target="_blank" class= "button">Confirm</a>
          <p>Best regards,</p><p>Team Cypher</p>
       </div>
       </div>
@@ -196,7 +196,7 @@ p {
          <p>Hi, ${name}</p>
     <p>This is to confirm your registration with our app.</p>
     <p>You can log into your account via the link below.</p>
-        <a href="${process.env.CLIENT_URL}:${process.env.PORT}/api/v1/auth/login/" target="_blank" class= "button">Log In</a>
+        <a href="${process.env.CLIENT_URL}/login" target="_blank" class= "button">Log In</a>
         <p>Cheers,</p><p>Team Cypher</p>
       </div>
       </div>
@@ -288,7 +288,7 @@ p {
          <p>Hi, ${name}</p>
     <p>You requested to reset your password.</p>
     <p>Please, click the link below to reset your password</p>
-        <a href="${process.env.CLIENT_URL}:${process.env.PORT}/api/v1/auth/resetPassword/${token}" target="_blank" class= "button">Reset Password</a>
+        <a href="${process.env.SERVER_URL}/api/v1/auth/resetPassword/${token}" target="_blank" class= "button">Reset Password</a>
         <p>Cheers,</p><p>Team Cypher</p>
       </div>
       </div>
@@ -378,7 +378,7 @@ p {
          <p>Hi, ${name}</p>
     <p>Password reset successfully</p>
     <p>You can log into your account via the link below.</p>
-        <a href="${process.env.CLIENT_URL}:${process.env.PORT}/api/v1/auth/login/" target="_blank" class= "button">Log In</a>
+        <a href="${process.env.CLIENT_URL}/login" target="_blank" class= "button">Log In</a>
         <p>Cheers,</p><p>Team Cypher</p>
       </div>
       </div>
