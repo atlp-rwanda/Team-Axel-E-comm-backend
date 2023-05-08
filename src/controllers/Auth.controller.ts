@@ -90,7 +90,7 @@ export const confirmUser = async (req: Request, res: Response) => {
         currentUser.dataValues.email,
         currentUser.dataValues.surname,
       );
-      res.redirect(process.env.CLIENT_URL as string);
+      res.redirect(`${process.env.CLIENT_URL}/login`);
     }
   } catch (error) {
     if (error instanceof Error) {

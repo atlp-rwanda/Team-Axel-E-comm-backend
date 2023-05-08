@@ -26,6 +26,8 @@ const Product = sequelize.define<ProductInstance>(
         model: "User",
         key: "id",
       },
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
     },
     name: {
       type: DataTypes.STRING,
